@@ -3,10 +3,8 @@
     <div id="header-left">
       <div id="header-logo">双高任务管理系统</div>
       <nav>
-        <nav-block nav-title="首页"></nav-block>
-        <nav-block nav-title="我是导航2"></nav-block>
-        <nav-block nav-title="我是导航3"></nav-block>
-        <nav-block nav-title="我是导航4"></nav-block>
+        <nav-block to="/index" nav-title="任务列表"></nav-block>
+        <nav-block to="/submit" nav-title="提交任务"></nav-block>
       </nav>
     </div>
   </header>
@@ -40,4 +38,5 @@ import NavBlock from "../components/header/nav-block.vue"
       }
     }
   }
+
 </style>

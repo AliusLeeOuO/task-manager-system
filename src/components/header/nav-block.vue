@@ -1,9 +1,10 @@
 <template>
-  <a href="javascript:void(0)">{{navTitle}}</a>
+  <router-link :to="to" href="javascript:void(0)">{{navTitle}}</router-link>
 </template>
 <script lang="ts" setup>
 let props = defineProps<{
   navTitle: string
+  to: string
 }>()
 </script>
 <style lang="less" scoped>
@@ -33,7 +34,13 @@ a{
   }
   &:hover::before {
     background-color: @main-color;
-
   }
 }
+.router-link-active {
+  color: @main-color;
+  &::before {
+    background-color: @main-color;
+  }
+}
+
 </style>
