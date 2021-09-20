@@ -7,6 +7,8 @@
       </template>
       <template #action>
         <a href="javascript:void(0);">查看/提交</a>
+        &nbsp;
+        <a href="javascript:void(0);">新建子任务</a>
       </template>
     </a-table>
   </a-card>

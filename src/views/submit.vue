@@ -23,6 +23,15 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { UploadOutlined } from '@ant-design/icons-vue';
+
+interface FileItem {
+  uid: string;
+  name?: string;
+  status?: string;
+  response?: string;
+  url?: string;
+}
+
 const fileList = ref<FileItem[]>([
   {
     uid: '1',
@@ -45,6 +54,20 @@ const fileList = ref<FileItem[]>([
     url: 'http://www.baidu.com/zzz.png',
   },
 ]);
+
+interface FileInfo {
+  file: FileItem;
+  fileList: FileItem[];
+}
+
+
+const handleChange = ({ file, fileList }: FileInfo) => {
+  if (file.status !== 'uploading') {
+    console.log(file, fileList);
+  }
+};
+
+
 const labelCol = {
   style: {
     width: "80px"
@@ -58,6 +81,7 @@ const rules = {
 </script>
 <style lang="less" scoped>
  #form {
+   margin: 0 auto;
    max-width: 600px;
  }
 </style>

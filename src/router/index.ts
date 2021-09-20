@@ -3,6 +3,9 @@ const routerHistory = createWebHistory()
 
 const taskList = () => import("../views/taskList.vue")
 const submit = () => import("../views/submit.vue")
+const taskkb = () => import("../views/taskListWithkb.vue")
+const newTask = () => import("../views/newTask.vue")
+const login = () => import("../views/login.vue")
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -18,14 +21,43 @@ const routes: Array<RouteRecordRaw> = [
     path: "/submit",
     name: "submit",
     component: submit
+  },{
+    path: "/taskkb",
+    name: "taskkb",
+    component: taskkb
+  },{
+    path: "/newTask",
+    name: "newTask",
+    component: newTask
+  },{
+    path: "/login",
+    name: "login",
+    component: login
   }
 ]
+
+
 
 
 const router = createRouter({
   history: routerHistory,
   routes
 })
+
+
+import layout from "../store/layout";
+router.beforeEach(function (to, form, next) {
+  if (to.name === "login") {
+    layout.changeIsLogin(true)
+  }else {
+    layout.changeIsLogin(false)
+  }
+  next()
+})
+
+
+
+
 
 
 export default router
