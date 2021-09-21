@@ -29,20 +29,21 @@
     </div>
     <div id="cookie-alert" :class="{hiddenAlert: acceptAlert}">
       <div>
-        <span>！请注意</span>
+        <span><WarningOutlined></WarningOutlined> 请注意</span>
         <br>
         <span>本网站使用cookie，用于在您的设备中储存信息。这些cookie可以使网站正常运行。使用本网站，即表示您接受放置这些cookie。</span>
         <br>
-        <button  @click="accept">同意并关闭提示</button>
+        <button @click="accept">同意并关闭提示</button>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
 import {ref} from "vue";
-
+import { WarningOutlined } from '@ant-design/icons-vue'
 const acceptAlert = ref<boolean>(false)
-function accept () {
+
+function accept() {
   acceptAlert.value = true
 }
 </script>
@@ -56,6 +57,7 @@ function accept () {
   justify-content: center;
   align-items: center;
   position: relative;
+
   #login-block {
     width: 500px;
     background-color: #fff;
@@ -67,6 +69,9 @@ function accept () {
       padding: 10px 0;
       text-align: center;
       font-size: 23px;
+      h3 {
+        margin: 0;
+      }
     }
 
     .input-block {
@@ -91,6 +96,7 @@ function accept () {
         border: 0;
         border-bottom: 1px solid #1890ff;
         padding: .5rem;
+
         & ~ label {
           position: absolute;
           top: 48%;
@@ -117,11 +123,13 @@ function accept () {
       #submit {
         margin: 10px auto;
       }
+
       #feedbackPwd {
         text-align: center;
       }
     }
   }
+
   #cookie-alert {
     position: absolute;
     bottom: 0;
@@ -130,17 +138,23 @@ function accept () {
     text-align: center;
     transition: 1s ease-in-out;
     animation: 1s showAlert;
+
     div {
       padding: 0 20px;
       display: inline-block;
       text-align: left;
+
       span {
-        line-height: 30px;
         &:first-child {
+          font-size: 20px;
           font-weight: bold;
-          margin-bottom: 10px;
+          margin-bottom: 5px;
+        }
+        &:nth-child(3) {
+          line-height: 25px;
         }
       }
+
       button {
         float: right;
         background-color: #1890ff;
@@ -155,11 +169,30 @@ function accept () {
     }
   }
 }
+
 .hiddenAlert {
   bottom: -150px !important;
+  opacity: 0;
 }
+
 @keyframes showAlert {
-  0%{bottom: -150px}
-  100%{bottom: 0}
+  0% {
+    bottom: -150px
+  }
+  100% {
+    bottom: 0
+  }
+}
+@keyframes hiddenAlert {
+  0% {
+    display: block;
+    bottom: 0
+  }
+  99% {
+    bottom: -150px
+  }
+  100%{
+    display: none;
+  }
 }
 </style>

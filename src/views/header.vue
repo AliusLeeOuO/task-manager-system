@@ -7,6 +7,7 @@
         <nav-block to="/submit" nav-title="提交任务"></nav-block>
         <nav-block to="/taskkb" nav-title="任务列表2"></nav-block>
         <nav-block to="/newTask" nav-title="新建任务"></nav-block>
+        <nav-block to="/watch" nav-title="看板"></nav-block>
         <nav-block to="/login" nav-title="登录"></nav-block>
       </nav>
     </div>
@@ -30,6 +31,7 @@ import layout from "../store/layout";
     width: 100vw;
     top: 0;
     transition: 0.3s;
+    z-index: 99999;
     &> * {
       height: 100%;
     }

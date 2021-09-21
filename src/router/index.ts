@@ -6,6 +6,7 @@ const submit = () => import("../views/submit.vue")
 const taskkb = () => import("../views/taskListWithkb.vue")
 const newTask = () => import("../views/newTask.vue")
 const login = () => import("../views/login.vue")
+const watch = () => import("../views/watch.vue")
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -33,6 +34,10 @@ const routes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "login",
     component: login
+  },{
+    path: "/watch",
+    name: "watch",
+    component: watch
   }
 ]
 
