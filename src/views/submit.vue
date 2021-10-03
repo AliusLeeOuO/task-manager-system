@@ -1,6 +1,12 @@
 <template>
-  <a-card :title="`提交任务：南职卖楼`">
+  <a-card :title="`提交任务`">
+
     <div id="form">
+      <div>
+        <h2>任务标题任务标题任务标题任务标题任务标题任务标题任务</h2>
+        <p>任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介</p>
+        <p>当前提交：{{route.query.taskName}}</p>
+      </div>
       <a-form :label-col="labelCol" :rules="rules">
         <a-form-item ref="schedule" name="schedule" label="提交进度">
           <a-input-number :min="0" :max="100" /> %
@@ -23,6 +29,13 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { UploadOutlined } from '@ant-design/icons-vue';
+import { useRoute } from "vue-router";
+const route = useRoute()
+// 任务标识
+// console.log(route.query.taskName)
+
+
+
 
 interface FileItem {
   uid: string;

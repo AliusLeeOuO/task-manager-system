@@ -9,7 +9,7 @@
   const data:any = {
     xAxis: [{
       type: 'category',
-      data: ['计算机应用技术','计算机网络技术','计算机毁灭技术','计算机再生技术','计算机自爆技术','计算机没有技术',]
+      data: ['南职七训一楼','南职七训二楼','南职七训三楼','南职七训四楼','南职八训一楼','南职八训二楼',]
     }],
     yAxis: {
       type: 'value',
@@ -20,7 +20,6 @@
     tooltip: {
       show: true,
       formatter (params:any) {
-        console.log(params)
         return `${params.name}: ${params.data}%`
       }
     },

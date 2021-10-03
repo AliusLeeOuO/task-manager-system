@@ -4,27 +4,40 @@
       <div id="login-title">
         <h3>登录到 双高任务管理系统</h3>
       </div>
+
       <div id="login-form">
         <p id="login-type">使用 教职工号 登录</p>
-        <form>
+        <div v-if="layout.state.loginError">
+          <a-alert :message="layout.state.loginError" type="error" show-icon style="height: 30px"/>
+        </div>
+        <a-form @submit="submit">
           <div class="input-block">
-            <input type="text" id="username" placeholder=" ">
-            <label for="username">教职工号、用户名</label>
+            <a-input placeholder="用户名、教职工号" v-model:value="formItems.username">
+              <template #prefix>
+                <user-outlined type="user"/>
+              </template>
+            </a-input>
           </div>
           <div class="input-block">
-            <input type="password" id="password" placeholder=" ">
-            <label for="password">密码</label>
+            <a-input-password placeholder="密码" v-model:value="formItems.password">
+              <template #prefix>
+                <IdcardOutlined/>
+              </template>
+            </a-input-password>
           </div>
           <div class="input-block">
-            <a-checkbox>记住我的登录状态</a-checkbox>
+            <a-checkbox v-model:checked="formItems.remember">记住我的登录状态</a-checkbox>
           </div>
-          <div class="input-block" id="submit">
-            <a-button type="primary" style="width: 100%">登录</a-button>
+          <div class="input-block">
+            <a-button
+              type="primary"
+              html-type="submit"
+              style="width: 100%"
+            >
+              登录
+            </a-button>
           </div>
-          <div class="input-block" id="feedbackPwd">
-            <p>登录遇到问题？<a href="javascript:void(0);">找回密码</a></p>
-          </div>
-        </form>
+        </a-form>
       </div>
     </div>
     <div id="cookie-alert" :class="{hiddenAlert: acceptAlert}">
@@ -39,13 +52,108 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {ref} from "vue";
-import { WarningOutlined } from '@ant-design/icons-vue'
+import {ref, reactive} from "vue";
+import axios from "axios";
+import {IdcardOutlined, UserOutlined, WarningOutlined} from '@ant-design/icons-vue'
+import {useRouter} from "vue-router"
+import layout from "../store/layout";
+import Cookies from 'js-cookie'
+
+const router = useRouter();
+if (Cookies.get("token")) {
+  router.push("/")
+}
 const acceptAlert = ref<boolean>(false)
 
+
 function accept() {
+  Cookies.set("acceptCookie", "true", {
+    expires: 30
+  })
   acceptAlert.value = true
 }
+
+interface formItem {
+  username: string
+  password: string
+  remember: boolean
+}
+
+const formItems = reactive<formItem>({
+  username: "",
+  password: "",
+  remember: false
+})
+
+function submit(event: FormDataEvent) {
+
+
+
+
+
+  const loginNetwork = axios.create({
+    baseURL: "https://quanquan.asia/web/api/login",
+    method: "POST"
+  })
+
+  loginNetwork.interceptors.response.use(function (data) {
+    return data
+  })
+
+  loginNetwork({
+    data: {
+      name: formItems.username,
+      password: formItems.password
+    }
+  }).then((data)=> {
+    const status = data.data.status
+    switch (status) {
+      case 401:
+        layout.state.loginError = data.data.msg
+        break
+      case 200:
+        if(formItems.remember) {
+          setCookies(data.data,7)
+        }else {
+          setCookies(data.data,1)
+        }
+        layout.state.loginError = null
+        router.push("/")
+        break
+    }
+  }).catch((error)=> {
+    layout.state.loginError = error
+  })
+  function setCookies(data:any,time:number) {
+    Cookies.set("position", (function () {
+      if (data.data.position) {
+        return data.data.position.name
+      } else {
+        return " "
+      }
+    })(), {
+      expires: time
+    })
+    Cookies.set("rofessional", (function () {
+      if (data.data.rofessional) {
+        return data.data.rofessional.name
+      } else {
+        return " "
+      }
+    })(), {
+      expires: time
+    })
+    Cookies.set("token",data.token,{
+      expires: time
+    })
+    Cookies.set("parentId",data.data.parentId,{
+      expires: time
+    })
+  }
+  event.stopPropagation()
+}
+
+
 </script>
 <style lang="less" scoped>
 #login-layout {
@@ -63,71 +171,21 @@ function accept() {
     background-color: #fff;
     border-radius: 5px;
     box-shadow: 0 0 5px 5px #ccc;
-    padding: 20px 20px 0;
+    padding: 20px 40px;
 
     #login-title {
       padding: 10px 0;
       text-align: center;
       font-size: 23px;
+
       h3 {
         margin: 0;
       }
     }
+  }
 
-    .input-block {
-      position: relative;
-      width: 90%;
-      margin: 0 auto;
-    }
-
-    #login-type {
-      width: 90%;
-      margin: 0 auto;
-    }
-
-    #login-form {
-      input[type="text"],
-      input[type="password"] {
-        height: 40px;
-        width: 100%;
-        margin: 15px auto;
-        display: block;
-        outline: 0;
-        border: 0;
-        border-bottom: 1px solid #1890ff;
-        padding: .5rem;
-
-        & ~ label {
-          position: absolute;
-          top: 48%;
-          left: 1%;
-          transform: translateY(-50%);
-          font-size: 13px;
-          transition: 0.3s;
-          background-color: #fff;
-        }
-
-        &:focus,
-        &:not(:placeholder-shown) {
-          border-bottom: 0.1rem solid #1890ff;
-        }
-
-        &:focus ~ label,
-        &:not(:placeholder-shown) ~ label {
-          top: -3px;
-          left: 1%;
-          font-size: 10px;
-        }
-      }
-
-      #submit {
-        margin: 10px auto;
-      }
-
-      #feedbackPwd {
-        text-align: center;
-      }
-    }
+  .input-block {
+    margin: 15px auto;
   }
 
   #cookie-alert {
@@ -150,6 +208,7 @@ function accept() {
           font-weight: bold;
           margin-bottom: 5px;
         }
+
         &:nth-child(3) {
           line-height: 25px;
         }
@@ -183,6 +242,7 @@ function accept() {
     bottom: 0
   }
 }
+
 @keyframes hiddenAlert {
   0% {
     display: block;
@@ -191,7 +251,7 @@ function accept() {
   99% {
     bottom: -150px
   }
-  100%{
+  100% {
     display: none;
   }
 }

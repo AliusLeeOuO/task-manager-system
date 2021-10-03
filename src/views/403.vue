@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+  403 没有权限访问
 </template>
 <script lang="ts" setup>
 

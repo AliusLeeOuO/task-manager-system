@@ -6,12 +6,14 @@
         <a-progress :percent="schedule" status="active" />
       </template>
       <template #action>
-        <a href="javascript:void(0);">查看/提交</a>
+        <a href="javascript:void(0);" @click="submitTask('tName')">查看/提交</a>
       </template>
     </a-table>
   </a-card>
 </template>
 <script lang="ts" setup>
+import { useRouter } from "vue-router";
+const router = useRouter()
 const columns = [
   {
     title: '任务列表'
@@ -65,6 +67,14 @@ const tableData:tableItem[] = [
     ]
   }
 ]
+const submitTask = (tName:string) => {
+  router.push({
+    path: "/submit",
+    query: {
+      taskName: tName
+    }
+  })
+}
 </script>
 <style lang="less" scoped>
 

@@ -33,8 +33,8 @@
         </a-form-item>
         <a-form-item  :wrapper-col="{ span: 14, offset: 4 }">
           <a-button type="primary">提交</a-button>
-          <span style="margin-left: 5px;"></span>
-          <a-button>切换到修改任务</a-button>
+<!--          <span style="margin-left: 5px;"></span>-->
+<!--          <a-button>切换到修改任务</a-button>-->
         </a-form-item>
       </a-form>
     </div>

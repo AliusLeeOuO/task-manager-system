@@ -1,5 +1,5 @@
 <template>
-  <router-view></router-view>
+  我是测试
 </template>
 <script lang="ts" setup>
 
