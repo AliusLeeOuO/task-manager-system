@@ -87,10 +87,25 @@ const formItems = reactive<formItem>({
 
 function submit(event: FormDataEvent) {
 
+  //登录验证
+  function trim(str: string) {
+    if(str == null){
+      str = "";
+    }
+    return str.replace(/(^\s*)|(\s*$)/g, "");
+  }
+  formItems.username = trim(formItems.username)
+  formItems.password = trim(formItems.password)
+  if(formItems.username === "" || formItems.username.indexOf(" ") !== -1){
+    layout.state.loginError = "请输入正确的用户名"
+    return false
+  }else if (formItems.password === "" || formItems.password.indexOf(" ") !== -1) {
+    layout.state.loginError = "请输入正确的密码"
+    return false
+  }
 
 
-
-
+  //通过后发送网络请求
   const loginNetwork = axios.create({
     baseURL: "https://quanquan.asia/web/api/login",
     method: "POST"
