@@ -58,21 +58,13 @@ import {IdcardOutlined, UserOutlined, WarningOutlined} from '@ant-design/icons-v
 import {useRouter} from "vue-router"
 import layout from "../store/layout";
 import Cookies from 'js-cookie'
-
+// 如果登录 跳转首页
 const router = useRouter();
 if (Cookies.get("token")) {
   router.push("/")
 }
-const acceptAlert = ref<boolean>(false)
 
-
-function accept() {
-  Cookies.set("acceptCookie", "true", {
-    expires: 30
-  })
-  acceptAlert.value = true
-}
-
+// 表单容器
 interface formItem {
   username: string
   password: string
@@ -89,17 +81,18 @@ function submit(event: FormDataEvent) {
 
   //登录验证
   function trim(str: string) {
-    if(str == null){
+    if (str == null) {
       str = "";
     }
     return str.replace(/(^\s*)|(\s*$)/g, "");
   }
+
   formItems.username = trim(formItems.username)
   formItems.password = trim(formItems.password)
-  if(formItems.username === "" || formItems.username.indexOf(" ") !== -1){
+  if (formItems.username === "" || formItems.username.indexOf(" ") !== -1) {
     layout.state.loginError = "请输入正确的用户名"
     return false
-  }else if (formItems.password === "" || formItems.password.indexOf(" ") !== -1) {
+  } else if (formItems.password === "" || formItems.password.indexOf(" ") !== -1) {
     layout.state.loginError = "请输入正确的密码"
     return false
   }
@@ -120,26 +113,27 @@ function submit(event: FormDataEvent) {
       name: formItems.username,
       password: formItems.password
     }
-  }).then((data)=> {
+  }).then((data) => {
     const status = data.data.status
     switch (status) {
       case 401:
         layout.state.loginError = data.data.msg
         break
       case 200:
-        if(formItems.remember) {
-          setCookies(data.data,7)
-        }else {
-          setCookies(data.data,1)
+        if (formItems.remember) {
+          setCookies(data.data, 7)
+        } else {
+          setCookies(data.data, 1)
         }
         layout.state.loginError = null
         router.push("/")
         break
     }
-  }).catch((error)=> {
+  }).catch((error) => {
     layout.state.loginError = error
   })
-  function setCookies(data:any,time:number) {
+
+  function setCookies(data: any, time: number) {
     Cookies.set("position", (function () {
       if (data.data.position) {
         return data.data.position.name
@@ -158,17 +152,29 @@ function submit(event: FormDataEvent) {
     })(), {
       expires: time
     })
-    Cookies.set("token",data.token,{
+    Cookies.set("token", data.token, {
       expires: time
     })
-    Cookies.set("parentId",data.data.parentId,{
+    Cookies.set("parentId", data.data.parentId, {
       expires: time
     })
   }
+
   event.stopPropagation()
 }
 
+// Cookie提示
+const acceptAlert = ref<boolean>(false)
+if (Cookies.get("acceptCookie") === "true") {
+  acceptAlert.value = true
+}
 
+function accept() {
+  Cookies.set("acceptCookie", "true", {
+    expires: 30
+  })
+  acceptAlert.value = true
+}
 </script>
 <style lang="less" scoped>
 #login-layout {
