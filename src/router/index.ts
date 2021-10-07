@@ -1,8 +1,8 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
 import Cookies from "js-cookie";
+import {per0, per1, per2} from "./personConfig";
 
 const routerHistory = createWebHistory()
-
 
 const entry = () => import("../views/entry.vue")
 const taskList = () => import("../views/taskList.vue")
@@ -31,6 +31,7 @@ const routes: Array<RouteRecordRaw> = [
       title: "首页"
     },
     children: [
+      ...per0,
       {
         path: "/taskList",
         name: "taskList",
@@ -48,14 +49,6 @@ const routes: Array<RouteRecordRaw> = [
           rol: "2"
         }
       }, {
-        path: "/watch",
-        name: "watch",
-        component: watch,
-        meta: {
-          name: "看板",
-          rol: "0"
-        }
-      },{
         path: "/taskkb",
         name: "taskkb",
         component: taskkb,

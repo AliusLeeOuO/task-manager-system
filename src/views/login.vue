@@ -53,7 +53,7 @@
 </template>
 <script lang="ts" setup>
 import {ref, reactive} from "vue";
-import axios from "axios";
+import network from "../network/index"
 import {IdcardOutlined, UserOutlined, WarningOutlined} from '@ant-design/icons-vue'
 import {useRouter} from "vue-router"
 import layout from "../store/layout";
@@ -99,38 +99,35 @@ function submit(event: FormDataEvent) {
 
 
   //通过后发送网络请求
-  const loginNetwork = axios.create({
-    baseURL: "https://quanquan.asia/web/api/login",
-    method: "POST"
-  })
-
-  loginNetwork.interceptors.response.use(function (data) {
-    return data
-  })
-
-  loginNetwork({
-    data: {
-      name: formItems.username,
-      password: formItems.password
-    }
+  network.post("login", {
+    name: formItems.username,
+    password: formItems.password
   }).then((data) => {
-    const status = data.data.status
-    switch (status) {
-      case 401:
-        layout.state.loginError = data.data.msg
-        break
-      case 200:
-        if (formItems.remember) {
-          setCookies(data.data, 7)
-        } else {
-          setCookies(data.data, 1)
-        }
-        layout.state.loginError = null
-        router.push("/")
-        break
+    const status = data.data
+    if (status.status === 200) {
+      if (formItems.remember) {
+        setCookies(status.data, 7)
+      } else {
+        setCookies(status.data, 1)
+      }
+      layout.state.loginError = null
+      router.push("/")
     }
   }).catch((error) => {
-    layout.state.loginError = error
+    if (error.response) {
+      // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
+      if (error.response.status === 400) {
+        layout.state.loginError = "账号或密码错误"
+      }
+    } else if (error.request) {
+      // 请求已经成功发起，但没有收到响应
+      layout.state.loginError = "服务端数据请求失败"
+      console.log(error.request);
+    } else {
+      // 发送请求时出了点问题
+      layout.state.loginError = "请求失败，致命错误"
+      console.log('Error', error.message);
+    }
   })
 
   function setCookies(data: any, time: number) {
@@ -171,7 +168,7 @@ if (Cookies.get("acceptCookie") === "true") {
 
 function accept() {
   Cookies.set("acceptCookie", "true", {
-    expires: 30
+    expires: 365
   })
   acceptAlert.value = true
 }
