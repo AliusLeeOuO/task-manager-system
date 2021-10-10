@@ -1,15 +1,23 @@
 import {RouteRecordRaw} from "vue-router"
-
+// 院长
 const per0: Array<RouteRecordRaw> = [
   {
-    path: "/watch",
-    name: "watch",
-    component: () => import("../views/watch.vue"),
+    path: "/dean",
+    name: "dean",
+    component: () => import("../views/dean/dean.vue"),
     meta: {
-      name: "看板",
+      name: "首页",
       rol: "0"
     }
-  }
+  },{
+    path: "/showTask",
+    name: "showTask",
+    component: () => import("../views/dean/showTask.vue"),
+    meta: {
+      name: "显示任务",
+      rol: "0"
+    }
+  },
 ]
 const per1: Array<RouteRecordRaw> = [
   {

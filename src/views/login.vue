@@ -100,9 +100,9 @@ function submit(event: FormDataEvent) {
 
   //通过后发送网络请求
   network.post("login", {
-    name: formItems.username,
+    workerNumber: formItems.username,
     password: formItems.password
-  }).then((data) => {
+  }).then(data => {
     const status = data.data
     if (status.status === 200) {
       if (formItems.remember) {
@@ -113,7 +113,7 @@ function submit(event: FormDataEvent) {
       layout.state.loginError = null
       router.push("/")
     }
-  }).catch((error) => {
+  }).catch(error => {
     if (error.response) {
       // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
       if (error.response.status === 400) {

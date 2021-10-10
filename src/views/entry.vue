@@ -15,7 +15,7 @@ const router = useRouter()
 const pId = Cookies.get("parentId")
 switch (pId) {
   case "0":
-    router.push("/watch")
+    router.push("/dean")
     break
   case "1":
     router.push("/taskkb")

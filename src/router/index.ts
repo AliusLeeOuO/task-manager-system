@@ -4,18 +4,6 @@ import {per0, per1, per2} from "./personConfig";
 
 const routerHistory = createWebHistory()
 
-const entry = () => import("../views/entry.vue")
-const taskList = () => import("../views/taskList.vue")
-const login = () => import("../views/login.vue")
-const testpage = () => import("../views/testpage.vue")
-const submit = () => import("../views/submit.vue")
-const taskkb = () => import("../views/taskListWithkb.vue")
-// const newTask = () => import("../views/newTask.vue")
-// const login = () => import("../views/login.vue")
-const watch = () => import("../views/watch.vue")
-// const submitSuccess = () => import("../views/submitSuccess.vue")
-
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: "",
@@ -26,37 +14,15 @@ const routes: Array<RouteRecordRaw> = [
   }, {
     path: "/index",
     name: "index",
-    component: entry,
+    component: () => import("../views/entry.vue"),
     meta: {
       title: "首页"
     },
     children: [
       ...per0,
+      ...per1,
+      ...per2,
       {
-        path: "/taskList",
-        name: "taskList",
-        component: taskList,
-        meta: {
-          name: "任务列表",
-          rol: "2"
-        }
-      }, {
-        path: "/submit",
-        name: "submit",
-        component: submit,
-        meta: {
-          name: "提交任务",
-          rol: "2"
-        }
-      }, {
-        path: "/taskkb",
-        name: "taskkb",
-        component: taskkb,
-        meta: {
-          name: "分解",
-          rol: "1"
-        }
-      }, {
         path: "/403",
         name: "403",
         component: () => import("../views/403.vue")
@@ -66,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/login",
     name: "login",
-    component: login,
+    component: () => import("../views/login.vue"),
     meta: {
       title: "登录"
     }

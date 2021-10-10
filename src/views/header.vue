@@ -3,12 +3,7 @@
     <div id="header-left">
       <div id="header-logo">双高任务管理系统</div>
       <nav>
-        <nav-block to="/taskList" nav-title="任务列表"></nav-block>
-        <!--        <nav-block to="/submit" nav-title="提交任务"></nav-block>-->
-        <!--        <nav-block to="/taskkb" nav-title="任务列表2"></nav-block>-->
-        <!--        <nav-block to="/newTask" nav-title="新建任务"></nav-block>-->
-        <!--        <nav-block to="/watch" nav-title="看板"></nav-block>-->
-        <!--        <nav-block to="/submitSuccess" nav-title="提交成功"></nav-block>-->
+        <nav-block :to="item.path" :nav-title="item.meta.name" v-for="(item, index) in navList" :key="index"></nav-block>
       </nav>
     </div>
     <div id="header-right">
@@ -21,7 +16,9 @@
 <script lang="ts" setup>
 import NavBlock from "../components/header/nav-block.vue"
 import Cookies from 'js-cookie'
+import {per0, per1, per2} from "../router/personConfig";
 import {useRouter} from "vue-router";
+import {reactive} from "vue";
 
 const router = useRouter()
 const exitAccount = () => {
@@ -31,9 +28,22 @@ const exitAccount = () => {
   Cookies.remove('parentId')
   router.replace("/login")
 }
+const pId = Cookies.get("parentId")
 const position = Cookies.get("position")
 const rofessional = Cookies.get("rofessional")
-
+let navList = reactive<any>([])
+switch (pId) {
+  case "0":
+    navList = per0
+    break
+  case "1":
+    navList = per1
+    break
+  case "2":
+    navList = per2
+    break
+}
+console.log(navList)
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;
