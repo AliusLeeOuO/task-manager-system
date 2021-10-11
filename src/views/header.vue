@@ -7,7 +7,7 @@
       </nav>
     </div>
     <div id="header-right">
-      <span>{{ rofessional }} {{ position }}</span>
+      <span>{{ position }}  {{ rofessional }}</span>
       &nbsp;&nbsp;
       <a href="javascript:void(0);" @click="exitAccount">退出</a>
     </div>
@@ -43,7 +43,6 @@ switch (pId) {
     navList = per2
     break
 }
-console.log(navList)
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;

@@ -1,96 +1,67 @@
 <template>
-  <a-card :title="`提交任务`">
-
+  <a-card title="查看任务">
     <div id="form">
       <div>
-        <h2>任务标题任务标题任务标题任务标题任务标题任务标题任务</h2>
-        <p>任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介任务简介</p>
-        <p>当前提交：{{route.query.taskName}}</p>
+        <h2>{{taskTitle}}</h2>
+        <p>任务简介： {{taskSubTitle}}</p>
+        <p>创建人：{{ creator }}</p>
+        <p>当前提交：{{ route.query.taskName }}</p>
+        <h3>提交的文件</h3>
+        <div>
+          <File-cpn :href="item.link" :file-title="item.title" v-for="(item, index) in fileList"></File-cpn>
+        </div>
+        <a-button @click="back">返回</a-button>
       </div>
-      <a-form :label-col="labelCol" :rules="rules">
-        <a-form-item ref="schedule" name="schedule" label="提交进度">
-          <a-input-number :min="0" :max="100" /> %
-        </a-form-item>
-        <a-form-item label="文件">
-          <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" v-model:file-list="fileList">
-            <a-button>
-              <upload-outlined></upload-outlined>
-              上传材料
-            </a-button>
-          </a-upload>
-        </a-form-item>
-        <a-form-item  :wrapper-col="{ span: 14, offset: 3 }">
-          <a-button type="primary">修改任务</a-button>
-          <a-button>返回</a-button>
-        </a-form-item>
-      </a-form>
     </div>
   </a-card>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
-import { UploadOutlined } from '@ant-design/icons-vue';
-import { useRoute } from "vue-router";
+import {reactive, ref} from "vue";
+import {UploadOutlined} from '@ant-design/icons-vue';
+import {useRoute, useRouter} from "vue-router";
+import network from "../../network/index"
+import FileCpn from "../../components/fileData.vue"
+
 const route = useRoute()
-// 任务标识
-// console.log(route.query.taskName)
+const router = useRouter()
 
+let taskTitle = ref<string>("")
+let taskSubTitle = ref<string>("")
+let creator = ref<string>("")
 
-
-
-interface FileItem {
-  uid: string;
-  name?: string;
-  status?: string;
-  response?: string;
-  url?: string;
-}
-
-const fileList = ref<FileItem[]>([
-  {
-    uid: '1',
-    name: 'xxx.png',
-    status: 'done',
-    response: 'Server Error 500', // custom error message to show
-    url: 'http://www.baidu.com/xxx.png',
-  },
-  {
-    uid: '2',
-    name: 'yyy.png',
-    status: 'done',
-    url: 'http://www.baidu.com/yyy.png',
-  },
-  {
-    uid: '3',
-    name: 'zzz.png',
-    status: 'error',
-    response: 'Server Error 500', // custom error message to show
-    url: 'http://www.baidu.com/zzz.png',
-  },
-]);
-
-interface FileInfo {
-  file: FileItem;
-  fileList: FileItem[];
+interface fileList {
+  title: string
+  link: string
 }
 
 
-const handleChange = ({ file, fileList }: FileInfo) => {
-  if (file.status !== 'uploading') {
-    console.log(file, fileList);
-  }
-};
+let fileList = reactive<fileList[]>([])
 
+let taskInfo = network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`)
+  .then(config => {
+    console.log(config.data)
+    taskTitle.value = config.data.data[0].taskname
+    taskSubTitle.value = config.data.data[0].describe
+    creator.value = config.data.data[0].creator.name
+    if (config.data.data[0].fileAddress.length !== 0) {
+      for (let i = 0;i < config.data.data[0].fileAddress.length; i++) {
+        fileList.push({
+          title: config.data.data[0].fileAddress[i].name,
+          link: config.data.data[0].fileAddress[i].url
+        })
+      }
+    }else {
+      fileList.push({
+        title: "此处暂无文件",
+        link: "javascript:void(0);"
+      })
+    }
+  }).catch(error => {
+    console.log(error)
+})
 
-const labelCol = {
-  style: {
-    width: "80px"
-  }
-}
-const rules = {
-  schedule: [
-    { required: true, message: '请输入进度', trigger: 'blur' }
-  ]
+function back() {
+  router.push("/dean")
 }
 </script>
 <style lang="less" scoped>

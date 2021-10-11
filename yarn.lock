@@ -199,6 +199,16 @@
     estree-walker "^2.0.2"
     source-map "^0.6.1"
 
+"@vue/compiler-core@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/compiler-core/download/@vue/compiler-core-3.2.20.tgz?cache=0&sync_timestamp=1633712532581&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fcompiler-core%2Fdownload%2F%40vue%2Fcompiler-core-3.2.20.tgz#af5a3c5237818835b0d0be837eb5885a8d21c160"
+  integrity sha1-r1o8UjeBiDWw0L6DfrWIWo0hwWA=
+  dependencies:
+    "@babel/parser" "^7.15.0"
+    "@vue/shared" "3.2.20"
+    estree-walker "^2.0.2"
+    source-map "^0.6.1"
+
 "@vue/compiler-dom@3.2.11", "@vue/compiler-dom@^3.2.6":
   version "3.2.11"
   resolved "https://registry.nlark.com/@vue/compiler-dom/download/@vue/compiler-dom-3.2.11.tgz#d066f8e1f1812b4e881593819ade0fe6d654c776"
@@ -206,6 +216,30 @@
   dependencies:
     "@vue/compiler-core" "3.2.11"
     "@vue/shared" "3.2.11"
+
+"@vue/compiler-dom@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/compiler-dom/download/@vue/compiler-dom-3.2.20.tgz?cache=0&sync_timestamp=1633712540519&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fcompiler-dom%2Fdownload%2F%40vue%2Fcompiler-dom-3.2.20.tgz#8e0ef354449c0faf41519b00bfc2045eae01dcb5"
+  integrity sha1-jg7zVEScD69BUZsAv8IEXq4B3LU=
+  dependencies:
+    "@vue/compiler-core" "3.2.20"
+    "@vue/shared" "3.2.20"
+
+"@vue/compiler-sfc@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/compiler-sfc/download/@vue/compiler-sfc-3.2.20.tgz?cache=0&sync_timestamp=1633712540645&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fcompiler-sfc%2Fdownload%2F%40vue%2Fcompiler-sfc-3.2.20.tgz#2d7668e76f066c566dd7c09c15c9acce4e876e0a"
+  integrity sha1-LXZo528GbFZt18CcFcmszk6Hbgo=
+  dependencies:
+    "@babel/parser" "^7.15.0"
+    "@vue/compiler-core" "3.2.20"
+    "@vue/compiler-dom" "3.2.20"
+    "@vue/compiler-ssr" "3.2.20"
+    "@vue/ref-transform" "3.2.20"
+    "@vue/shared" "3.2.20"
+    estree-walker "^2.0.2"
+    magic-string "^0.25.7"
+    postcss "^8.1.10"
+    source-map "^0.6.1"
 
 "@vue/compiler-sfc@^3.2.6":
   version "3.2.11"
@@ -239,12 +273,27 @@
     "@vue/compiler-dom" "3.2.11"
     "@vue/shared" "3.2.11"
 
+"@vue/compiler-ssr@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/compiler-ssr/download/@vue/compiler-ssr-3.2.20.tgz?cache=0&sync_timestamp=1633712545347&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fcompiler-ssr%2Fdownload%2F%40vue%2Fcompiler-ssr-3.2.20.tgz#9cceb6261d9932cb5568202610c1c28f86c5e521"
+  integrity sha1-nM62Jh2ZMstVaCAmEMHCj4bF5SE=
+  dependencies:
+    "@vue/compiler-dom" "3.2.20"
+    "@vue/shared" "3.2.20"
+
 "@vue/devtools-api@^6.0.0-beta.14":
   version "6.0.0-beta.15"
   resolved "https://registry.nlark.com/@vue/devtools-api/download/@vue/devtools-api-6.0.0-beta.15.tgz?cache=0&sync_timestamp=1624901142597&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40vue%2Fdevtools-api%2Fdownload%2F%40vue%2Fdevtools-api-6.0.0-beta.15.tgz#ad7cb384e062f165bcf9c83732125bffbc2ad83d"
   integrity sha1-rXyzhOBi8WW8+cg3MhJb/7wq2D0=
 
-"@vue/reactivity@3.2.11", "@vue/reactivity@^3.2.6":
+"@vue/reactivity@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/reactivity/download/@vue/reactivity-3.2.20.tgz#81fe1c368e7f20bc0ec1dec1045bbee253582de8"
+  integrity sha1-gf4cNo5/ILwOwd7BBFu+4lNYLeg=
+  dependencies:
+    "@vue/shared" "3.2.20"
+
+"@vue/reactivity@^3.2.6":
   version "3.2.11"
   resolved "https://registry.nlark.com/@vue/reactivity/download/@vue/reactivity-3.2.11.tgz?cache=0&sync_timestamp=1631141978411&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40vue%2Freactivity%2Fdownload%2F%40vue%2Freactivity-3.2.11.tgz#ec04d33acaf2b92cca2960535bec81b26cc5772b"
   integrity sha1-7ATTOsryuSzKKWBTW+yBsmzFdys=
@@ -262,27 +311,51 @@
     estree-walker "^2.0.2"
     magic-string "^0.25.7"
 
-"@vue/runtime-core@3.2.11":
-  version "3.2.11"
-  resolved "https://registry.nlark.com/@vue/runtime-core/download/@vue/runtime-core-3.2.11.tgz?cache=0&sync_timestamp=1631141981931&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40vue%2Fruntime-core%2Fdownload%2F%40vue%2Fruntime-core-3.2.11.tgz#0dbe801be4bd0bfde253226797e7d304c8fdda30"
-  integrity sha1-Db6AG+S9C/3iUyJnl+fTBMj92jA=
+"@vue/ref-transform@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/ref-transform/download/@vue/ref-transform-3.2.20.tgz?cache=0&sync_timestamp=1633712534825&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fref-transform%2Fdownload%2F%40vue%2Fref-transform-3.2.20.tgz#2a59ec90caf8e5c7336776a0900bff0a8b81c090"
+  integrity sha1-KlnskMr45cczZ3agkAv/CouBwJA=
   dependencies:
-    "@vue/reactivity" "3.2.11"
-    "@vue/shared" "3.2.11"
+    "@babel/parser" "^7.15.0"
+    "@vue/compiler-core" "3.2.20"
+    "@vue/shared" "3.2.20"
+    estree-walker "^2.0.2"
+    magic-string "^0.25.7"
 
-"@vue/runtime-dom@3.2.11":
-  version "3.2.11"
-  resolved "https://registry.nlark.com/@vue/runtime-dom/download/@vue/runtime-dom-3.2.11.tgz?cache=0&sync_timestamp=1631141984978&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40vue%2Fruntime-dom%2Fdownload%2F%40vue%2Fruntime-dom-3.2.11.tgz#04f9054a9e64bdf156c2fc22cad67cfaa8b84616"
-  integrity sha1-BPkFSp5kvfFWwvwiytZ8+qi4RhY=
+"@vue/runtime-core@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/runtime-core/download/@vue/runtime-core-3.2.20.tgz#8f63e956a3f88fb772541443c45a7701211012cb"
+  integrity sha1-j2PpVqP4j7dyVBRDxFp3ASEQEss=
   dependencies:
-    "@vue/runtime-core" "3.2.11"
-    "@vue/shared" "3.2.11"
+    "@vue/reactivity" "3.2.20"
+    "@vue/shared" "3.2.20"
+
+"@vue/runtime-dom@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/runtime-dom/download/@vue/runtime-dom-3.2.20.tgz#8aa56ae6c30f9cd4a71ca0e9ec3c4bdc67148d15"
+  integrity sha1-iqVq5sMPnNSnHKDp7DxL3GcUjRU=
+  dependencies:
+    "@vue/runtime-core" "3.2.20"
+    "@vue/shared" "3.2.20"
     csstype "^2.6.8"
+
+"@vue/server-renderer@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/server-renderer/download/@vue/server-renderer-3.2.20.tgz?cache=0&sync_timestamp=1633712550303&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fserver-renderer%2Fdownload%2F%40vue%2Fserver-renderer-3.2.20.tgz#705e07ae9425132b2b6227d308a51a13f4d4ec81"
+  integrity sha1-cF4HrpQlEysrYifTCKUaE/TU7IE=
+  dependencies:
+    "@vue/compiler-ssr" "3.2.20"
+    "@vue/shared" "3.2.20"
 
 "@vue/shared@3.2.11", "@vue/shared@^3.2.6":
   version "3.2.11"
   resolved "https://registry.nlark.com/@vue/shared/download/@vue/shared-3.2.11.tgz#01899f54949caf1ac241de397bd17069632574de"
   integrity sha1-AYmfVJScrxrCQd45e9FwaWMldN4=
+
+"@vue/shared@3.2.20":
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/@vue/shared/download/@vue/shared-3.2.20.tgz#53746961f731a8ea666e3316271e944238dc31db"
+  integrity sha1-U3RpYfcxqOpmbjMWJx6UQjjcMds=
 
 acorn@^7.1.1:
   version "7.4.1"
@@ -506,7 +579,7 @@ domutils@^2.5.2:
     domelementtype "^2.2.0"
     domhandler "^4.2.0"
 
-echarts@4:
+echarts@^4.9.0:
   version "4.9.0"
   resolved "https://registry.nlark.com/echarts/download/echarts-4.9.0.tgz#a9b9baa03f03a2a731e6340c55befb57a9e1347d"
   integrity sha1-qbm6oD8Doqcx5jQMVb77V6nhNH0=
@@ -1439,14 +1512,16 @@ vue-types@^3.0.0:
   dependencies:
     is-plain-object "3.0.1"
 
-vue@^3.2.6:
-  version "3.2.11"
-  resolved "https://registry.nlark.com/vue/download/vue-3.2.11.tgz?cache=0&sync_timestamp=1631141991995&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fvue%2Fdownload%2Fvue-3.2.11.tgz#6b92295048df705ddac558fd3e3ed553e55e57c8"
-  integrity sha1-a5IpUEjfcF3axVj9Pj7VU+VeV8g=
+vue@^3.2.20:
+  version "3.2.20"
+  resolved "https://registry.npmmirror.com/vue/download/vue-3.2.20.tgz?cache=0&sync_timestamp=1633712790340&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fvue%2Fdownload%2Fvue-3.2.20.tgz#940f8aa8bf3e3be78243ca582bad41fcd45ae3e6"
+  integrity sha1-lA+KqL8+O+eCQ8pYK61B/NRa4+Y=
   dependencies:
-    "@vue/compiler-dom" "3.2.11"
-    "@vue/runtime-dom" "3.2.11"
-    "@vue/shared" "3.2.11"
+    "@vue/compiler-dom" "3.2.20"
+    "@vue/compiler-sfc" "3.2.20"
+    "@vue/runtime-dom" "3.2.20"
+    "@vue/server-renderer" "3.2.20"
+    "@vue/shared" "3.2.20"
 
 warning@^4.0.0:
   version "4.0.3"

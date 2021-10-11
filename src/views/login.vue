@@ -97,12 +97,12 @@ function submit(event: FormDataEvent) {
     return false
   }
 
-
   //通过后发送网络请求
   network.post("login", {
     workerNumber: formItems.username,
     password: formItems.password
   }).then(data => {
+    console.log(data)
     const status = data.data
     if (status.status === 200) {
       if (formItems.remember) {

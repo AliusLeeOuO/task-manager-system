@@ -1,5 +1,6 @@
 <template>
   <a-card title="任务列表">
+    <template #extra><router-link to="/newTask">新建任务</router-link></template>
     <a-table :columns="columns" :data-source="tableData">
       <template #schedule="{ text: schedule }">
         <a-progress :percent="schedule" status="active"/>
@@ -68,19 +69,19 @@ network.get("dean/getTasks").then((response) => {
   let task = response.data.data.task
 
   // task:传进的任务对象   tableData: 表单数据
-  function infinityChild(task: any, tableData: any) {
+  function infinityChild(task: any, tableData: any, fatherSchedule: number = 0) {
     for (let i = 0; i < task.length; i++) {
       tableData.push({
         key: task[i]._id
         , task: task[i].taskname
-        , schedule: task[i].process
+        , schedule: task[i].process ? task[i].process : fatherSchedule
         , releaseTime: moment(task[i].createdAt).format("YYYY年MM月DD日 HH:mm:ss")
       })
       if (task[i].children && task[i].children.length !== 0) {
         tableData[i].children = []
         let childTask = task[i].children
         let childTable = tableData[i].children
-        infinityChild(childTask, childTable)
+        infinityChild(childTask, childTable, task[i].process)
       }
     }
   }
