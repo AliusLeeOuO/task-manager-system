@@ -7,33 +7,40 @@
   </div>
 </template>
 <script lang="ts" setup>
+
 import Cookies from "js-cookie";
 import VHeader from "./header.vue"
 import {useRoute, useRouter} from "vue-router";
+import {onUpdated} from "vue";
 
 const route = useRoute()
 const router = useRouter()
 const pId = Cookies.get("parentId")
 
+onUpdated(function () {
+  redirect()
+})
 
-
-if (route.fullPath === "/index") {
-  switch (pId) {
-    case "0":
-      router.push("/dean")
-      break
-    case "1":
-      router.push("/taskkb")
-      break
-    case "2":
-      router.push("/taskList")
-      break
-    default:
-      router.push("/")
-      break
+function redirect() {
+  if (route.fullPath === "/index") {
+    switch (pId) {
+      case "0":
+        router.push("/dean")
+        break
+      case "1":
+        router.push("/taskkb")
+        break
+      case "2":
+        router.push("/taskList")
+        break
+      default:
+        router.push("/")
+        break
+    }
   }
 }
 
+redirect()
 </script>
 <style lang="less" scoped>
 @max-width: 1400px;

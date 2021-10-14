@@ -9,11 +9,11 @@ const xhr = axios.create({
 
 // 将token添加到请求头
 xhr.interceptors.request.use(config => {
-  if(token) {
+  if (token) {
     config.headers.authorization = 'Bearer ' + token
   }
   return config
-},error => {
+}, error => {
   return Promise.reject(error)
 })
 export default xhr

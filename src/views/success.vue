@@ -1,21 +1,27 @@
 <template>
-  <a-card title="提交任务">
+  <a-card :title="query.type">
     <a-result
       status="success"
-      title="tit1232132131le"
-      sub-title="提交时间：2021年11月11日 11:11 进度：45%"
+      :title="query.title"
+      :sub-title="query.subtitle"
     >
       <template #extra>
-        <a-button key="console" type="primary">返回首页</a-button>
+        <a-button key="console" type="primary" @click="backToIndex">返回首页</a-button>
       </template>
     </a-result>
   </a-card>
 </template>
 <script lang="ts" setup>
-const props = defineProps<{
-  // title: string,
-  // sub
-}>()
+import {useRoute, useRouter} from "vue-router"
+
+const route = useRoute()
+const router = useRouter()
+const query = route.query
+
+const backToIndex = () => {
+  router.push("/")
+}
+
 </script>
 <style lang="less" scoped>
 

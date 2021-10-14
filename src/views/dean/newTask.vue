@@ -3,7 +3,7 @@
     <div id="form">
       <a-form :label-col="labelCol" :rules="rules" @submit="submit">
         <a-form-item v-if="alert">
-          <a-alert :message="alert" type="info" show-icon />
+          <a-alert :message="alert" type="info" show-icon/>
         </a-form-item>
         <a-form-item ref="fatherTaskName" label="任务名称">
           <a-input placeholder="请输入任务名称" v-model:value="formItem.taskname"/>
@@ -12,7 +12,7 @@
           <a-input placeholder="请输入任务描述" v-model:value="formItem.describe"/>
         </a-form-item>
         <a-form-item ref="endtime" label="结束时间">
-          <a-date-picker  locale="CN" valueFormat="x" show-time placeholder="结束时间" v-model:value="formItem.endtime"/>
+          <a-date-picker locale="CN" valueFormat="x" show-time placeholder="结束时间" v-model:value="formItem.endtime"/>
         </a-form-item>
         <a-form-item ref="taskUser" label="负责人">
           <a-select
@@ -25,6 +25,8 @@
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
           <a-button type="primary" html-type="submit">提交</a-button>
+          <span style="margin-left: 10px;"></span>
+          <a-button @click="backToIndex">返回首页</a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -35,7 +37,9 @@ import {reactive, ref} from 'vue';
 // import {SelectTypes} from 'ant-design-vue/es/select';
 import network from '../../network/index'
 import Cookies from "js-cookie";
-import { useRouter } from "vue-router"
+import {useRouter} from "vue-router"
+import layout from "@/store/layout";
+
 const router = useRouter()
 
 interface formItem {
@@ -52,7 +56,7 @@ let formItem = reactive<formItem>({
   taskUser: ""
 })
 
-interface selectOption{
+interface selectOption {
   value: string;
   label: string;
 }
@@ -61,7 +65,7 @@ const selectOption = reactive<selectOption[]>([]);
 
 network.post("https://quanquan.asia/web/api/dean/position").then(config => {
   let list = config.data.data
-  for (let i = 0;i < list.length;i++) {
+  for (let i = 0; i < list.length; i++) {
     selectOption.push({
       value: list[i]._id,
       label: list[i].name
@@ -81,21 +85,43 @@ const rules = {}
 
 const submit = (event: SubmitEvent) => {
   alert.value = "正在处理"
-  // network.post("dean/createTask",{
-  //   task: {
-  //     taskname: formItem.taskname,
-  //     creator: Cookies.get("id"),
-  //     worker: formItem.taskUser,
-  //     describe: formItem.describe,
-  //     endtime: formItem.endtime
-  //   }
-  // }).then(config => {
-  //   console.log(config)
-  // }).catch(error => {
-  //   console.log(error)
-  // })
-  // router.push()
+  network.post("dean/createTask", {
+    task: {
+      taskname: formItem.taskname,
+      creator: Cookies.get("id"),
+      worker: formItem.taskUser,
+      describe: formItem.describe,
+      endtime: formItem.endtime
+    }
+  }).then(config => {
+    router.push({
+      path: "/success",
+      query: {
+        type: "创建任务",
+        title: "任务创建成功",
+        subtitle: `任务名：${formItem.taskname},结束时间：${formItem.endtime}`
+      }
+    })
+  }).catch(error => {
+    if (error.response) {
+      // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
+      alert.value = "表单格式错误"
+    } else if (error.request) {
+      // 请求已经成功发起，但没有收到响应
+      alert.value = "服务端数据请求失败"
+      console.log(error.request);
+    } else {
+      // 发送请求时出了点问题
+      alert.value = "请求失败，致命错误"
+      console.log('Error', error.message);
+    }
+  })
+
   event.stopPropagation()
+}
+
+const backToIndex = () => {
+  router.push("/")
 }
 
 </script>

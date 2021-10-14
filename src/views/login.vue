@@ -29,11 +29,7 @@
             <a-checkbox v-model:checked="formItems.remember">记住我的登录状态</a-checkbox>
           </div>
           <div class="input-block">
-            <a-button
-              type="primary"
-              html-type="submit"
-              style="width: 100%"
-            >
+            <a-button type="primary" html-type="submit" style="width: 100%">
               登录
             </a-button>
           </div>
@@ -131,7 +127,7 @@ function submit(event: FormDataEvent) {
   })
 
   function setCookies(data: any, time: number) {
-    Cookies.set("id",data.data._id,{
+    Cookies.set("id", data.data._id, {
       expires: time
     })
     Cookies.set("position", (function () {

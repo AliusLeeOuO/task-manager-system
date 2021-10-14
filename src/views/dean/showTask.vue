@@ -3,7 +3,7 @@
 
     <div id="form">
       <div v-if="isLoading">
-        <a-skeleton :paragraph="{ rows: 6 }" active />
+        <a-skeleton :paragraph="{ rows: 6 }" active/>
       </div>
       <div v-else>
         <h2>{{ taskTitle }}</h2>
@@ -12,7 +12,8 @@
         <p>当前提交：{{ route.query.taskName }}</p>
         <h3>提交的文件</h3>
         <div>
-          <File-cpn :href="item.link" :file-title="item.title" v-for="(item, index) in fileList" :key="item.title"></File-cpn>
+          <File-cpn :href="item.link" :file-title="item.title" v-for="(item, index) in fileList"
+                    :key="item.title"></File-cpn>
         </div>
         <a-button @click="back">返回</a-button>
       </div>
@@ -42,7 +43,7 @@ let isLoading = ref<boolean>(true)
 
 let fileList = reactive<fileList[]>([])
 
-let taskInfo = network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`)
+network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`)
   .then(config => {
     console.log(config.data)
     taskTitle.value = config.data.data[0].taskname
@@ -64,8 +65,8 @@ let taskInfo = network.get(`https://quanquan.asia/web/api/dean/getTask/${route.q
 
     isLoading.value = false
   }).catch(error => {
-    console.log(error)
-  })
+  console.log(error)
+})
 
 function back() {
   router.push("/dean")
