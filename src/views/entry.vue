@@ -10,23 +10,30 @@
 import Cookies from "js-cookie";
 import VHeader from "./header.vue"
 import {useRoute, useRouter} from "vue-router";
+
 const route = useRoute()
 const router = useRouter()
 const pId = Cookies.get("parentId")
-switch (pId) {
-  case "0":
-    router.push("/dean")
-    break
-  case "1":
-    router.push("/taskkb")
-    break
-  case "2":
-    router.push("/taskList")
-    break
-  default:
-    router.push("/index")
-    break
+
+
+
+if (route.fullPath === "/index") {
+  switch (pId) {
+    case "0":
+      router.push("/dean")
+      break
+    case "1":
+      router.push("/taskkb")
+      break
+    case "2":
+      router.push("/taskList")
+      break
+    default:
+      router.push("/")
+      break
+  }
 }
+
 </script>
 <style lang="less" scoped>
 @max-width: 1400px;

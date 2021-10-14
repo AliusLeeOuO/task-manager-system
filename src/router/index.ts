@@ -1,7 +1,7 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
 import Cookies from "js-cookie";
 import {per0, per1, per2} from "./personConfig";
-
+import publicRoute from "./publicRoute";
 const routerHistory = createWebHistory()
 
 const routes: Array<RouteRecordRaw> = [
@@ -22,11 +22,7 @@ const routes: Array<RouteRecordRaw> = [
       ...per0,
       ...per1,
       ...per2,
-      {
-        path: "/403",
-        name: "403",
-        component: () => import("../views/403.vue")
-      }
+      ...publicRoute
     ]
   },
   {
@@ -46,7 +42,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, form, next) => {
-  document.title = `${to.meta.title} | 双高任务管理系统`;
+  console.log(to.meta)
+  document.title = `${to.meta.name ?to.meta.name : to.meta.title} | 双高任务管理系统`;
   const role = Cookies.get("token")
   if (!role && to.path !== '/login') {
     next("/login")

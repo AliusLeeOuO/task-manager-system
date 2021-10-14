@@ -15,7 +15,8 @@ const per0: Array<RouteRecordRaw> = [
     component: () => import("../views/dean/showTask.vue"),
     meta: {
       name: "显示任务",
-      rol: "0"
+      rol: "0",
+      hide: true
     }
   },{
     path: "/newTask",
@@ -23,7 +24,8 @@ const per0: Array<RouteRecordRaw> = [
     component: () => import("../views/dean/newTask.vue"),
     meta: {
       name: "新建任务",
-      rol: "0"
+      rol: "0",
+      hide: true
     }
   }
 ]

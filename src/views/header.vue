@@ -3,7 +3,7 @@
     <div id="header-left">
       <div id="header-logo">双高任务管理系统</div>
       <nav>
-        <nav-block :to="item.path" :nav-title="item.meta.name" v-for="(item, index) in navList" :key="index"></nav-block>
+        <nav-block :to="item.path" :nav-title="item.meta.name" v-for="(item, index) in filter" :key="index"></nav-block>
       </nav>
     </div>
     <div id="header-right">
@@ -17,8 +17,8 @@
 import NavBlock from "../components/header/nav-block.vue"
 import Cookies from 'js-cookie'
 import {per0, per1, per2} from "../router/personConfig";
-import {useRouter} from "vue-router";
-import {reactive} from "vue";
+import {RouteRecordRaw, useRouter} from "vue-router";
+import {computed, reactive} from "vue";
 
 const router = useRouter()
 const exitAccount = () => {
@@ -26,6 +26,7 @@ const exitAccount = () => {
   Cookies.remove('position')
   Cookies.remove('rofessional')
   Cookies.remove('parentId')
+  Cookies.remove('id')
   router.replace("/login")
 }
 const pId = Cookies.get("parentId")
@@ -43,6 +44,13 @@ switch (pId) {
     navList = per2
     break
 }
+let filter = computed(()=> {
+  return navList.filter((item: any) => {
+    if (item.meta.hide !== true) {
+      return true
+    }
+  })
+})
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;

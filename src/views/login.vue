@@ -131,6 +131,9 @@ function submit(event: FormDataEvent) {
   })
 
   function setCookies(data: any, time: number) {
+    Cookies.set("id",data.data._id,{
+      expires: time
+    })
     Cookies.set("position", (function () {
       if (data.data.position) {
         return data.data.position.name

@@ -1,111 +1,107 @@
 <template>
   <a-card title="新建 任务/子任务">
     <div id="form">
-      <a-form :label-col="labelCol" :rules="rules">
-        <a-form-item ref="fatherTask" label="选择父任务">
-          <a-cascader :options="options" placeholder="请选择父任务" />
+      <a-form :label-col="labelCol" :rules="rules" @submit="submit">
+        <a-form-item v-if="alert">
+          <a-alert :message="alert" type="info" show-icon />
         </a-form-item>
         <a-form-item ref="fatherTaskName" label="任务名称">
-          <a-input placeholder="请输入任务名称" />
+          <a-input placeholder="请输入任务名称" v-model:value="formItem.taskname"/>
         </a-form-item>
-        <a-form-item ref="fatherTaskSchedule" label="任务占比">
-          <a-input-number :min="0" :max="100" /> % （顶级任务请留空）
+        <a-form-item ref="describe" label="任务描述">
+          <a-input placeholder="请输入任务描述" v-model:value="formItem.describe"/>
         </a-form-item>
-        <a-form-item ref="fatherTaskFinishTime" label="开始/结束日期">
-          <a-range-picker
-            :show-time="{ format: 'HH:mm' }"
-            format="YYYY-MM-DD HH:mm"
-            :placeholder="['开始时间', '结束时间']"
-            @change="onChange"
-            @ok="onOk"
-          />
+        <a-form-item ref="endtime" label="结束时间">
+          <a-date-picker  locale="CN" valueFormat="x" show-time placeholder="结束时间" v-model:value="formItem.endtime"/>
         </a-form-item>
-        <a-form-item ref="fatherTaskUser" label="派发给">
+        <a-form-item ref="taskUser" label="负责人">
           <a-select
             show-search
             placeholder="选择派发对象"
             :options="selectOption"
-            @focus="handleFocus"
-            @blur="handleBlur"
-            @change="handleChange"
+            v-model:value="formItem.taskUser"
           >
           </a-select>
         </a-form-item>
-        <a-form-item  :wrapper-col="{ span: 14, offset: 4 }">
-          <a-button type="primary">提交</a-button>
-<!--          <span style="margin-left: 5px;"></span>-->
-<!--          <a-button>切换到修改任务</a-button>-->
+        <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
+          <a-button type="primary" html-type="submit">提交</a-button>
         </a-form-item>
       </a-form>
     </div>
   </a-card>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { SelectTypes } from 'ant-design-vue/es/select';
-import { Moment } from 'moment';
-interface Option {
+import {reactive, ref} from 'vue';
+// import {SelectTypes} from 'ant-design-vue/es/select';
+import network from '../../network/index'
+import Cookies from "js-cookie";
+import { useRouter } from "vue-router"
+const router = useRouter()
+
+interface formItem {
+  taskname: string;
+  describe: string;
+  endtime: string;
+  taskUser: string;
+}
+
+let formItem = reactive<formItem>({
+  taskname: "",
+  describe: "",
+  endtime: "",
+  taskUser: ""
+})
+
+interface selectOption{
   value: string;
   label: string;
-  children?: Option[];
 }
-const options: Option[] = [
-  {
-    value: '南职七训一元一平南职七训一元一平南职七训一元一平南职七训一元一平南职七训一元一平南职七训一元一平',
-    label: '南职七训一元一平',
-    children: [
-      {
-        value: '南职七训四楼一元一平南职七训四楼一元一平南职七训四楼一元一平南职七训四楼一元一平南职七训四楼一元一平',
-        label: '南职七训四楼一元一平'
-      },
-      {
-        value: '南职七训三楼一元一平南职七训三楼一元一平南职七训三楼一元一平南职七训四楼一元一平南职七训三楼一元一平',
-        label: '南职七训三楼一元一平'
-      },
-    ],
+
+const selectOption = reactive<selectOption[]>([]);
+
+network.post("https://quanquan.asia/web/api/dean/position").then(config => {
+  let list = config.data.data
+  for (let i = 0;i < list.length;i++) {
+    selectOption.push({
+      value: list[i]._id,
+      label: list[i].name
+    })
   }
-];
+})
 
-// const fatherTaskName = ref<string>('')
-
-const onChange = (value: Moment[], dateString: string[]) => {
-  console.log('Selected Time: ', value);
-  console.log('Formatted Selected Time: ', dateString);
-};
-
-const onOk = (value: Moment[]) => {
-  console.log('onOk: ', value);
-};
-
-const selectOption = ref<SelectTypes['options']>([
-  { value: 'jack', label: 'Jack' },
-  { value: 'lucy', label: 'Lucy' },
-  { value: 'tom', label: 'Tom' },
-]);
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
-const handleBlur = () => {
-  console.log('blur');
-};
-const handleFocus = () => {
-  console.log('focus');
-};
-
-
+let alert = ref<string | null>(null);
 
 const labelCol = {
   style: {
     width: "100px"
   }
 }
-const rules = {
+const rules = {}
 
+
+const submit = (event: SubmitEvent) => {
+  alert.value = "正在处理"
+  // network.post("dean/createTask",{
+  //   task: {
+  //     taskname: formItem.taskname,
+  //     creator: Cookies.get("id"),
+  //     worker: formItem.taskUser,
+  //     describe: formItem.describe,
+  //     endtime: formItem.endtime
+  //   }
+  // }).then(config => {
+  //   console.log(config)
+  // }).catch(error => {
+  //   console.log(error)
+  // })
+  // router.push()
+  event.stopPropagation()
 }
+
 </script>
 <style lang="less" scoped>
- #form {
-   margin: 0 auto;
-   max-width: 600px;
- }
+#form {
+  margin: 0 auto;
+  max-width: 600px;
+}
 </style>
