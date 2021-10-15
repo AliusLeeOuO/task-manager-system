@@ -34,7 +34,7 @@
   resolved "https://registry.nlark.com/@babel/parser/download/@babel/parser-7.15.6.tgz?cache=0&sync_timestamp=1631216210940&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40babel%2Fparser%2Fdownload%2F%40babel%2Fparser-7.15.6.tgz#043b9aa3c303c0722e5377fef9197f4cf1796549"
   integrity sha1-BDuao8MDwHIuU3f++Rl/TPF5ZUk=
 
-"@babel/runtime@^7.10.5":
+"@babel/runtime@^7.10.5", "@babel/runtime@^7.15.4":
   version "7.15.4"
   resolved "https://registry.nlark.com/@babel/runtime/download/@babel/runtime-7.15.4.tgz#fd17d16bfdf878e6dd02d19753a39fa8a8d9c84a"
   integrity sha1-/RfRa/34eObdAtGXU6OfqKjZyEo=
@@ -408,6 +408,14 @@ async-validator@^3.3.0:
   version "3.5.2"
   resolved "https://registry.nlark.com/async-validator/download/async-validator-3.5.2.tgz?cache=0&sync_timestamp=1630393210134&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fasync-validator%2Fdownload%2Fasync-validator-3.5.2.tgz#68e866a96824e8b2694ff7a831c1a25c44d5e500"
   integrity sha1-aOhmqWgk6LJpT/eoMcGiXETV5QA=
+
+axios-retry@^3.2.2:
+  version "3.2.2"
+  resolved "https://registry.npmmirror.com/axios-retry/download/axios-retry-3.2.2.tgz#e2afca0af3392615e7938d4d17177c5a5572086f"
+  integrity sha1-4q/KCvM5JhXnk41NFxd8WlVyCG8=
+  dependencies:
+    "@babel/runtime" "^7.15.4"
+    is-retry-allowed "^2.2.0"
 
 axios@^0.21.4:
   version "0.21.4"
@@ -794,6 +802,11 @@ is-regex@^1.0.3:
   dependencies:
     call-bind "^1.0.2"
     has-tostringtag "^1.0.0"
+
+is-retry-allowed@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npm.taobao.org/is-retry-allowed/download/is-retry-allowed-2.2.0.tgz#88f34cbd236e043e71b6932d09b0c65fb7b4d71d"
+  integrity sha1-iPNMvSNuBD5xtpMtCbDGX7e01x0=
 
 is-what@^3.12.0:
   version "3.14.1"

@@ -42,6 +42,8 @@ import {useRouter} from "vue-router";
 import network from "../../network/index"
 import moment from "moment";
 import {computed, reactive, ref} from "vue";
+
+
 const router = useRouter()
 const columns = [
   {
@@ -162,20 +164,20 @@ const newTask = () => {
   router.push("/newTask")
 }
 let alert = ref<string>("")
-function alertClose () {
+
+function alertClose() {
   alert.value = ""
 }
-const confirmRemove = key => {
+
+const confirmRemove = (key: string) => {
   network.delete(`dean/deleteTask/${key}`).then(config => {
     const status = config.data
     if (status.status === 200) {
-      let filter = tableData.filter(item => {
+      tableData.splice(tableData.indexOf(tableData.filter(item => {
         if (item.key === key) {
           return true
         }
-      })[0]
-      filter = tableData.indexOf(filter)
-      tableData.splice(filter,1)
+      })[0]), 1)
       alert.value = "刪除成功"
     }
   }).catch(error => {
@@ -184,7 +186,7 @@ const confirmRemove = key => {
 }
 </script>
 <style lang="less" scoped>
-  #alert-block {
-    margin: 0 auto 10px;
-  }
+#alert-block {
+  margin: 0 auto 10px;
+}
 </style>

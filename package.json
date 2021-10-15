@@ -11,6 +11,7 @@
     "add": "^2.0.6",
     "ant-design-vue": "^2.2.7",
     "axios": "^0.21.4",
+    "axios-retry": "^3.2.2",
     "echarts": "^4.9.0",
     "js-cookie": "^3.0.1",
     "vite-plugin-components": "^0.13.3",
