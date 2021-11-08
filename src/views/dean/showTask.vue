@@ -69,7 +69,7 @@ network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`
 })
 
 function back() {
-  router.push("/dean")
+  router.go(-1)
 }
 </script>
 <style lang="less" scoped>

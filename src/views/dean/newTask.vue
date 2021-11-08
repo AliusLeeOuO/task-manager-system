@@ -9,7 +9,7 @@
           <a-input placeholder="请输入任务描述" v-model:value="formItem.describe"/>
         </a-form-item>
         <a-form-item ref="endtime" label="结束时间">
-          <a-date-picker locale="CN" valueFormat="x" show-time placeholder="结束时间" v-model:value="formItem.endtime"/>
+          <a-date-picker valueFormat="x" show-time placeholder="结束时间" v-model:value="formItem.endtime"/>
         </a-form-item>
         <a-form-item ref="taskUser" label="负责人">
           <a-select
@@ -36,7 +36,6 @@ import network from '../../network/index'
 import Cookies from "js-cookie";
 import {useRouter} from "vue-router"
 import { message } from "ant-design-vue"
-import layout from "@/store/layout";
 
 const router = useRouter()
 

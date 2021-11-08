@@ -11,23 +11,22 @@
     <a-table :columns="columns" :data-source="filterTable">
       <template #status="{ text: status }">
         <a-tag color="blue" v-if="status === 0">未开始</a-tag>
-        <a-tag color="orange" v-if="status === 1">未完成</a-tag>
-        <a-tag color="green" v-if="status === 2">已完成</a-tag>
+        <a-tag color="orange" v-else-if="status === 1">未完成</a-tag>
+        <a-tag color="green" v-else-if="status === 2">已完成</a-tag>
       </template>
       <template #schedule="{ text: schedule }">
         <a-progress :percent="schedule" status="active"/>
       </template>
       <template #action="{ record }">
-        <a href="javascript:void(0);" @click="submitTask(record.key)" v-if="!record.isChildren">查看</a>
+        <a href="javascript:void(0);" @click="submitTask(record.key)">查看</a>
         <span style="margin-left: 5px;"></span>
-        <a href="javascript:void(0);" @click="modifyTask(record.key)" v-if="!record.isChildren">修改</a>
+        <a href="javascript:void(0);" @click="modifyTask(record.key)">修改</a>
         <span style="margin-left: 5px;"></span>
         <a-popconfirm
           title="确定要删除这项任务吗？该操作无法撤回"
           ok-text="好"
           cancel-text="取消"
           @confirm="confirmRemove(record.key)"
-          v-if="!record.isChildren"
         >
           <a href="javascript:void(0);">删除</a>
         </a-popconfirm>
@@ -117,7 +116,7 @@ network.get("dean/getTasks").then(response => {
           , task: task[i].taskname
           , status: task[i].status
           , schedule: task[i].process ? task[i].process : fatherSchedule
-          , endTime: moment(task[i].endtime).format("YYYY年MM月DD日 HH:mm:ss")
+          , endTime: task[i].endtime ? moment(task[i].endtime).format("YYYY年MM月DD日 HH:mm:ss") : "未设置"
           , isChildren: true
         })
       } else {
@@ -126,7 +125,7 @@ network.get("dean/getTasks").then(response => {
           , task: task[i].taskname
           , status: task[i].status
           , schedule: task[i].process ? task[i].process : fatherSchedule
-          , endTime: moment(task[i].endtime).format("YYYY年MM月DD日 HH:mm:ss")
+          , endTime: task[i].endtime ? moment(task[i].endtime).format("YYYY年MM月DD日 HH:mm:ss") : "未设置"
         })
       }
       if (task[i].children && task[i].children.length !== 0) {

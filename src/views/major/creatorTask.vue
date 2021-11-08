@@ -1,5 +1,5 @@
 <template>
-  <a-card title="我的任务">
+  <a-card title="我创建的任务">
     <span style="margin-left: 5px;"></span>
     <a-radio-group v-model:value="showTable">
       <a-radio-button value="3">全部</a-radio-button>
@@ -105,7 +105,7 @@ function modifyTask(tName: string) {
 }
 
 network.get(`major/getTasks/${Cookies.get("id")}`).then(({data}) => {
-  let tasks = data.data.workerTask
+  let tasks = data.data.creatorTask
   // task:传进的任务对象   tableData: 表单数据
   function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, isChildren: boolean = false) {
     for (let i = 0; i < task.length; i++) {
