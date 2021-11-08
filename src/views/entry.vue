@@ -2,7 +2,7 @@
   <div>
     <v-header></v-header>
     <main>
-      <router-view></router-view>
+        <router-view></router-view>
     </main>
   </div>
 </template>
@@ -28,7 +28,7 @@ function redirect() {
         router.push("/dean")
         break
       case "1":
-        router.push("/taskkb")
+        router.push("/major")
         break
       case "2":
         router.push("/taskList")

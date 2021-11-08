@@ -1,5 +1,5 @@
 <template>
-  <a-card title="新建 任务/子任务">
+  <a-card title="修改任务">
     <div id="form">
       <a-form :label-col="labelCol" :rules="rules" @submit="submit">
         <a-form-item ref="fatherTaskName" label="任务名称">
@@ -31,13 +31,13 @@
 </template>
 <script lang="ts" setup>
 import {reactive, ref} from 'vue';
-// import {SelectTypes} from 'ant-design-vue/es/select';
 import network from '../../network/index'
 import Cookies from "js-cookie";
-import {useRouter} from "vue-router"
+import {useRoute, useRouter} from "vue-router"
 import { message } from "ant-design-vue"
 import layout from "@/store/layout";
 
+const route = useRoute()
 const router = useRouter()
 
 interface formItem {
@@ -46,6 +46,12 @@ interface formItem {
   endtime: string;
   taskUser: string;
 }
+
+network.get(`dean/getTask/${route.query.taskName}`).then(config => {
+  console.log(config)
+}).catch(error => {
+  throw error
+})
 
 let formItem = reactive<formItem>({
   taskname: "",
@@ -70,6 +76,8 @@ network.post("https://quanquan.asia/web/api/dean/position").then(config => {
     })
   }
 })
+
+
 
 const labelCol = {
   style: {
@@ -101,14 +109,14 @@ const submit = (event: SubmitEvent) => {
   }).catch(error => {
     if (error.response) {
       // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-      message.error("表单格式错误")
+      message.error("表单格式错误!")
     } else if (error.request) {
       // 请求已经成功发起，但没有收到响应
-      message.error("服务端数据请求失败")
+      message.error("服务端数据请求失败！")
       console.log(error.request);
     } else {
       // 发送请求时出了点问题
-      message.error("请求失败，致命错误")
+      message.error("请求失败，致命错误！")
       console.log('Error', error.message);
     }
   })

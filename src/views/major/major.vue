@@ -1,5 +1,8 @@
 <template>
   <a-card title="任务列表">
+    <div id="alert-block" v-if="alert">
+      <a-alert :message="alert" type="success" @close="alertClose" closable/>
+    </div>
     <a-button type="primary" @click="newTask">新建任务</a-button>
     <span style="margin-left: 5px;"></span>
     <a-radio-group v-model:value="showTable">
@@ -20,8 +23,6 @@
       <template #action="{ record }">
         <a href="javascript:void(0);" @click="submitTask(record.key)" v-if="!record.isChildren">查看</a>
         <span style="margin-left: 5px;"></span>
-        <a href="javascript:void(0);" @click="modifyTask(record.key)" v-if="!record.isChildren">修改</a>
-        <span style="margin-left: 5px;"></span>
         <a-popconfirm
           title="确定要删除这项任务吗？该操作无法撤回"
           ok-text="好"
@@ -31,6 +32,7 @@
         >
           <a href="javascript:void(0);">删除</a>
         </a-popconfirm>
+
       </template>
     </a-table>
   </a-card>
@@ -40,7 +42,7 @@ import {useRouter} from "vue-router";
 import network from "../../network/index"
 import moment from "moment";
 import {computed, reactive, ref} from "vue";
-import {message} from "ant-design-vue";
+
 
 const router = useRouter()
 const columns = [
@@ -89,16 +91,7 @@ const tableData: tableItem[] = reactive([])
 
 function submitTask(tName: string) {
   router.push({
-    path: "/showTask",
-    query: {
-      taskName: tName
-    }
-  })
-}
-
-function modifyTask(tName: string) {
-  router.push({
-    path: "/modifyTask",
+    path: "/majorShowTask",
     query: {
       taskName: tName
     }
@@ -170,10 +163,14 @@ let filterTable = computed(function () {
 const newTask = () => {
   router.push("/newTask")
 }
+let alert = ref<string>("")
 
+function alertClose() {
+  alert.value = ""
+}
 
 const confirmRemove = (key: string) => {
-  network.delete(`dean/deleteTask/${key}`).then(config => {
+  network.delete(`major/deleteTask/${key}`).then(config => {
     const status = config.data
     if (status.status === 200) {
       tableData.splice(tableData.indexOf(tableData.filter(item => {
@@ -181,7 +178,7 @@ const confirmRemove = (key: string) => {
           return true
         }
       })[0]), 1)
-      message.success('删除成功！');
+      alert.value = "刪除成功"
     }
   }).catch(error => {
     console.log(error)
@@ -189,4 +186,7 @@ const confirmRemove = (key: string) => {
 }
 </script>
 <style lang="less" scoped>
+#alert-block {
+  margin: 0 auto 10px;
+}
 </style>

@@ -1,7 +1,10 @@
 <template>
-  <div>
-    <Echarts :options="data"></Echarts>
-  </div>
+  <a-card>
+    <div>
+      <Echarts :options="data"></Echarts>
+    </div>
+  </a-card>
+
 
 </template>
 <script lang="ts" setup>

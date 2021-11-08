@@ -1,5 +1,5 @@
 import {RouteRecordRaw} from "vue-router"
-// 院长
+// dean
 const per0: Array<RouteRecordRaw> = [
   {
     path: "/dean",
@@ -27,15 +27,41 @@ const per0: Array<RouteRecordRaw> = [
       rol: "0",
       hide: true
     }
+  },{
+    path: "/modifyTask",
+    name: "modifyTask",
+    component: () => import("../views/dean/modifyTask.vue"),
+    meta: {
+      name: "更新任务",
+      rol: "0",
+      hide: true
+    }
+  },{
+    path: "/charts",
+    name: "charts",
+    component: () => import("../components/public/barCharts.vue"),
+    meta: {
+      name: "概览",
+      rol: "0"
+    }
   }
 ]
+// major
 const per1: Array<RouteRecordRaw> = [
   {
-    path: "/taskkb",
-    name: "taskkb",
-    component: () => import("../views/taskListWithkb.vue"),
+    path: "/major",
+    name: "major",
+    component: () => import("../views/major/major.vue"),
     meta: {
-      name: "分解",
+      name: "首页",
+      rol: "1"
+    }
+  },{
+    path: "/majorShowTask",
+    name: "majorShowTask",
+    component: () => import("../views/major/majorShowTask.vue"),
+    meta: {
+      name: "查看任务",
       rol: "1"
     }
   }

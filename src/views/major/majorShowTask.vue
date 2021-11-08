@@ -43,7 +43,7 @@ let isLoading = ref<boolean>(true)
 
 let fileList = reactive<fileList[]>([])
 
-network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`)
+network.get(`https://quanquan.asia/web/api/major/getTask/${route.query.taskName}`)
   .then(config => {
     console.log(config.data)
     taskTitle.value = config.data.data[0].taskname
@@ -69,7 +69,7 @@ network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`
 })
 
 function back() {
-  router.push("/dean")
+  router.push("/major")
 }
 </script>
 <style lang="less" scoped>
