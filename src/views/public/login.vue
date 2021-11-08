@@ -12,14 +12,14 @@
         </div>
         <a-form @submit="submit">
           <div class="input-block">
-            <a-input placeholder="用户名、教职工号" v-model:value="formItems.username">
+            <a-input placeholder="用户名、教职工号" v-model:value="formItems.username" style="height: 35px">
               <template #prefix>
                 <user-outlined type="user"/>
               </template>
             </a-input>
           </div>
           <div class="input-block">
-            <a-input-password placeholder="密码" v-model:value="formItems.password">
+            <a-input-password placeholder="密码" v-model:value="formItems.password" style="height: 35px">
               <template #prefix>
                 <IdcardOutlined/>
               </template>
@@ -49,10 +49,10 @@
 </template>
 <script lang="ts" setup>
 import {ref, reactive} from "vue";
-import network from "../network/index"
+import network from "../../network"
 import {IdcardOutlined, UserOutlined, WarningOutlined} from '@ant-design/icons-vue'
 import {useRouter} from "vue-router"
-import layout from "../store/layout";
+import layout from "../../store/layout";
 import Cookies from 'js-cookie'
 // 如果登录 跳转首页
 const router = useRouter();
