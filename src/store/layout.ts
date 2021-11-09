@@ -1,5 +1,5 @@
 import { reactive } from "vue";
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 interface state {
   isLogin: boolean
   loginError: string | null
@@ -10,9 +10,6 @@ const layout = {
     isLogin: false,
     loginError: null,
     token: null
-  }),
-  changeIsLogin(): void {
-    this.state.isLogin = !!Cookies.get("token")
-  }
+  })
 }
 export default layout

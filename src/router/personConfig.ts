@@ -27,6 +27,15 @@ const per0: Array<RouteRecordRaw> = [
       rol: "0",
       hide: true
     }
+  },{
+    path: "/addChildTask/:taskid",
+    name: "addChildTask",
+    component: () => import("../views/dean/addChildTask.vue"),
+    meta: {
+      name: "新建子任务",
+      rol: "0",
+      hide: true
+    }
   }, {
     path: "/charts",
     name: "charts",

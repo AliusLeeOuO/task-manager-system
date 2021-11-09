@@ -35,6 +35,7 @@ import network from '../../network/index'
 import Cookies from "js-cookie";
 import {useRoute, useRouter} from "vue-router"
 import { message } from "ant-design-vue"
+import preLoad from "../../store/preLoad";
 
 const route = useRoute()
 const router = useRouter()
@@ -46,11 +47,11 @@ interface formItem {
   taskUser: string;
 }
 
-network.get(`dean/getTask/${route.query.taskName}`).then(config => {
-  console.log(config)
-}).catch(error => {
-  throw error
-})
+// network.get(`dean/getTask/${route.query.taskName}`).then(config => {
+//   console.log(config)
+// }).catch(error => {
+//   throw error
+// })
 
 let formItem = reactive<formItem>({
   taskname: "",
@@ -65,16 +66,24 @@ interface selectOption {
 }
 
 const selectOption = reactive<selectOption[]>([]);
-
-network.post("https://quanquan.asia/web/api/dean/position").then(config => {
-  let list = config.data.data
-  for (let i = 0; i < list.length; i++) {
+if (preLoad.state.personList.length === 0) {
+  network.post("https://quanquan.asia/web/api/dean/position").then(config => {
+    let list = config.data.data
+    for (let i = 0; i < list.length; i++) {
+      selectOption.push({
+        value: list[i]._id,
+        label: list[i].name
+      })
+    }
+  })
+} else {
+  for (let i = 0; i < preLoad.state.personList.length; i++) {
     selectOption.push({
-      value: list[i]._id,
-      label: list[i].name
+      value: preLoad.state.personList[i].value,
+      label: preLoad.state.personList[i].label
     })
   }
-})
+}
 
 
 

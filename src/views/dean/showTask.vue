@@ -10,7 +10,15 @@
         <p>任务简介： {{ taskSubTitle }}</p>
         <p>创建人：{{ creator }}</p>
         <p>当前提交：{{ route.query.taskName }}</p>
-        <h3>提交的文件（点击下载）</h3>
+
+        <h3>该任务的子任务</h3>
+<!--        <a-collapse v-model:activeKey="activeKey" accordion>-->
+<!--          <a-collapse-panel key="1" header="This is panel header 1">-->
+<!--            <p>123</p>-->
+<!--          </a-collapse-panel>-->
+<!--        </a-collapse>-->
+
+        <h2>提交的文件（点击下载）</h2>
         <div>
           <File-cpn :href="item.link" :file-title="item.title" v-for="(item, index) in fileList"
                     :key="item.title"></File-cpn>
@@ -26,6 +34,7 @@ import {UploadOutlined} from '@ant-design/icons-vue';
 import {useRoute, useRouter} from "vue-router";
 import network from "../../network/index"
 import FileCpn from "../../components/public/fileData.vue"
+import moment from "moment";
 
 const route = useRoute()
 const router = useRouter()
@@ -43,11 +52,19 @@ let isLoading = ref<boolean>(true)
 
 let fileList = reactive<fileList[]>([])
 
+interface childTasks {
+  id: string
+  name: string
+  subtitle: string,
+  children?: childTasks[]
+}
+let childTasks = reactive<childTasks[]>([])
 network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`)
   .then(config => {
-    console.log(config.data)
+    // console.log(config.data)
     taskTitle.value = config.data.data[0].taskname
     taskSubTitle.value = config.data.data[0].describe
+    // 文件
     creator.value = config.data.data[0].creator ? config.data.data[0].creator.name : "无"
     if (config.data.data[0].fileAddress.length !== 0) {
       for (let i = 0; i < config.data.data[0].fileAddress.length; i++) {
@@ -63,6 +80,16 @@ network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`
       })
     }
 
+    // 子任务
+    console.log(config.data.data[0].children)
+    // for(let i = 0;i < config.data.data[0].children.length;i++) {
+    //   childTasks.push({
+    //     id: config.data.data[0].children._id,
+    //     name: config.data.data[0].children
+    //   })
+    // }
+
+
     isLoading.value = false
   }).catch(error => {
   console.log(error)
@@ -71,6 +98,9 @@ network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`
 function back() {
   router.go(-1)
 }
+
+
+const activeKey = ref([]);
 </script>
 <style lang="less" scoped>
 #form {

@@ -42,7 +42,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, form, next) => {
-  console.log(to.meta)
   document.title = `${to.meta.name ?to.meta.name : to.meta.title} | 双高任务管理系统`;
   const role = Cookies.get("token")
   if (!role && to.path !== '/login') {

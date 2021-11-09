@@ -1,5 +1,5 @@
 <template>
-  <a-card title="新建 任务/子任务">
+  <a-card title="在当前任务下新建任务">
     <div id="form">
       <a-form :label-col="labelCol" :rules="rules" @submit="submit">
         <a-form-item ref="fatherTaskName" label="任务名称">
@@ -25,29 +25,40 @@
     </div>
   </a-card>
 </template>
-<script lang="ts" setup>
-import {reactive} from 'vue';
-import preLoad from "../../store/preLoad";
-import network from '../../network/index'
-import Cookies from "js-cookie";
-import {useRouter} from "vue-router"
-import {message} from "ant-design-vue"
 
+<script lang="ts" setup>
+import {useRoute, useRouter} from "vue-router";
+import {reactive} from "vue";
+import preLoad from "../../store/preLoad";
+import network from "../../network";
+
+const route = useRoute()
 const router = useRouter()
+const taskid = route.params.taskid
+
+
+
+const labelCol = {
+  style: {
+    width: "100px"
+  }
+}
+const rules = {}
+
 
 interface formItem {
-  taskname: string;
-  describe: string;
-  endtime: string;
-  taskUser: any;
+  taskname: string,
+  describe: string,
+  endtime: string,
+  taskUser: any
 }
-
 let formItem = reactive<formItem>({
   taskname: "",
   describe: "",
   endtime: "",
   taskUser: []
 })
+
 
 let personList = preLoad.state.personList
 if (personList.length === 0) {
@@ -61,58 +72,17 @@ if (personList.length === 0) {
     }
   })
 }
-
-
-const labelCol = {
-  style: {
-    width: "100px"
-  }
-}
-const rules = {}
-
-
-const submit = (event: SubmitEvent) => {
-  message.info("正在处理，请勿离开。")
-  network.post("dean/createTask", {
-    task: {
-      taskname: formItem.taskname,
-      creator: Cookies.get("id"),
-      worker: formItem.taskUser,
-      describe: formItem.describe,
-      endtime: formItem.endtime
-    }
-  }).then(config => {
-    router.push({
-      path: "/success",
-      query: {
-        type: "创建任务",
-        title: "任务创建成功",
-        subtitle: `任务名：${formItem.taskname},结束时间：${formItem.endtime}`
-      }
-    })
-  }).catch(error => {
-    if (error.response) {
-      // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-      message.error("表单格式错误")
-    } else if (error.request) {
-      // 请求已经成功发起，但没有收到响应
-      message.error("服务端数据请求失败")
-      console.log(error.request);
-    } else {
-      // 发送请求时出了点问题
-      message.error("请求失败，致命错误")
-      console.log('Error', error.message);
-    }
-  })
-
-  event.stopPropagation()
-}
-
+console.log(preLoad.state.personList)
 const backToIndex = () => {
   router.push("/")
 }
 
+const submit = () => {
+  console.log(formItem)
+}
+
 </script>
+
 <style lang="less" scoped>
 #form {
   margin: 0 auto;
