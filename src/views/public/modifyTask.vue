@@ -31,7 +31,7 @@
 </template>
 <script lang="ts" setup>
 import {reactive} from 'vue';
-import network from '../../network/index'
+import network from '../../network'
 import Cookies from "js-cookie";
 import {useRoute, useRouter} from "vue-router"
 import { message } from "ant-design-vue"

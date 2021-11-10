@@ -1,7 +1,7 @@
 <template>
   <div id="top-buttons">
     <a-button type="primary" @click="newTask" v-if="props.newTaskBtn">新建任务</a-button>
-    <span>任务分类</span>
+    <span>任务分类（状态）</span>
     <a-radio-group v-model:value="showTable">
       <a-radio-button value="3">全部</a-radio-button>
       <a-radio-button value="0">未开始</a-radio-button>
@@ -16,18 +16,19 @@
       <a-tag color="green" v-else-if="status === 2">已完成</a-tag>
     </template>
     <template #schedule="{ text: schedule }">
-      <a-progress :percent="schedule" status="active"/>
+      <a-progress :percent="schedule"/>
     </template>
     <template #action="{ record }">
       <div id="operation-button">
         <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
-        <a href="javascript:void(0);" @click="modifyTask(record.key)">修改</a>
-        <a href="javascript:void(0);" @click="addChildTask(record.key)">新建子任务</a>
+        <a href="javascript:void(0);" @click="modifyTask(record.key)" v-if="!record.isChildren">修改</a>
+        <a href="javascript:void(0);" @click="addChildTask(record.key)" v-if="!record.isChildren">新建子任务</a>
         <a-popconfirm
           title="确定要删除这项任务吗？该操作无法撤回"
           ok-text="好"
           cancel-text="取消"
           @confirm="confirmRemove(record.key)"
+          v-if="!record.isChildren"
         >
           <a href="javascript:void(0);">删除</a>
         </a-popconfirm>
@@ -60,8 +61,7 @@ const columns = [
     , dataIndex: 'task'
     , key: 'task'
     , width: "45%"
-  },
-  {
+  }, {
     title: '状态'
     , dataIndex: 'status'
     , slots: {customRender: 'status'}
@@ -70,15 +70,13 @@ const columns = [
     title: '结束时间'
     , dataIndex: 'endTime'
     , key: 'endTime'
-  },
-  {
+  }, {
     title: '进度'
     , dataIndex: 'schedule'
     , key: 'schedule'
     , slots: {customRender: 'schedule'}
     , width: '15%'
-  },
-  {
+  }, {
     title: '操作'
     , dataIndex: 'action'
     , key: 'action'
@@ -172,12 +170,12 @@ function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, is
 
 
 // 查看
-function showTask(key: string) {
+const showTask = (key: string) => {
   router.push(`/showTask/${key}`)
 }
 
 // 修改
-function modifyTask(key: string) {
+const modifyTask = (key: string) => {
   router.push({
     path: `/modifyTask/${key}`,
     query: {
@@ -187,7 +185,7 @@ function modifyTask(key: string) {
 }
 
 //分解
-function addChildTask(key: string) {
+const addChildTask = (key: string) => {
   router.push(`/addChildTask/${key}`)
 }
 

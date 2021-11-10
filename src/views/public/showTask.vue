@@ -32,7 +32,7 @@
 import {reactive, ref} from "vue";
 import {UploadOutlined} from '@ant-design/icons-vue';
 import {useRoute, useRouter} from "vue-router";
-import network from "../../network/index"
+import network from "../../network"
 import FileCpn from "../../components/public/fileData.vue"
 // import moment from "moment";
 

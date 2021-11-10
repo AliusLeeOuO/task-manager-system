@@ -12,7 +12,7 @@ const publicRoute: Array<RouteRecordRaw> = [
   }, {
     path: "/showTask/:taskid",
     name: "showTask",
-    component: () => import("../views/dean/showTask.vue"),
+    component: () => import("../views/public/showTask.vue"),
     meta: {
       name: "显示任务",
       hide: true
@@ -20,7 +20,7 @@ const publicRoute: Array<RouteRecordRaw> = [
   }, {
     path: "/modifyTask/:taskid",
     name: "modifyTask",
-    component: () => import("../views/dean/modifyTask.vue"),
+    component: () => import("../views/public/modifyTask.vue"),
     meta: {
       name: "更新任务",
       hide: true
