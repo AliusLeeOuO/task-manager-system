@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div id="top-buttons">
     <a-button type="primary" @click="newTask" v-if="props.newTaskBtn">新建任务</a-button>
-    <span style="margin-left: 5px;"></span>
+    <span>任务分类</span>
     <a-radio-group v-model:value="showTable">
       <a-radio-button value="3">全部</a-radio-button>
       <a-radio-button value="0">未开始</a-radio-button>
@@ -19,20 +19,19 @@
       <a-progress :percent="schedule" status="active"/>
     </template>
     <template #action="{ record }">
-      <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
-      <span style="margin-left: 5px;"></span>
-      <a href="javascript:void(0);" @click="modifyTask(record.key)">修改</a>
-      <span style="margin-left: 5px;"></span>
-      <a href="javascript:void(0);" @click="addChildTask(record.key)">分解</a>
-      <span style="margin-left: 5px;"></span>
-      <a-popconfirm
-        title="确定要删除这项任务吗？该操作无法撤回"
-        ok-text="好"
-        cancel-text="取消"
-        @confirm="confirmRemove(record.key)"
-      >
-        <a href="javascript:void(0);">删除</a>
-      </a-popconfirm>
+      <div id="operation-button">
+        <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
+        <a href="javascript:void(0);" @click="modifyTask(record.key)">修改</a>
+        <a href="javascript:void(0);" @click="addChildTask(record.key)">新建子任务</a>
+        <a-popconfirm
+          title="确定要删除这项任务吗？该操作无法撤回"
+          ok-text="好"
+          cancel-text="取消"
+          @confirm="confirmRemove(record.key)"
+        >
+          <a href="javascript:void(0);">删除</a>
+        </a-popconfirm>
+      </div>
     </template>
   </a-table>
 </template>
@@ -46,7 +45,8 @@ import {message} from "ant-design-vue";
 
 const props = defineProps<{
   newTaskBtn: boolean,
-  api: string
+  api: string,
+  apiPath: string
 }>()
 
 const newTask = () => {
@@ -113,18 +113,30 @@ let filterTable = computed(function () {
   })
 })
 
-
 function refreshTask(force?: boolean) {
-  network.get(props.api).then(response => {
-    if (preLoad.state.allTasks.length === 0 || force) {
+  if (preLoad.state.allTasks.length === 0 || force) {
+    network.get(props.api).then(response => {
       preLoad.state.allTasks = []
-      let task = response.data.data.task
+      let task
+      switch (props.apiPath) {
+        // dean
+        case "response.data.data.task":
+          task = response.data.data.task
+          break
+        // major
+        case "response.data.data.workerTask":
+          task = response.data.data.workerTask
+          break
+        case "response.data.data.creatorTask":
+          task = response.data.data.creatorTask
+          break
+      }
       infinityChild(task, preLoad.state.allTasks)
-    }
-  }).catch(error => {
-    message.warn(error)
-    console.warn(error)
-  })
+    }).catch(error => {
+      message.warn(error)
+      console.warn(error)
+    })
+  }
 }
 
 
@@ -160,21 +172,16 @@ function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, is
 
 
 // 查看
-function showTask(tName: string) {
-  router.push({
-    path: "/showTask",
-    query: {
-      taskName: tName
-    }
-  })
+function showTask(key: string) {
+  router.push(`/showTask/${key}`)
 }
 
 // 修改
-function modifyTask(tName: string) {
+function modifyTask(key: string) {
   router.push({
-    path: "/modifyTask",
+    path: `/modifyTask/${key}`,
     query: {
-      taskName: tName
+      taskName: key
     }
   })
 }
@@ -183,6 +190,7 @@ function modifyTask(tName: string) {
 function addChildTask(key: string) {
   router.push(`/addChildTask/${key}`)
 }
+
 // 删除
 const confirmRemove = (key: string) => {
   network.delete(`dean/deleteTask/${key}`).then(config => {
@@ -197,3 +205,18 @@ const confirmRemove = (key: string) => {
 }
 
 </script>
+<style lang="less" scoped>
+#top-buttons {
+  margin-bottom: 10px;
+
+  & > * {
+    margin-right: 10px;
+  }
+}
+
+#operation-button {
+  & > * {
+    margin: 0 3px;
+  }
+}
+</style>

@@ -7,7 +7,7 @@
       </div>
       <div v-else>
         <h2>{{ taskTitle }}</h2>
-        <p>任务简介： {{ taskSubTitle }}</p>
+        <p>任务描述： {{ taskSubTitle }}</p>
         <p>创建人：{{ creator }}</p>
         <p>当前提交：{{ route.query.taskName }}</p>
 
@@ -34,7 +34,7 @@ import {UploadOutlined} from '@ant-design/icons-vue';
 import {useRoute, useRouter} from "vue-router";
 import network from "../../network/index"
 import FileCpn from "../../components/public/fileData.vue"
-import moment from "moment";
+// import moment from "moment";
 
 const route = useRoute()
 const router = useRouter()
@@ -43,6 +43,7 @@ let taskTitle = ref<string>("")
 let taskSubTitle = ref<string>("")
 let creator = ref<string>("")
 
+const taskid = route.params.taskid
 interface fileList {
   title: string
   link: string
@@ -58,8 +59,8 @@ interface childTasks {
   subtitle: string,
   children?: childTasks[]
 }
-let childTasks = reactive<childTasks[]>([])
-network.get(`https://quanquan.asia/web/api/dean/getTask/${route.query.taskName}`)
+// let childTasks = reactive<childTasks[]>([])
+network.get(`https://quanquan.asia/web/api/dean/getTask/${taskid}`)
   .then(config => {
     // console.log(config.data)
     taskTitle.value = config.data.data[0].taskname

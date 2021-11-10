@@ -1,5 +1,6 @@
 <template>
   <a-card title="在当前任务下新建任务">
+
     <div id="form">
       <a-form :label-col="labelCol" :rules="rules" @submit="submit">
         <a-form-item ref="fatherTaskName" label="任务名称">
@@ -13,7 +14,7 @@
         </a-form-item>
         <a-form-item ref="taskUser" label="负责人">
           <a-checkbox-group v-model:value="formItem.taskUser">
-            <a-checkbox :value="item.value" v-for="(item, index) in personList">{{ item.label }}</a-checkbox>
+            <a-checkbox :value="item.value" v-for="(item, index) in personList" :key="item.value">{{ item.label }}</a-checkbox>
           </a-checkbox-group>
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 14, offset: 4 }">

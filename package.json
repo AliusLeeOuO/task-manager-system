@@ -11,7 +11,7 @@
     "add": "^2.0.6",
     "ant-design-vue": "^2.2.8",
     "axios": "^0.24.0",
-    "axios-retry": "^3.2.3",
+    "axios-retry": "3.2.4",
     "echarts": "^4.9.0",
     "js-cookie": "^3.0.1",
     "unplugin-vue-components": "^0.17.2",
@@ -27,7 +27,7 @@
     "@vue/compiler-sfc": "^3.2.21",
     "less": "^4.1.2",
     "typescript": "^4.4.4",
-    "vite": "^2.6.13",
+    "vite": "2.6.14",
     "vue-tsc": "^0.28.10"
   }
 }
