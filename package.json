@@ -11,14 +11,11 @@
     "add": "^2.0.6",
     "ant-design-vue": "^2.2.8",
     "axios": "^0.24.0",
-    "axios-retry": "3.2.4",
+    "axios-retry": "^3.2.4",
     "echarts": "^4.9.0",
     "js-cookie": "^3.0.1",
-    "unplugin-vue-components": "^0.17.2",
-    "vite-plugin-style-import": "^1.3.0",
     "vue": "^3.2.20",
-    "vue-router": "^4.0.11",
-    "yarn": "^1.22.17"
+    "vue-router": "^4.0.11"
   },
   "devDependencies": {
     "@types/echarts": "^4.9.12",
@@ -27,7 +24,10 @@
     "@vue/compiler-sfc": "^3.2.21",
     "less": "^4.1.2",
     "typescript": "^4.4.4",
-    "vite": "2.6.14",
-    "vue-tsc": "^0.28.10"
+    "vite": "^2.6.14",
+    "vue-tsc": "^0.28.10",
+    "yarn": "^1.22.17",
+    "unplugin-vue-components": "^0.17.2",
+    "vite-plugin-style-import": "^1.3.0"
   }
 }
