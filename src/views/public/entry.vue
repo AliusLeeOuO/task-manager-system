@@ -9,7 +9,7 @@
 <script lang="ts" setup>
 
 import Cookies from "js-cookie";
-import VHeader from "../header.vue"
+import VHeader from "./header.vue"
 import {useRoute, useRouter} from "vue-router";
 import {onUpdated} from "vue";
 

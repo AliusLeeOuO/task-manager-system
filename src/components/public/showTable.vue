@@ -9,7 +9,7 @@
       <a-radio-button value="2">已完成</a-radio-button>
     </a-radio-group>
   </div>
-  <a-table :columns="columns" :data-source="filterTable">
+  <a-table :columns="columns" :data-source="filterTable" :loading="isLoading">
     <template #status="{ text: status }">
       <a-tag color="blue" v-if="status === 0">未开始</a-tag>
       <a-tag color="orange" v-else-if="status === 1">未完成</a-tag>
@@ -37,12 +37,13 @@
   </a-table>
 </template>
 <script lang="ts" setup>
-import {useRouter} from "vue-router";
+import {onBeforeRouteLeave, useRouter} from "vue-router";
 import network from "../../network/index"
 import moment from "moment";
 import {computed, ref} from "vue";
 import preLoad from "../../store/preLoad";
 import {message} from "ant-design-vue";
+
 
 const props = defineProps<{
   newTaskBtn: boolean,
@@ -53,6 +54,11 @@ const props = defineProps<{
 const newTask = () => {
   router.push("/newTask")
 }
+
+let isLoading = ref<boolean>(true)
+onBeforeRouteLeave((to, form) => {
+  isLoading.value = true
+})
 
 const router = useRouter()
 const columns = [
@@ -130,13 +136,15 @@ function refreshTask(force?: boolean) {
           break
       }
       infinityChild(task, preLoad.state.allTasks)
+      isLoading.value = false
     }).catch(error => {
       message.warn(error)
       console.warn(error)
     })
+  } else {
+    isLoading.value = false
   }
 }
-
 
 // task:传进的任务对象   tableData: 表单数据
 function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, isChildren: boolean = false) {

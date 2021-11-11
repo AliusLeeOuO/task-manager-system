@@ -12,12 +12,7 @@
         <p>当前提交：{{ route.query.taskName }}</p>
 
         <h3>该任务的子任务</h3>
-<!--        <a-collapse v-model:activeKey="activeKey" accordion>-->
-<!--          <a-collapse-panel key="1" header="This is panel header 1">-->
-<!--            <p>123</p>-->
-<!--          </a-collapse-panel>-->
-<!--        </a-collapse>-->
-
+<!--          <show-table></show-table>-->
         <h2>提交的文件（点击下载）</h2>
         <div>
           <File-cpn :href="item.link" :file-title="item.title" v-for="(item, index) in fileList"
@@ -33,8 +28,8 @@ import {reactive, ref} from "vue";
 import {UploadOutlined} from '@ant-design/icons-vue';
 import {useRoute, useRouter} from "vue-router";
 import network from "../../network"
+import ShowTable from "../../components/public/showTable.vue"
 import FileCpn from "../../components/public/fileData.vue"
-// import moment from "moment";
 
 const route = useRoute()
 const router = useRouter()
@@ -62,7 +57,6 @@ interface childTasks {
 // let childTasks = reactive<childTasks[]>([])
 network.get(`https://quanquan.asia/web/api/dean/getTask/${taskid}`)
   .then(config => {
-    // console.log(config.data)
     taskTitle.value = config.data.data[0].taskname
     taskSubTitle.value = config.data.data[0].describe
     // 文件
@@ -82,7 +76,7 @@ network.get(`https://quanquan.asia/web/api/dean/getTask/${taskid}`)
     }
 
     // 子任务
-    console.log(config.data.data[0].children)
+    // console.log(config.data.data[0].children)
     // for(let i = 0;i < config.data.data[0].children.length;i++) {
     //   childTasks.push({
     //     id: config.data.data[0].children._id,
