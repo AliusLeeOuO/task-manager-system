@@ -50,7 +50,6 @@ const props = defineProps<{
   api: string,
   apiPath: string
 }>()
-
 const newTask = () => {
   router.push("/newTask")
 }
@@ -198,7 +197,7 @@ const addChildTask = (key: string) => {
 }
 
 // 删除
-const confirmRemove = (key: string) => {
+const confirmRemove = (key: string):void => {
   network.delete(`dean/deleteTask/${key}`).then(config => {
     const status = config.data
     if (status.status === 200) {

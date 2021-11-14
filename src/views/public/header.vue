@@ -3,11 +3,12 @@
     <div id="header-left">
       <div id="header-logo">双高任务管理系统</div>
       <nav>
-        <nav-block :to="item.path" :nav-title="item.meta.name" v-for="(item, index) in filter" :key="item.path"></nav-block>
+        <nav-block :to="item.path" :nav-title="item.meta.name" v-for="(item, index) in filter"
+                   :key="item.path"></nav-block>
       </nav>
     </div>
     <div id="header-right">
-      <span>{{ position }}  {{ rofessional }}</span>
+      <span>{{ userInfo }}</span>
       &nbsp;&nbsp;
       <a href="javascript:void(0);" @click="exitAccount">退出</a>
     </div>
@@ -17,7 +18,7 @@
 import NavBlock from "../../components/header/nav-block.vue"
 import Cookies from 'js-cookie'
 import {per0, per1, per2} from "../../router/personConfig";
-import {RouteRecordRaw, useRouter} from "vue-router";
+import {useRouter} from "vue-router";
 import {computed, reactive} from "vue";
 import preLoad from "../../store/preLoad";
 
@@ -25,17 +26,15 @@ const router = useRouter()
 const exitAccount = () => {
   router.replace("/login")
   Cookies.remove('token')
-  Cookies.remove('position')
-  Cookies.remove('rofessional')
+  Cookies.remove('user')
   Cookies.remove('parentId')
   Cookies.remove('id')
   preLoad.state.personList = []
   preLoad.state.allTasks = []
 }
 const pId = Cookies.get("parentId")
-const position = Cookies.get("position")
-const rofessional = Cookies.get("rofessional")
-let navList = reactive<RouteRecordRaw[]>([])
+const userInfo = Cookies.get("user")
+let navList = reactive<any>([])
 switch (pId) {
   case "0":
     navList = per0
@@ -47,9 +46,7 @@ switch (pId) {
     navList = per2
     break
 }
-let filter = computed(() => {
-  return navList.filter((item: any) => !item.meta.hide)
-})
+let filter = computed(() => navList.filter((item: any) => !item.meta.hide))
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;
@@ -58,7 +55,7 @@ header {
   overflow: hidden;
   background-color: #fff;
   height: @nav-height;
-  box-shadow: rgb(240, 241, 242) 0 2px 8px 0;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   padding: 0 15px;
   display: flex;
   justify-content: space-between;

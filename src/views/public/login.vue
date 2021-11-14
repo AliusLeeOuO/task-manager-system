@@ -130,30 +130,34 @@ function submit(event: FormDataEvent) {
     Cookies.set("id", data.data._id, {
       expires: time
     })
-    Cookies.set("position", (function () {
-      if (data.data.position) {
-        return data.data.position.name
-      } else {
-        return " "
-      }
-    })(), {
-      expires: time
-    })
-    Cookies.set("rofessional", (function () {
-      if (data.data.rofessional) {
-        return data.data.rofessional.name
-      } else {
-        return " "
-      }
-    })(), {
-      expires: time
-    })
+
     Cookies.set("token", data.token, {
       expires: time
     })
+
     Cookies.set("parentId", data.data.parentId, {
       expires: time
     })
+
+    Cookies.set(
+      "user",
+      userInfo(data.data.position ? data.data.position.name : undefined, data.data.rofessional ? data.data.rofessional.name : undefined, data.data.name),
+      {
+        expires: time
+      }
+    )
+
+    function userInfo(a?: string, b?: string, c?: string) {
+      let userInfo = ""
+      for(let i = 0;i < arguments.length;i++) {
+        userInfo += arguments[i]
+        if (i + 1 === arguments.length) {
+          continue;
+        }
+        userInfo += " - "
+      }
+      return userInfo
+    }
   }
 
   event.stopPropagation()

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="global">
     <v-header></v-header>
     <main>
         <router-view></router-view>
@@ -45,6 +45,9 @@ redirect()
 <style lang="less" scoped>
 @max-width: 1400px;
 @gutter: 30px;
+#global {
+  background-color: #E6ECF0;
+}
 main {
   max-width: @max-width;
   margin: 80px auto 0;

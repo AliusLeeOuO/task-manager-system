@@ -77,12 +77,12 @@ if (preLoad.state.personList.length === 0) {
     }
   })
 } else {
-  for (let i = 0; i < preLoad.state.personList.length; i++) {
+  preLoad.state.personList.forEach(item => {
     selectOption.push({
-      value: preLoad.state.personList[i].value,
-      label: preLoad.state.personList[i].label
+      value: item.value,
+      label: item.label
     })
-  }
+  });
 }
 
 
