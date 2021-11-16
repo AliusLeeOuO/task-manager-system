@@ -20,18 +20,23 @@
     </template>
     <template #action="{ record }">
       <div id="operation-button">
-        <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
-        <a href="javascript:void(0);" @click="modifyTask(record.key)" v-if="!record.isChildren">修改</a>
-        <a href="javascript:void(0);" @click="addChildTask(record.key)" v-if="!record.isChildren">新建子任务</a>
-        <a-popconfirm
-          title="确定要删除这项任务吗？该操作无法撤回"
-          ok-text="好"
-          cancel-text="取消"
-          @confirm="confirmRemove(record.key)"
-          v-if="!record.isChildren"
-        >
-          <a href="javascript:void(0);">删除</a>
-        </a-popconfirm>
+        <div v-if="manager()">
+          <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
+          <a href="javascript:void(0);" @click="modifyTask(record.key)" v-if="!record.isChildren">修改</a>
+          <a href="javascript:void(0);" @click="addChildTask(record.key)" v-if="!record.isChildren">新建子任务</a>
+          <a-popconfirm
+            title="确定要删除这项任务吗？该操作无法撤回"
+            ok-text="好"
+            cancel-text="取消"
+            @confirm="confirmRemove(record.key)"
+            v-if="!record.isChildren"
+          >
+            <a href="javascript:void(0);">删除</a>
+          </a-popconfirm>
+        </div>
+        <div v-else>
+          <a href="javascript:void(0);">提交进度</a>
+        </div>
       </div>
     </template>
   </a-table>
@@ -116,6 +121,10 @@ let filterTable = computed(function () {
   })
 })
 
+const manager = () => {
+  return props.apiPath === "response.data.data.task" || props.apiPath === "response.data.data.creatorTask";
+}
+
 function refreshTask(force?: boolean) {
   if (preLoad.state.allTasks.length === 0 || force) {
     network.get(props.api).then(response => {
@@ -137,8 +146,7 @@ function refreshTask(force?: boolean) {
       infinityChild(task, preLoad.state.allTasks)
       isLoading.value = false
     }).catch(error => {
-      message.warn(error)
-      console.warn(error)
+      console.log(error)
     })
   } else {
     isLoading.value = false
@@ -197,7 +205,7 @@ const addChildTask = (key: string) => {
 }
 
 // 删除
-const confirmRemove = (key: string):void => {
+const confirmRemove = (key: string): void => {
   network.delete(`dean/deleteTask/${key}`).then(config => {
     const status = config.data
     if (status.status === 200) {
@@ -220,8 +228,10 @@ const confirmRemove = (key: string):void => {
 }
 
 #operation-button {
-  & > * {
-    margin: 0 3px;
+  & > div {
+    & > * {
+      margin: 0 3px;
+    }
   }
 }
 </style>

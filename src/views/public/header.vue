@@ -20,17 +20,11 @@ import Cookies from 'js-cookie'
 import {per0, per1, per2} from "../../router/personConfig";
 import {useRouter} from "vue-router";
 import {computed, reactive} from "vue";
-import preLoad from "../../store/preLoad";
+import layout from "../../store/layout";
 
 const router = useRouter()
 const exitAccount = () => {
-  router.replace("/login")
-  Cookies.remove('token')
-  Cookies.remove('user')
-  Cookies.remove('parentId')
-  Cookies.remove('id')
-  preLoad.state.personList = []
-  preLoad.state.allTasks = []
+  layout.mutation.logout()
 }
 const pId = Cookies.get("parentId")
 const userInfo = Cookies.get("user")

@@ -67,7 +67,7 @@ interface selectOption {
 
 const selectOption = reactive<selectOption[]>([]);
 if (preLoad.state.personList.length === 0) {
-  network.post("https://quanquan.asia/web/api/dean/position").then(config => {
+  network.post("dean/position").then(config => {
     let list = config.data.data
     for (let i = 0; i < list.length; i++) {
       selectOption.push({
