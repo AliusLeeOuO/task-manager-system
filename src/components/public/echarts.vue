@@ -4,15 +4,12 @@
 <script lang="ts" setup>
 import {ref, onMounted, watch, toRefs} from "vue";
 import * as echarts from "echarts";
+import {EChartOption} from 'echarts'
 
 const props = defineProps<{
-  options: {
-    type: Object,
-    default: {},
-    required: true,
-  },
+  options: EChartOption
 }>();
-const { options } = toRefs(props);
+const {options} = toRefs(props);
 const container = ref<any>(null);
 const chart = ref<any>(null);
 
@@ -25,7 +22,7 @@ watch(
   (newOptions) => {
     chart.value.setOption(newOptions);
   },
-  { deep: true }
+  {deep: true}
 );
 </script>
 <style lang="less" scoped>

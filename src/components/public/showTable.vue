@@ -45,25 +45,27 @@
 import {onBeforeRouteLeave, useRouter} from "vue-router";
 import network from "../../network/index"
 import moment from "moment";
-import {computed, ref} from "vue";
+import {computed, reactive, ref} from "vue";
 import preLoad from "../../store/preLoad";
 import {message} from "ant-design-vue";
-
 
 const props = defineProps<{
   newTaskBtn: boolean,
   api: string,
   apiPath: string
 }>()
+
+const container = props.apiPath === "response.data.data.task" || props.apiPath === "response.data.data.creatorTask" ?
+  preLoad.state.manageTasks : preLoad.state.myTasks
+
+
 const newTask = () => {
   router.push("/newTask")
 }
-
 let isLoading = ref<boolean>(true)
 onBeforeRouteLeave((to, form) => {
   isLoading.value = true
 })
-
 const router = useRouter()
 const columns = [
   {
@@ -93,12 +95,10 @@ const columns = [
     , slots: {customRender: 'action'}
   }
 ]
-
 refreshTask()
-
 let showTable = ref<string>("3")
 let filterTable = computed(function () {
-  return preLoad.state.allTasks.filter(item => {
+  return container.filter((item: any) => {
     switch (showTable.value) {
       case "2":
         if (item.status === 2) {
@@ -120,15 +120,14 @@ let filterTable = computed(function () {
     }
   })
 })
-
 const manager = () => {
   return props.apiPath === "response.data.data.task" || props.apiPath === "response.data.data.creatorTask";
 }
 
 function refreshTask(force?: boolean) {
-  if (preLoad.state.allTasks.length === 0 || force) {
+  if (container.length === 0 || force) {
     network.get(props.api).then(response => {
-      preLoad.state.allTasks = []
+      container.splice(0, container.length)
       let task
       switch (props.apiPath) {
         // dean
@@ -143,7 +142,7 @@ function refreshTask(force?: boolean) {
           task = response.data.data.creatorTask
           break
       }
-      infinityChild(task, preLoad.state.allTasks)
+      infinityChild(task, container)
       isLoading.value = false
     }).catch(error => {
       console.log(error)
@@ -183,12 +182,10 @@ function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, is
   }
 }
 
-
 // 查看
 const showTask = (key: string) => {
   router.push(`/showTask/${key}`)
 }
-
 // 修改
 const modifyTask = (key: string) => {
   router.push({
@@ -198,12 +195,10 @@ const modifyTask = (key: string) => {
     }
   })
 }
-
 //分解
 const addChildTask = (key: string) => {
   router.push(`/addChildTask/${key}`)
 }
-
 // 删除
 const confirmRemove = (key: string): void => {
   network.delete(`dean/deleteTask/${key}`).then(config => {
@@ -216,7 +211,6 @@ const confirmRemove = (key: string): void => {
     console.log(error)
   })
 }
-
 </script>
 <style lang="less" scoped>
 #top-buttons {

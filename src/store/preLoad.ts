@@ -2,7 +2,8 @@ import { reactive } from "vue";
 import network from "../network";
 interface state {
   personList: Array<personList>
-  allTasks: Array<childrenTask>
+  manageTasks: Array<childrenTask>
+  myTasks: Array<childrenTask>
 }
 interface personList {
   label: string,
@@ -20,7 +21,8 @@ interface childrenTask {
 const preLoad = {
   state: reactive<state>({
     personList: [],
-    allTasks: []
+    manageTasks: [],
+    myTasks: []
   }),
   mutation: {
     preLoadPerson(apiPath: string) {
