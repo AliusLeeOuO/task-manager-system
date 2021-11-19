@@ -24,9 +24,11 @@ const layout = {
       Cookies.remove('user')
       Cookies.remove('parentId')
       Cookies.remove('id')
-      preLoad.state.personList = preLoad.state.personList.splice(0, preLoad.state.personList.length)
-      preLoad.state.manageTasks = preLoad.state.manageTasks.splice(0, preLoad.state.manageTasks.length)
-      preLoad.state.myTasks = preLoad.state.myTasks.splice(0, preLoad.state.myTasks.length)
+      preLoad.state.personList.splice(0, preLoad.state.personList.length)
+      preLoad.state.manageTasks.splice(0, preLoad.state.manageTasks.length)
+      preLoad.state.myTasks.splice(0, preLoad.state.myTasks.length)
+      preLoad.state.examineList.splice(0,preLoad.state.examineList.length)
+      preLoad.state.navList.splice(0, preLoad.state.navList.length)
     }
   })
 }

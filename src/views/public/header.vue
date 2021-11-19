@@ -4,7 +4,7 @@
       <div id="header-logo">双高任务管理系统</div>
       <nav>
         <nav-block :to="item.path" :nav-title="item.meta.name" v-for="(item, index) in filter"
-                   :key="item.path"></nav-block>
+                   :key="item.path" :alert-count="item.meta.count?item.meta.count:undefined"></nav-block>
       </nav>
     </div>
     <div id="header-right">
@@ -18,9 +18,11 @@
 import NavBlock from "../../components/header/nav-block.vue"
 import Cookies from 'js-cookie'
 import {per0, per1, per2} from "../../router/personConfig";
+import publicRoute from "../../router/publicRoute";
 import {useRouter} from "vue-router";
-import {computed, reactive} from "vue";
+import {computed} from "vue";
 import layout from "../../store/layout";
+import preLoad from "../../store/preLoad";
 
 const router = useRouter()
 const exitAccount = () => {
@@ -28,19 +30,36 @@ const exitAccount = () => {
 }
 const pId = Cookies.get("parentId")
 const userInfo = Cookies.get("user")
-let navList = reactive<any>([])
 switch (pId) {
   case "0":
-    navList = per0
+    for (let i in per0) {
+      preLoad.state.navList.push(per0[i])
+    }
     break
   case "1":
-    navList = per1
+    for (let i in per1) {
+      preLoad.state.navList.push(per1[i])
+    }
     break
   case "2":
-    navList = per2
+    for (let i in per2) {
+      preLoad.state.navList.push(per2[i])
+    }
     break
 }
-let filter = computed(() => navList.filter((item: any) => !item.meta.hide))
+for (let i in publicRoute) {
+  preLoad.state.navList.push(publicRoute[i])
+}
+
+let filter = computed(() => {
+  return preLoad.state.navList.filter((item: any) => {
+    if (item.name === "examine") {
+      item.meta.count = preLoad.state.examineList.length
+    }
+    return !item.meta.hide
+  })
+})
+preLoad.mutation.refreshExamine()
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;

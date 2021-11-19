@@ -128,11 +128,13 @@ function submit(event: FormDataEvent) {
 
   function setCookies(data: any, time: number) {
     Cookies.set("id", data.data._id, {
-      expires: time
+      expires: time,
+      secure: true
     })
 
     Cookies.set("token", data.token, {
-      expires: time
+      expires: time,
+      secure: true
     })
 
     Cookies.set("parentId", data.data.parentId, {

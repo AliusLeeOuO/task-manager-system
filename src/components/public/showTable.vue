@@ -46,7 +46,6 @@
           <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
           <a href="javascript:void(0);" @click="addChildTask(record.key)" v-if="!record.isChildren">新建子任务</a>
           <a href="javascript:void(0);" v-if="!record.isChildren">提交材料</a>
-<!--          <span v-else>请提交子任务</span>-->
         </div>
       </div>
     </template>
