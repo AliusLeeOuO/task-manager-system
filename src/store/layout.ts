@@ -8,14 +8,12 @@ import {message} from "ant-design-vue";
 interface state {
   isLogin: boolean
   loginError: string | null
-  token: string | null
 }
 
 const layout = {
   state: reactive<state>({
     isLogin: false,
-    loginError: null,
-    token: null
+    loginError: null
   }),
   mutation: reactive({
     logout() {

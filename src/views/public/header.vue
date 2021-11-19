@@ -57,7 +57,6 @@ header {
   position: fixed;
   width: 100vw;
   top: 0;
-  transition: 0.3s;
   z-index: 2;
 
   & > * {

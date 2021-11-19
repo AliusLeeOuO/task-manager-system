@@ -1,14 +1,17 @@
-import { reactive } from "vue";
+import {reactive} from "vue";
 import network from "../network";
+
 interface state {
   personList: Array<personList>
   manageTasks: Array<childrenTask>
   myTasks: Array<childrenTask>
 }
+
 interface personList {
   label: string,
   value: string
 }
+
 interface childrenTask {
   key: string
   task: string
@@ -18,6 +21,7 @@ interface childrenTask {
   endTime: string
   children?: childrenTask[]
 }
+
 const preLoad = {
   state: reactive<state>({
     personList: [],

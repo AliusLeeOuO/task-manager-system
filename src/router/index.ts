@@ -2,6 +2,7 @@ import {createRouter, createWebHistory, RouteRecordRaw} from "vue-router";
 import Cookies from "js-cookie";
 import {per0, per1, per2} from "./personConfig";
 import publicRoute from "./publicRoute";
+
 const routerHistory = createWebHistory()
 
 const routes: Array<RouteRecordRaw> = [
@@ -42,16 +43,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, form, next) => {
-  document.title = `${to.meta.name ?to.meta.name : to.meta.title} | 双高任务管理系统`;
+  document.title = `${to.meta.name ? to.meta.name : to.meta.title} | 双高任务管理系统`;
   const role = Cookies.get("token")
   if (!role && to.path !== '/login') {
     next("/login")
-  } else {
-    if (to.meta.rol === undefined || to.meta.rol === Cookies.get("parentId")) {
-      next()
-    } else if (to.meta.rol !== Cookies.get("parentId")) {
-      next("/403")
-    }
+  } else if (to.meta.rol === undefined || to.meta.rol === Cookies.get("parentId")) {
+    next()
+  } else if (to.meta.rol !== Cookies.get("parentId")) {
+    next("/403")
   }
 })
 

@@ -1,19 +1,28 @@
 <template>
   <div id="top-buttons">
-    <a-button type="primary" @click="newTask" v-if="props.newTaskBtn">新建任务</a-button>
-    <span>任务分类（状态）</span>
-    <a-radio-group v-model:value="showTable">
-      <a-radio-button value="3">全部</a-radio-button>
-      <a-radio-button value="0">未开始</a-radio-button>
-      <a-radio-button value="1">未完成</a-radio-button>
-      <a-radio-button value="2">已完成</a-radio-button>
-    </a-radio-group>
+    <div id="buttons">
+      <a-button type="primary" @click="newTask" v-if="props.newTaskBtn">新建任务</a-button>
+      <span>任务分类（状态）</span>
+      <a-radio-group v-model:value="showTable">
+        <a-radio-button value="3">全部</a-radio-button>
+        <a-radio-button value="0">未开始</a-radio-button>
+        <a-radio-button value="1">未完成</a-radio-button>
+        <a-radio-button value="2">已完成</a-radio-button>
+      </a-radio-group>
+    </div>
+    <div id="search">
+      <a-input-search
+        placeholder="输入以搜索任务..."
+        style="width: 200px"
+      />
+    </div>
   </div>
   <a-table :columns="columns" :data-source="filterTable" :loading="isLoading">
     <template #status="{ text: status }">
       <a-tag color="blue" v-if="status === 0">未开始</a-tag>
       <a-tag color="orange" v-else-if="status === 1">未完成</a-tag>
       <a-tag color="green" v-else-if="status === 2">已完成</a-tag>
+      <a-tag v-else>未知</a-tag>
     </template>
     <template #schedule="{ text: schedule }">
       <a-progress :percent="schedule"/>
@@ -23,7 +32,6 @@
         <div v-if="manager()">
           <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
           <a href="javascript:void(0);" @click="modifyTask(record.key)" v-if="!record.isChildren">修改</a>
-          <a href="javascript:void(0);" @click="addChildTask(record.key)" v-if="!record.isChildren">新建子任务</a>
           <a-popconfirm
             title="确定要删除这项任务吗？该操作无法撤回"
             ok-text="好"
@@ -35,7 +43,10 @@
           </a-popconfirm>
         </div>
         <div v-else>
-          <a href="javascript:void(0);">提交进度</a>
+          <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
+          <a href="javascript:void(0);" @click="addChildTask(record.key)" v-if="!record.isChildren">新建子任务</a>
+          <a href="javascript:void(0);" v-if="!record.isChildren">提交材料</a>
+<!--          <span v-else>请提交子任务</span>-->
         </div>
       </div>
     </template>
@@ -178,6 +189,8 @@ function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, is
       let childTask = task[i].children
       let childTable = tableData[i].children
       infinityChild(childTask, childTable, task[i].process, true)
+    } else {
+      tableData[tableData.length - 1].lastTask = true
     }
   }
 }
@@ -215,7 +228,9 @@ const confirmRemove = (key: string): void => {
 <style lang="less" scoped>
 #top-buttons {
   margin-bottom: 10px;
-
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px;
   & > * {
     margin-right: 10px;
   }
