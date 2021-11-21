@@ -12,8 +12,10 @@
     </div>
     <div id="search">
       <a-input-search
-        placeholder="输入以搜索任务..."
+        placeholder="输入以搜索顶级任务..."
         style="width: 200px"
+        v-model:value="searchString"
+        @search="onSearch"
       />
     </div>
   </div>
@@ -30,22 +32,22 @@
     <template #action="{ record }">
       <div id="operation-button">
         <div v-if="manager()">
-          <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
-          <a href="javascript:void(0);" @click="modifyTask(record.key)" v-if="!record.isChildren">修改</a>
+          <a href="javascript:void(0);" @click="showTask(record.id)">查看</a>
+          <a href="javascript:void(0);" @click="modifyTask(record.id)" v-if="!record.isChildren">修改</a>
           <a-popconfirm
             title="确定要删除这项任务吗？该操作无法撤回"
             ok-text="好"
             cancel-text="取消"
-            @confirm="confirmRemove(record.key)"
+            @confirm="confirmRemove(record.id)"
             v-if="!record.isChildren"
           >
             <a href="javascript:void(0);">删除</a>
           </a-popconfirm>
         </div>
         <div v-else>
-          <a href="javascript:void(0);" @click="showTask(record.key)">查看</a>
-          <a href="javascript:void(0);" @click="addChildTask(record.key)" v-if="!record.isChildren">新建子任务</a>
-          <a href="javascript:void(0);" v-if="!record.isChildren">提交材料</a>
+          <a href="javascript:void(0);" @click="showTask(record.id)">查看</a>
+          <a href="javascript:void(0);" @click="addChildTask(record.id)" v-if="!record.isChildren">新建子任务</a>
+          <a href="javascript:void(0);" @click="submitTask(record.id)" v-if="!record.isChildren">提交材料</a>
         </div>
       </div>
     </template>
@@ -53,9 +55,9 @@
 </template>
 <script lang="ts" setup>
 import {onBeforeRouteLeave, useRouter} from "vue-router";
-import network from "../../network/index"
+import xhr from "../../xhr/index"
 import moment from "moment";
-import {computed, reactive, ref} from "vue";
+import {computed, ref} from "vue";
 import preLoad from "../../store/preLoad";
 import {message} from "ant-design-vue";
 
@@ -106,37 +108,50 @@ const columns = [
   }
 ]
 refreshTask()
+
+// 过滤器
 let showTable = ref<string>("3")
-let filterTable = computed(function () {
+let searchString = ref<string>('')
+const onSearch = (searchValue: string) => {
+  console.log(`search ${searchValue}`)
+}
+const filterTable = computed(function () {
+  // let search = computed(() => {
+  //   return container.filter(i => i.task.indexOf(searchString.value) !== -1)
+  // })
   return container.filter((item: any) => {
     switch (showTable.value) {
       case "2":
-        if (item.status === 2) {
+        if (item.status === 2 && item.task.indexOf(searchString.value) !== -1) {
           return true
         }
         break
       case "1":
-        if (item.status === 1) {
+        if (item.status === 1 && item.task.indexOf(searchString.value) !== -1) {
           return true
         }
         break
       case "0":
-        if (item.status === 0) {
+        if (item.status === 0 && item.task.indexOf(searchString.value) !== -1) {
           return true
         }
         break
       case "3":
-        return true
+        if (item.task.indexOf(searchString.value) !== -1)
+          return true
     }
   })
 })
+//搜索框
+
+
 const manager = () => {
   return props.apiPath === "response.data.data.task" || props.apiPath === "response.data.data.creatorTask";
 }
 
 function refreshTask(force?: boolean) {
   if (container.length === 0 || force) {
-    network.get(props.api).then(response => {
+    xhr.get(props.api).then(response => {
       container.splice(0, container.length)
       let task
       switch (props.apiPath) {
@@ -162,12 +177,16 @@ function refreshTask(force?: boolean) {
   }
 }
 
+let keyIndex: number = 0
+
 // task:传进的任务对象   tableData: 表单数据
 function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, isChildren: boolean = false) {
   for (let i = 0; i < task.length; i++) {
+    keyIndex++
     if (isChildren) {
       tableData.push({
-        key: task[i]._id
+        key: keyIndex
+        , id: task[i]._id
         , task: task[i].taskname
         , status: task[i].status
         , schedule: task[i].process ? task[i].process : fatherSchedule
@@ -176,7 +195,8 @@ function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, is
       })
     } else {
       tableData.push({
-        key: task[i]._id
+        key: keyIndex
+        , id: task[i]._id
         , task: task[i].taskname
         , status: task[i].status
         , schedule: task[i].process ? task[i].process : fatherSchedule
@@ -193,6 +213,7 @@ function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, is
     }
   }
 }
+
 
 // 查看
 const showTask = (key: string) => {
@@ -211,9 +232,13 @@ const modifyTask = (key: string) => {
 const addChildTask = (key: string) => {
   router.push(`/addChildTask/${key}`)
 }
+// 提交任务
+const submitTask = (key: string) => {
+  router.push(`/submit/${key}`)
+}
 // 删除
 const confirmRemove = (key: string): void => {
-  network.delete(`dean/deleteTask/${key}`).then(config => {
+  xhr.delete(`dean/deleteTask/${key}`).then(config => {
     const status = config.data
     if (status.status === 200) {
       refreshTask(true)
@@ -223,6 +248,7 @@ const confirmRemove = (key: string): void => {
     console.log(error)
   })
 }
+
 </script>
 <style lang="less" scoped>
 #top-buttons {
@@ -230,6 +256,7 @@ const confirmRemove = (key: string): void => {
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
+
   & > * {
     margin-right: 10px;
   }

@@ -28,7 +28,7 @@
 <script lang="ts" setup>
 import {reactive} from 'vue';
 import preLoad from "../../store/preLoad";
-import network from '../../network/index'
+import network from '../../xhr/index'
 import Cookies from "js-cookie";
 import {useRouter} from "vue-router"
 import {message} from "ant-design-vue"

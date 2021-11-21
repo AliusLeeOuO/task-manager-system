@@ -7,7 +7,7 @@
 </template>
 <script lang="ts" setup>
 import Echarts from "./echarts.vue"
-import network from "../../network"
+import network from "../../xhr"
 import {EChartOption} from 'echarts'
 import {reactive} from "vue";
 

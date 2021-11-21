@@ -24,7 +24,7 @@
 import {reactive, ref} from "vue";
 import {UploadOutlined} from '@ant-design/icons-vue';
 import {useRoute, useRouter} from "vue-router";
-import network from "../../network"
+import network from "../../xhr"
 import FileCpn from "../../components/public/fileData.vue"
 
 const route = useRoute()

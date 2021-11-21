@@ -55,6 +55,14 @@ const publicRoute: Array<RouteRecordRaw> = [
       name: "审核任务",
       hide: true
     }
+  },{
+    path: "/submit/:taskid",
+    name: "submit",
+    component: () => import("../views/public/submit.vue"),
+    meta: {
+      name: "提交进度",
+      hide: true
+    }
   }
 ]
 export default publicRoute

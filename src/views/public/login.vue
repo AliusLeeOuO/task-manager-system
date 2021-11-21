@@ -49,7 +49,7 @@
 </template>
 <script lang="ts" setup>
 import {ref, reactive} from "vue";
-import network from "../../network"
+import network from "../../xhr"
 import {IdcardOutlined, UserOutlined, WarningOutlined} from '@ant-design/icons-vue'
 import {useRouter} from "vue-router"
 import layout from "../../store/layout";

@@ -31,7 +31,7 @@
 </template>
 <script lang="ts" setup>
 import {reactive} from 'vue';
-import network from '../../network'
+import network from '../../xhr'
 import Cookies from "js-cookie";
 import {useRoute, useRouter} from "vue-router"
 import { message } from "ant-design-vue"
@@ -47,7 +47,7 @@ interface formItem {
   taskUser: string;
 }
 
-// network.get(`dean/getTask/${route.query.taskName}`).then(config => {
+// xhr.get(`dean/getTask/${route.query.taskName}`).then(config => {
 //   console.log(config)
 // }).catch(error => {
 //   throw error

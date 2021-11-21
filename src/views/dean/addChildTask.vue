@@ -31,7 +31,7 @@
 import {useRoute, useRouter} from "vue-router";
 import {reactive} from "vue";
 import preLoad from "../../store/preLoad";
-import network from "../../network";
+import network from "../../xhr";
 
 const route = useRoute()
 const router = useRouter()

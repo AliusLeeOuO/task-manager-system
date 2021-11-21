@@ -34,11 +34,10 @@ interface file {
   url: string
 }
 
-let props = defineProps<{
+const props = defineProps<{
   file: fileList[]
 }>()
 
-console.log(props.file)
 const activeKey = ref([]);
 const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 </script>

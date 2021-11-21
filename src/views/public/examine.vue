@@ -8,7 +8,7 @@
         <a-tag v-else>未知</a-tag>
       </template>
       <template #operation="{ record }">
-        <a href="javascript:void(0);" @click="operation(record.key)">查看并审核</a>
+        <a href="javascript:void(0);" @click="operation(record.key)" v-if="record.status === 0">查看并审核</a>
       </template>
     </a-table>
   </a-card>

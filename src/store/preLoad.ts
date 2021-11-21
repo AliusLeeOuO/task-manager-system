@@ -1,14 +1,15 @@
 import {reactive} from "vue";
-import network from "../network";
+import xhr from "../xhr";
 import Cookies from "js-cookie";
 import moment from "moment";
+import {RouteRecordRaw} from "vue-router";
 
 interface state {
   personList: Array<personList>
   manageTasks: Array<childrenTask>
   myTasks: Array<childrenTask>
   examineList: Array<examine>
-  navList: any
+  navList: RouteRecordRaw[]
 }
 
 interface personList {
@@ -42,10 +43,9 @@ const preLoad = {
   }),
   mutation: {
     preLoadPerson(apiPath: string) {
-      network.post(apiPath).then(({data}) => {
+      xhr.post(apiPath).then(({data}) => {
         let list = data.data
         preLoad.state.personList.splice(0,preLoad.state.personList.length)
-        // preLoad.state.personList = []
         for (let i = 0; i < list.length; i++) {
           preLoad.state.personList.push({
             value: list[i]._id,
@@ -56,9 +56,9 @@ const preLoad = {
     },
     refreshExamine (force?: boolean) {
       if (preLoad.state.examineList.length === 0 || force) {
-        preLoad.state.examineList.splice(0,preLoad.state.examineList.length)
-        network.get(`examine/taskAudit/${Cookies.get("id")}`).then(({data}) => {
+        xhr.get(`examine/taskAudit/${Cookies.get("id")}`).then(({data}) => {
           console.log(data)
+          preLoad.state.examineList.splice(0,preLoad.state.examineList.length)
           for (let i in data.data) {
             preLoad.state.examineList.push({
               key: data.data[i]._id,

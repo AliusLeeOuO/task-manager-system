@@ -19,7 +19,7 @@ import NavBlock from "../../components/header/nav-block.vue"
 import Cookies from 'js-cookie'
 import {per0, per1, per2} from "../../router/personConfig";
 import publicRoute from "../../router/publicRoute";
-import {useRouter} from "vue-router";
+import {useRouter, RouteRecordRaw} from "vue-router";
 import {computed} from "vue";
 import layout from "../../store/layout";
 import preLoad from "../../store/preLoad";
@@ -51,12 +51,14 @@ for (let i in publicRoute) {
   preLoad.state.navList.push(publicRoute[i])
 }
 
-let filter = computed(() => {
-  return preLoad.state.navList.filter((item: any) => {
-    if (item.name === "examine") {
-      item.meta.count = preLoad.state.examineList.length
+const filter = computed(():any => {
+  return preLoad.state.navList.filter((item: RouteRecordRaw) => {
+    if (item.meta) {
+      if (item.name === "examine") {
+        item.meta.count = preLoad.state.examineList.length
+      }
+      return !item.meta.hide
     }
-    return !item.meta.hide
   })
 })
 preLoad.mutation.refreshExamine()
