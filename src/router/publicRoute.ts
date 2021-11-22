@@ -11,7 +11,7 @@ const publicRoute: Array<RouteRecordRaw> = [
   }, {
     path: "/success",
     name: "success",
-    component: () => import("../views/success.vue"),
+    component: () => import("../views/public/success.vue"),
     meta: {
       name: "403",
       hide: true
@@ -35,7 +35,7 @@ const publicRoute: Array<RouteRecordRaw> = [
   }, {
     path: "/addChildTask/:taskid",
     name: "addChildTask",
-    component: () => import("../views/dean/addChildTask.vue"),
+    component: () => import("../views/public/addChildTask.vue"),
     meta: {
       name: "新建子任务",
       hide: true

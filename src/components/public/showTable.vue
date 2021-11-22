@@ -57,9 +57,10 @@
 import {onBeforeRouteLeave, useRouter} from "vue-router";
 import xhr from "../../xhr/index"
 import moment from "moment";
-import {computed, ref} from "vue";
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import {computed, createVNode, ref} from "vue";
 import preLoad from "../../store/preLoad";
-import {message} from "ant-design-vue";
+import {message, Modal} from "ant-design-vue";
 
 const props = defineProps<{
   newTaskBtn: boolean,
@@ -116,9 +117,6 @@ const onSearch = (searchValue: string) => {
   console.log(`search ${searchValue}`)
 }
 const filterTable = computed(function () {
-  // let search = computed(() => {
-  //   return container.filter(i => i.task.indexOf(searchString.value) !== -1)
-  // })
   return container.filter((item: any) => {
     switch (showTable.value) {
       case "2":
@@ -142,9 +140,8 @@ const filterTable = computed(function () {
     }
   })
 })
+
 //搜索框
-
-
 const manager = () => {
   return props.apiPath === "response.data.data.task" || props.apiPath === "response.data.data.creatorTask";
 }
@@ -222,10 +219,7 @@ const showTask = (key: string) => {
 // 修改
 const modifyTask = (key: string) => {
   router.push({
-    path: `/modifyTask/${key}`,
-    query: {
-      taskName: key
-    }
+    path: `/modifyTask/${key}`
   })
 }
 //分解
@@ -238,16 +232,25 @@ const submitTask = (key: string) => {
 }
 // 删除
 const confirmRemove = (key: string): void => {
-  xhr.delete(`dean/deleteTask/${key}`).then(config => {
-    const status = config.data
-    if (status.status === 200) {
-      refreshTask(true)
-      message.success('删除成功！');
+  Modal.confirm({
+    title: () => '您确定真的要删除吗？',
+    icon: () => createVNode(ExclamationCircleOutlined),
+    content: () => createVNode('div', { style: 'color:red;' }, '此操作非常危险，请再次确认是否执行该操作。'),
+    onOk() {
+      xhr.delete(`dean/deleteTask/${key}`).then(config => {
+        const status = config.data
+        if (status.status === 200) {
+          refreshTask(true)
+          message.success('删除成功！');
+        }
+      }).catch(error => {
+        console.log(error)
+      })
     }
-  }).catch(error => {
-    console.log(error)
-  })
+  });
 }
+
+
 
 </script>
 <style lang="less" scoped>

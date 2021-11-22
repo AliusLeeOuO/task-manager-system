@@ -31,7 +31,7 @@
 import {useRoute, useRouter} from "vue-router";
 import {reactive} from "vue";
 import preLoad from "../../store/preLoad";
-import network from "../../xhr";
+import xhr from "../../xhr";
 
 const route = useRoute()
 const router = useRouter()
@@ -63,7 +63,7 @@ let formItem = reactive<formItem>({
 
 let personList = preLoad.state.personList
 if (personList.length === 0) {
-  network.post("https://quanquan.asia/web/api/dean/position").then(config => {
+  xhr.post("dean/position").then(config => {
     let list = config.data.data
     for (let i = 0; i < list.length; i++) {
       personList.push({

@@ -4,7 +4,6 @@
       <div id="login-title">
         <h3>登录到 双高任务管理系统</h3>
       </div>
-
       <div id="login-form">
         <p id="login-type">使用 教职工号 登录</p>
         <div v-if="layout.state.loginError">
@@ -193,7 +192,7 @@ function accept() {
     width: 500px;
     background-color: #fff;
     border-radius: 5px;
-    box-shadow: 0 0 5px 5px #ccc;
+    box-shadow: 0 0 3px 3px #ccc;
     padding: 20px 40px;
 
     #login-title {

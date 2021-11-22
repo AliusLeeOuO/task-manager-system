@@ -18,6 +18,8 @@ const route = useRoute()
 const router = useRouter()
 const query = route.query
 
+
+
 const backToIndex = () => {
   router.push("/")
 }

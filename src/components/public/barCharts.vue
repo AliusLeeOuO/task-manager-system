@@ -1,16 +1,16 @@
 <template>
-  <a-card title="各专业完成度概览">
+  <card title="各专业完成度概览">
     <div id="chart">
       <Echarts :options="chartData"></Echarts>
     </div>
-  </a-card>
+  </card>
 </template>
 <script lang="ts" setup>
 import Echarts from "./echarts.vue"
 import network from "../../xhr"
 import {EChartOption} from 'echarts'
 import {reactive} from "vue";
-
+import Card from "./card.vue"
 
 let xData: string[] = reactive([])
 let yDataa: number[] = reactive([])

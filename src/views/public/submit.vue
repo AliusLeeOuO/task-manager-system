@@ -32,16 +32,15 @@
           </a-upload>
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
-          <a-button type="primary" @click="onSubmit">Create</a-button>
-          <a-button style="margin-left: 10px" @click="resetForm">Reset</a-button>
+          <a-button type="primary" @click="onSubmit">提交</a-button>
+          <a-button style="margin-left: 10px" @click="goBack">返回</a-button>
         </a-form-item>
       </a-form>
     </div>
   </card>
 </template>
 <script lang="ts" setup>
-import {useRoute,useRouter} from "vue-router";
-import {Moment} from 'moment';
+import {useRoute, useRouter} from "vue-router";
 import {reactive, ref, toRaw, UnwrapRef} from 'vue';
 import {RuleObject, ValidateErrorEntity} from "ant-design-vue/es/form/interface";
 import {UploadOutlined} from '@ant-design/icons-vue';
@@ -54,7 +53,7 @@ import Cookies from "js-cookie";
 const route = useRoute()
 const router = useRouter()
 const taskid = route.params.taskid
-
+const formRef = ref()
 let taskName = ref<string>("任务")
 xhr.get(`dean/getTask/${taskid}`).then(({data}) => {
   taskName.value = data.data[0].taskname
@@ -96,7 +95,7 @@ interface FormState {
   file: any
 }
 
-const formRef = ref();
+
 const formState: UnwrapRef<FormState> = reactive({
   name: '',
   schedule: undefined,
@@ -135,6 +134,8 @@ const removeChange = (file: any) => {
 const validatorSchedule = async function (rule: RuleObject, value: number) {
   if (!value) {
     return Promise.reject("请输入进度")
+  }else if (value < 0 || value > 100) {
+    return Promise.reject("请输入正确的进度")
   }
   return Promise.resolve()
 }
@@ -161,7 +162,7 @@ const onSubmit = () => {
     .validate()
     .then(() => {
       console.log('values', formState, toRaw(formState));
-      xhr.post(`major/referTask/${taskid}`,{
+      xhr.post(`major/referTask/${taskid}`, {
         process: formState.schedule,
         userId: Cookies.get("id"),
         describe: formState.describe,
@@ -171,7 +172,8 @@ const onSubmit = () => {
         if (data.status === 200) {
           router.push({
             path: "/success",
-            params: {
+            query: {
+              type: "提交进度",
               title: "提交进度成功！"
             }
           })
@@ -184,8 +186,8 @@ const onSubmit = () => {
       console.log('error', error);
     });
 };
-const resetForm = () => {
-  formRef.value.resetFields();
+const goBack = () => {
+  router.go(-1)
 };
 </script>
 <style lang="less" scoped>

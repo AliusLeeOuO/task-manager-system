@@ -1,9 +1,7 @@
 <template>
   <Card title="我的任务">
-<!--    <a-card title="我的任务">-->
       <show-table :api="`major/getTasks/${Cookies.get('id')}`" :new-task-btn="false"
                   api-path="response.data.data.workerTask"></show-table>
-<!--    </a-card>-->
   </Card>
 </template>
 <script lang="ts" setup>
