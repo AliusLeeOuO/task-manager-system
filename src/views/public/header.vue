@@ -55,7 +55,7 @@ const filter = computed(():any => {
   return preLoad.state.navList.filter((item: RouteRecordRaw) => {
     if (item.meta) {
       if (item.name === "examine") {
-        item.meta.count = preLoad.state.examineList.length
+        item.meta.count = preLoad.state.examineList.filter(i => i.status === 0).length
       }
       return !item.meta.hide
     }

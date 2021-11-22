@@ -24,7 +24,7 @@
 import {reactive, ref} from "vue";
 import {UploadOutlined} from '@ant-design/icons-vue';
 import {useRoute, useRouter} from "vue-router";
-import network from "../../xhr"
+import xhr from "../../xhr"
 import FileCpn from "../../components/public/fileData.vue"
 
 const route = useRoute()
@@ -60,7 +60,7 @@ const taskid = route.params.taskid
 
 let isLoading = ref<boolean>(true)
 
-network.get(`https://quanquan.asia/web/api/dean/getTask/${taskid}`)
+xhr.get(`dean/getTask/${taskid}`)
   .then(config => {
     taskTitle.value = config.data.data[0].taskname
     taskSubTitle.value = config.data.data[0].describe

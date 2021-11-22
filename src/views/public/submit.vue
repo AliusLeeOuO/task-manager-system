@@ -1,6 +1,9 @@
 <template>
-  <a-card title="提交材料">
+  <card title="提交材料">
     <div id="form">
+      <div>
+        <h3>提交材料到 {{ taskName }}</h3>
+      </div>
       <a-form
         ref="formRef"
         :model="formState"
@@ -8,55 +11,25 @@
         :label-col="{span: 4}"
       >
         <a-form-item ref="schedule" name="schedule" label="进度">
-          <a-input-number v-model:value="formState.schedule" style="width: 100%"></a-input-number>
+          <a-input-number v-model:value="formState.schedule"></a-input-number>
+          %
+        </a-form-item>
+        <a-form-item ref="describe" name="describe" label="任务描述">
+          <a-input v-model:value="formState.describe"></a-input>
         </a-form-item>
         <a-form-item ref="files" name="files" label="文件">
-          <a-upload action="https://quanquan.asia/web/api/upload" method="post" :custom-request="customRequest" multiple
-                    v-model:file-list="fileList">
+          <a-upload action="https://quanquan.asia/web/api/upload"
+                    method="post"
+                    :custom-request="customRequest"
+                    multiple
+                    v-model:file-list="fileList"
+                    :remove="removeChange"
+                    @change="handleChange">
             <a-button>
               <upload-outlined></upload-outlined>
               上传文件
             </a-button>
           </a-upload>
-        </a-form-item>
-
-
-        <a-form-item ref="name" label="Activity name" name="name">
-          <a-input v-model:value="formState.name"/>
-        </a-form-item>
-        <a-form-item label="Activity zone" name="region">
-          <a-select v-model:value="formState.region" placeholder="please select your zone">
-            <a-select-option value="shanghai">Zone one</a-select-option>
-            <a-select-option value="beijing">Zone two</a-select-option>
-          </a-select>
-        </a-form-item>
-        <a-form-item label="Activity time" required name="date1">
-          <a-date-picker
-            v-model:value="formState.date1"
-            show-time
-            type="date"
-            placeholder="Pick a date"
-            style="width: 100%"
-          />
-        </a-form-item>
-        <a-form-item label="Instant delivery" name="delivery">
-          <a-switch v-model:checked="formState.delivery"/>
-        </a-form-item>
-        <a-form-item label="Activity type" name="type">
-          <a-checkbox-group v-model:value="formState.type">
-            <a-checkbox value="1" name="type">Online</a-checkbox>
-            <a-checkbox value="2" name="type">Promotion</a-checkbox>
-            <a-checkbox value="3" name="type">Offline</a-checkbox>
-          </a-checkbox-group>
-        </a-form-item>
-        <a-form-item label="Resources" name="resource">
-          <a-radio-group v-model:value="formState.resource">
-            <a-radio value="1">Sponsor</a-radio>
-            <a-radio value="2">Venue</a-radio>
-          </a-radio-group>
-        </a-form-item>
-        <a-form-item label="Activity form" name="desc">
-          <a-textarea v-model:value="formState.desc"/>
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
           <a-button type="primary" @click="onSubmit">Create</a-button>
@@ -64,57 +37,71 @@
         </a-form-item>
       </a-form>
     </div>
-  </a-card>
+  </card>
 </template>
 <script lang="ts" setup>
-import {useRoute} from "vue-router";
+import {useRoute,useRouter} from "vue-router";
 import {Moment} from 'moment';
 import {reactive, ref, toRaw, UnwrapRef} from 'vue';
-import {ValidateErrorEntity} from "ant-design-vue/es/form/interface";
+import {RuleObject, ValidateErrorEntity} from "ant-design-vue/es/form/interface";
 import {UploadOutlined} from '@ant-design/icons-vue';
 import xhr from "../../xhr"
+import Card from "../../components/public/card.vue"
+import {message} from "ant-design-vue";
+import Cookies from "js-cookie";
+
 
 const route = useRoute()
+const router = useRouter()
 const taskid = route.params.taskid
 
+let taskName = ref<string>("任务")
+xhr.get(`dean/getTask/${taskid}`).then(({data}) => {
+  taskName.value = data.data[0].taskname
+}).catch(err => {
+  throw err
+})
+
 let customRequest = (data: any) => {
-  console.log(data)
+  const {onSuccess, onError, file, onProgress} = data;
+  console.log(data, 4)
   const formData = new FormData()
   formData.append('files', data.file, data.file.name)
   console.log(formData.get("files"))
   let config = {
-    headers: {'Content-Type': 'multipart/form-data'}
+    headers: {'Content-Type': 'multipart/form-data'},
+    onUploadProgress: (event: any) => {
+      console.log((event.loaded / event.total) * 100);
+      onProgress({percent: (event.loaded / event.total) * 100}, file);
+    }
   }
   xhr.post('upload', formData, config)
-    .then(config => {
-      console.log(config)
+    .then(({data}) => {
+      const response = data.data[0]
+      formState.file.push(response)
+      onSuccess(file)
     }).catch(err => {
+    const error = new Error('Some error');
+    onError({event: error});
     throw err
-    })
+  })
+  console.log(data, 1)
 }
 
 
 interface FormState {
   name: string;
-  schedule: number | undefined
-  region: string | undefined;
-  date1: Moment | undefined;
-  delivery: boolean;
-  type: string[];
-  resource: string;
-  desc: string;
+  schedule?: number
+  describe?: string
+  file: any
 }
 
 const formRef = ref();
 const formState: UnwrapRef<FormState> = reactive({
   name: '',
   schedule: undefined,
-  region: undefined,
-  date1: undefined,
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+  describe: '',
+  file: []
 });
 
 interface FileItem {
@@ -131,29 +118,7 @@ interface FileInfo {
 }
 
 
-const fileList = ref<FileItem[]>([
-  // {
-  //   uid: '1',
-  //   name: 'xxx.png',
-  //   status: 'done',
-  //   response: 'Server Error 500', // custom error message to show
-  //   url: 'http://www.baidu.com/xxx.png',
-  // },
-  // {
-  //   uid: '2',
-  //   name: 'yyy.png',
-  //   status: 'done',
-  //   url: 'http://www.baidu.com/yyy.png',
-  // },
-  // {
-  //   uid: '3',
-  //   name: 'zzz.png',
-  //   status: 'error',
-  //   response: 'Server Error 500', // custom error message to show
-  //   url: 'http://www.baidu.com/zzz.png',
-  // },
-])
-console.log(fileList)
+const fileList = ref<FileItem[]>([])
 const handleChange = ({file, fileList}: FileInfo) => {
   if (file.status !== 'uploading') {
     console.log(file, fileList);
@@ -161,29 +126,59 @@ const handleChange = ({file, fileList}: FileInfo) => {
 };
 
 
+const removeChange = (file: any) => {
+  message.info("暂不支持删除")
+  console.log(file)
+  return false
+}
+
+const validatorSchedule = async function (rule: RuleObject, value: number) {
+  if (!value) {
+    return Promise.reject("请输入进度")
+  }
+  return Promise.resolve()
+}
+
+const validatorFile = async function () {
+  if (formState.file.length === 0) {
+    return Promise.reject("请上传文件！")
+  }
+  return Promise.resolve()
+}
 const rules = {
-  name: [
-    {required: true, message: 'Please input Activity name', trigger: 'blur'},
-    {min: 3, max: 5, message: 'Length should be 3 to 5', trigger: 'blur'},
+  schedule: [
+    {required: true, validator: validatorSchedule, trigger: 'blur'}
   ],
-  region: [{required: true, message: 'Please select Activity zone', trigger: 'change'}],
-  date1: [{required: true, message: 'Please pick a date', trigger: 'change', type: 'object'}],
-  type: [
-    {
-      type: 'array',
-      required: true,
-      message: 'Please select at least one activity type',
-      trigger: 'change',
-    },
+  describe: [
+    {required: true, message: "请填写描述", trigger: "blur"}
   ],
-  resource: [{required: true, message: 'Please select activity resource', trigger: 'change'}],
-  desc: [{required: true, message: 'Please input activity form', trigger: 'blur'}],
+  files: [
+    {required: true, validator: validatorFile, trigger: "blur"}
+  ]
 };
 const onSubmit = () => {
   formRef.value
     .validate()
     .then(() => {
       console.log('values', formState, toRaw(formState));
+      xhr.post(`major/referTask/${taskid}`,{
+        process: formState.schedule,
+        userId: Cookies.get("id"),
+        describe: formState.describe,
+        files: formState.file
+      }).then(({data}) => {
+        console.log(data)
+        if (data.status === 200) {
+          router.push({
+            path: "/success",
+            params: {
+              title: "提交进度成功！"
+            }
+          })
+        }
+      }).catch(err => {
+        throw err
+      })
     })
     .catch((error: ValidateErrorEntity<FormState>) => {
       console.log('error', error);
