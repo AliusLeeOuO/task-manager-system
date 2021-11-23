@@ -1,10 +1,11 @@
 <template>
   <router-link :to="to" href="javascript:void(0)">
     {{ navTitle }}
-    <a-badge :count="alertCount" style="transform: scale(0.9);position: absolute;right: -5px;top: 6px;"/>
+    <a-badge
+      :count="alertCount"
+      style="transform: scale(0.9);position: absolute;right: -5px;top: 6px;"
+    />
   </router-link>
-
-
 </template>
 <script lang="ts" setup>
 let props = defineProps<{
@@ -12,12 +13,12 @@ let props = defineProps<{
   to: string
   alertCount?: number
 }>()
-import {ClockCircleOutlined} from '@ant-design/icons-vue';
+import { ClockCircleOutlined } from '@ant-design/icons-vue';
 
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;
-@main-color: #2286F7;
+@main-color: #2286f7;
 a {
   position: relative;
   text-decoration: none;
@@ -55,5 +56,4 @@ a {
     background-color: @main-color;
   }
 }
-
 </style>

@@ -2,7 +2,7 @@
   <div id="global">
     <v-header></v-header>
     <main>
-        <router-view></router-view>
+      <router-view></router-view>
     </main>
   </div>
 </template>
@@ -10,8 +10,8 @@
 
 import Cookies from "js-cookie";
 import VHeader from "./header.vue"
-import {useRoute, useRouter} from "vue-router";
-import {onUpdated} from "vue";
+import { useRoute, useRouter } from "vue-router";
+import { onUpdated } from "vue";
 
 const route = useRoute()
 const router = useRouter()
@@ -46,7 +46,7 @@ redirect()
 @max-width: 1400px;
 @gutter: 30px;
 #global {
-  background-color: #E6ECF0;
+  background-color: #e6ecf0;
 }
 main {
   max-width: @max-width;

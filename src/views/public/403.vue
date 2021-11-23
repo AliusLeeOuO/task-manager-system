@@ -43,7 +43,6 @@
   }
 }
 
-
 h1 {
   display: inline-block;
   border-right: 1px solid rgba(0, 0, 0, 0.3);

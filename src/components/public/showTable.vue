@@ -27,7 +27,7 @@
       <a-tag v-else>未知</a-tag>
     </template>
     <template #schedule="{ text: schedule }">
-      <a-progress :percent="schedule"/>
+      <a-progress :percent="schedule" />
     </template>
     <template #action="{ record }">
       <div id="operation-button">
@@ -46,21 +46,29 @@
         </div>
         <div v-else>
           <a href="javascript:void(0);" @click="showTask(record.id)">查看</a>
-          <a href="javascript:void(0);" @click="addChildTask(record.id)" v-if="!record.isChildren">新建子任务</a>
-          <a href="javascript:void(0);" @click="submitTask(record.id)" v-if="!record.isChildren">提交材料</a>
+          <a
+            href="javascript:void(0);"
+            @click="addChildTask(record.id, record.task)"
+            v-if="!record.isChildren"
+          >新建子任务</a>
+          <a
+            href="javascript:void(0);"
+            @click="submitTask(record.id)"
+            v-if="!record.isChildren"
+          >提交材料</a>
         </div>
       </div>
     </template>
   </a-table>
 </template>
 <script lang="ts" setup>
-import {onBeforeRouteLeave, useRouter} from "vue-router";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 import xhr from "../../xhr/index"
 import moment from "moment";
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-import {computed, createVNode, ref} from "vue";
+import { computed, createVNode, ref } from "vue";
 import preLoad from "../../store/preLoad";
-import {message, Modal} from "ant-design-vue";
+import { message, Modal } from "ant-design-vue";
 
 const props = defineProps<{
   newTaskBtn: boolean,
@@ -89,7 +97,7 @@ const columns = [
   }, {
     title: '状态'
     , dataIndex: 'status'
-    , slots: {customRender: 'status'}
+    , slots: { customRender: 'status' }
     , key: 'status'
   }, {
     title: '结束时间'
@@ -99,13 +107,13 @@ const columns = [
     title: '进度'
     , dataIndex: 'schedule'
     , key: 'schedule'
-    , slots: {customRender: 'schedule'}
+    , slots: { customRender: 'schedule' }
     , width: '15%'
   }, {
     title: '操作'
     , dataIndex: 'action'
     , key: 'action'
-    , slots: {customRender: 'action'}
+    , slots: { customRender: 'action' }
   }
 ]
 refreshTask()
@@ -223,8 +231,13 @@ const modifyTask = (key: string) => {
   })
 }
 //分解
-const addChildTask = (key: string) => {
-  router.push(`/addChildTask/${key}`)
+const addChildTask = (key: string, taskName: string) => {
+  router.push({
+    path: `/addChildTask/${key}`,
+    query: {
+      taskName: taskName
+    }
+  })
 }
 // 提交任务
 const submitTask = (key: string) => {
@@ -249,7 +262,6 @@ const confirmRemove = (key: string): void => {
     }
   });
 }
-
 
 
 </script>

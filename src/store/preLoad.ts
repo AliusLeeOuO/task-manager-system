@@ -5,16 +5,10 @@ import moment from "moment";
 import {RouteRecordRaw} from "vue-router";
 
 interface state {
-  personList: Array<personList>
   manageTasks: Array<childrenTask>
   myTasks: Array<childrenTask>
   examineList: Array<examine>
   navList: RouteRecordRaw[]
-}
-
-interface personList {
-  label: string,
-  value: string
 }
 
 interface childrenTask {
@@ -35,25 +29,12 @@ interface examine {
 }
 const preLoad = {
   state: reactive<state>({
-    personList: [],
     manageTasks: [],
     myTasks: [],
     examineList: [],
     navList: []
   }),
   mutation: {
-    preLoadPerson(apiPath: string) {
-      xhr.post(apiPath).then(({data}) => {
-        let list = data.data
-        preLoad.state.personList.splice(0,preLoad.state.personList.length)
-        for (let i = 0; i < list.length; i++) {
-          preLoad.state.personList.push({
-            value: list[i]._id,
-            label: list[i].name
-          })
-        }
-      })
-    },
     refreshExamine (force?: boolean) {
       if (preLoad.state.examineList.length === 0 || force) {
         xhr.get(`examine/taskAudit/${Cookies.get("id")}`).then(({data}) => {

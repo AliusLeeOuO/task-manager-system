@@ -1,15 +1,17 @@
 <template>
   <a-card title="查看任务">
-
     <div id="form">
       <div v-if="isLoading">
-        <a-skeleton :paragraph="{ rows: 6 }" active/>
+        <a-skeleton :paragraph="{ rows: 6 }" active />
       </div>
       <div v-else>
         <h2>{{ taskTitle }}</h2>
         <p>任务描述： {{ taskSubTitle }}</p>
         <p>创建人：{{ creator }}</p>
-        <p>负责人：<span v-for="(item, index) in worker" :key="item._id" id="worker">{{ item.name }}</span></p>
+        <p>
+          负责人：
+          <span v-for="(item, index) in worker" :key="item._id" id="worker">{{ item.name }}</span>
+        </p>
         <h3>该任务的子任务</h3>
         <h2>提交的文件（点击下载）</h2>
         <div>
@@ -21,9 +23,9 @@
   </a-card>
 </template>
 <script lang="ts" setup>
-import {reactive, ref} from "vue";
-import {UploadOutlined} from '@ant-design/icons-vue';
-import {useRoute, useRouter} from "vue-router";
+import { reactive, ref } from "vue";
+import { UploadOutlined } from '@ant-design/icons-vue';
+import { useRoute, useRouter } from "vue-router";
 import xhr from "../../xhr"
 import FileCpn from "../../components/public/fileData.vue"
 
@@ -93,8 +95,8 @@ xhr.get(`dean/getTask/${taskid}`)
 
     isLoading.value = false
   }).catch(error => {
-  console.log(error)
-})
+    console.log(error)
+  })
 
 function back() {
   router.go(-1)

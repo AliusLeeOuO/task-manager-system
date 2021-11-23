@@ -3,13 +3,18 @@
     <div id="form">
       <a-form :label-col="labelCol" :rules="rules" @submit="submit">
         <a-form-item ref="fatherTaskName" label="任务名称">
-          <a-input placeholder="请输入任务名称" v-model:value="formItem.taskname"/>
+          <a-input placeholder="请输入任务名称" v-model:value="formItem.taskname" />
         </a-form-item>
         <a-form-item ref="describe" label="任务描述">
-          <a-input placeholder="请输入任务描述" v-model:value="formItem.describe"/>
+          <a-input placeholder="请输入任务描述" v-model:value="formItem.describe" />
         </a-form-item>
         <a-form-item ref="endtime" label="结束时间">
-          <a-date-picker valueFormat="x" show-time placeholder="结束时间" v-model:value="formItem.endtime"/>
+          <a-date-picker
+            valueFormat="x"
+            show-time
+            placeholder="结束时间"
+            v-model:value="formItem.endtime"
+          />
         </a-form-item>
         <a-form-item ref="taskUser" label="负责人">
           <a-checkbox-group v-model:value="formItem.taskUser">
@@ -26,12 +31,12 @@
   </a-card>
 </template>
 <script lang="ts" setup>
-import {reactive} from 'vue';
+import { reactive } from 'vue';
 import preLoad from "../../store/preLoad";
 import network from '../../xhr/index'
 import Cookies from "js-cookie";
-import {useRouter} from "vue-router"
-import {message} from "ant-design-vue"
+import { useRouter } from "vue-router"
+import { message } from "ant-design-vue"
 
 const router = useRouter()
 
@@ -48,19 +53,20 @@ let formItem = reactive<formItem>({
   endtime: "",
   taskUser: []
 })
-
-let personList = preLoad.state.personList
-if (personList.length === 0) {
-  network.post("https://quanquan.asia/web/api/dean/position").then(config => {
-    let list = config.data.data
-    for (let i = 0; i < list.length; i++) {
-      personList.push({
-        value: list[i]._id,
-        label: list[i].name
-      })
-    }
-  })
+interface personList {
+  value: string
+  label: string
 }
+let personList = reactive<personList[]>([])
+network.post("https://quanquan.asia/web/api/dean/position").then(config => {
+  let list = config.data.data
+  for (let i = 0; i < list.length; i++) {
+    personList.push({
+      value: list[i]._id,
+      label: list[i].name
+    })
+  }
+})
 
 
 const labelCol = {

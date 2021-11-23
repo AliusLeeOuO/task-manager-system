@@ -7,20 +7,24 @@
       <div id="login-form">
         <p id="login-type">使用 教职工号 登录</p>
         <div v-if="layout.state.loginError">
-          <a-alert :message="layout.state.loginError" type="error" show-icon style="height: 30px"/>
+          <a-alert :message="layout.state.loginError" type="error" show-icon style="height: 30px" />
         </div>
         <a-form @submit="submit">
           <div class="input-block">
             <a-input placeholder="用户名、教职工号" v-model:value="formItems.username" style="height: 35px">
               <template #prefix>
-                <user-outlined type="user"/>
+                <user-outlined type="user" />
               </template>
             </a-input>
           </div>
           <div class="input-block">
-            <a-input-password placeholder="密码" v-model:value="formItems.password" style="height: 35px">
+            <a-input-password
+              placeholder="密码"
+              v-model:value="formItems.password"
+              style="height: 35px"
+            >
               <template #prefix>
-                <IdcardOutlined/>
+                <IdcardOutlined />
               </template>
             </a-input-password>
           </div>
@@ -28,29 +32,29 @@
             <a-checkbox v-model:checked="formItems.remember">记住我的登录状态</a-checkbox>
           </div>
           <div class="input-block">
-            <a-button type="primary" html-type="submit" style="width: 100%">
-              登录
-            </a-button>
+            <a-button type="primary" html-type="submit" style="width: 100%">登录</a-button>
           </div>
         </a-form>
       </div>
     </div>
-    <div id="cookie-alert" :class="{hiddenAlert: acceptAlert}">
+    <div id="cookie-alert" :class="{ hiddenAlert: acceptAlert }">
       <div>
-        <span><WarningOutlined></WarningOutlined> 请注意</span>
-        <br>
+        <span>
+          <WarningOutlined></WarningOutlined>请注意
+        </span>
+        <br />
         <span>本网站使用cookie，用于在您的设备中储存信息。这些cookie可以使网站正常运行。使用本网站，即表示您接受放置这些cookie。</span>
-        <br>
+        <br />
         <button @click="accept">同意并关闭提示</button>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import {ref, reactive} from "vue";
+import { ref, reactive } from "vue";
 import network from "../../xhr"
-import {IdcardOutlined, UserOutlined, WarningOutlined} from '@ant-design/icons-vue'
-import {useRouter} from "vue-router"
+import { IdcardOutlined, UserOutlined, WarningOutlined } from '@ant-design/icons-vue'
+import { useRouter } from "vue-router"
 import layout from "../../store/layout";
 import Cookies from 'js-cookie'
 // 如果登录 跳转首页
@@ -150,7 +154,7 @@ function submit(event: FormDataEvent) {
 
     function userInfo(a?: string, b?: string, c?: string) {
       let userInfo = ""
-      for(let i = 0;i < arguments.length;i++) {
+      for (let i = 0; i < arguments.length; i++) {
         userInfo += arguments[i]
         if (i + 1 === arguments.length) {
           continue;
@@ -258,20 +262,20 @@ function accept() {
 
 @keyframes showAlert {
   0% {
-    bottom: -150px
+    bottom: -150px;
   }
   100% {
-    bottom: 0
+    bottom: 0;
   }
 }
 
 @keyframes hiddenAlert {
   0% {
     display: block;
-    bottom: 0
+    bottom: 0;
   }
   99% {
-    bottom: -150px
+    bottom: -150px;
   }
   100% {
     display: none;

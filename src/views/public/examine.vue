@@ -8,16 +8,19 @@
         <a-tag v-else>未知</a-tag>
       </template>
       <template #operation="{ record }">
-        <a href="javascript:void(0);" @click="operation(record.key)" v-if="record.status === 0">查看并审核</a>
+        <a
+          href="javascript:void(0);"
+          @click="operation(record.key)"
+          v-if="record.status === 0"
+        >查看并审核</a>
       </template>
     </a-table>
   </a-card>
 </template>
 
 <script lang="ts" setup>
-// TODO: 审核任务后刷新小红点
-import {message} from "ant-design-vue";
-import {useRouter} from "vue-router";
+import { message } from "ant-design-vue";
+import { useRouter } from "vue-router";
 import preLoad from "../../store/preLoad";
 let columns = [
   {
@@ -28,7 +31,7 @@ let columns = [
     title: '审核状态',
     dataIndex: 'status',
     key: 'status',
-    slots: {customRender: 'status'}
+    slots: { customRender: 'status' }
   }, {
     title: '创建时间',
     dataIndex: 'createdAt',
@@ -40,7 +43,7 @@ let columns = [
   }, {
     title: '操作',
     dataIndex: 'operation',
-    slots: {customRender: 'operation'}
+    slots: { customRender: 'operation' }
   },
 ]
 
@@ -65,5 +68,4 @@ const operation = (key: string) => {
 </script>
 
 <style scoped>
-
 </style>

@@ -3,8 +3,13 @@
     <div id="header-left">
       <div id="header-logo">双高任务管理系统</div>
       <nav>
-        <nav-block :to="item.path" :nav-title="item.meta.name" v-for="(item, index) in filter"
-                   :key="item.path" :alert-count="item.meta.count?item.meta.count:undefined"></nav-block>
+        <nav-block
+          :to="item.path"
+          :nav-title="item.meta.name"
+          v-for="(item, index) in filter"
+          :key="item.path"
+          :alert-count="item.meta.count ? item.meta.count : undefined"
+        ></nav-block>
       </nav>
     </div>
     <div id="header-right">
@@ -17,10 +22,10 @@
 <script lang="ts" setup>
 import NavBlock from "../../components/header/nav-block.vue"
 import Cookies from 'js-cookie'
-import {per0, per1, per2} from "../../router/personConfig";
+import { per0, per1, per2 } from "../../router/personConfig";
 import publicRoute from "../../router/publicRoute";
-import {useRouter, RouteRecordRaw} from "vue-router";
-import {computed} from "vue";
+import { useRouter, RouteRecordRaw } from "vue-router";
+import { computed } from "vue";
 import layout from "../../store/layout";
 import preLoad from "../../store/preLoad";
 
@@ -51,7 +56,7 @@ for (let i in publicRoute) {
   preLoad.state.navList.push(publicRoute[i])
 }
 
-const filter = computed(():any => {
+const filter = computed((): any => {
   return preLoad.state.navList.filter((item: RouteRecordRaw) => {
     if (item.meta) {
       if (item.name === "examine") {
@@ -65,7 +70,7 @@ preLoad.mutation.refreshExamine()
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;
-@main-color: #2286F7;
+@main-color: #2286f7;
 header {
   overflow: hidden;
   background-color: #fff;

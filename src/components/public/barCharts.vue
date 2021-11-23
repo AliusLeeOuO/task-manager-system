@@ -1,21 +1,21 @@
 <template>
-  <card title="各专业完成度概览">
+  <a-card title="各专业完成度概览">
     <div id="chart">
       <Echarts :options="chartData"></Echarts>
     </div>
-  </card>
+  </a-card>
 </template>
 <script lang="ts" setup>
 import Echarts from "./echarts.vue"
 import network from "../../xhr"
-import {EChartOption} from 'echarts'
-import {reactive} from "vue";
-import Card from "./card.vue"
+import { EChartOption } from 'echarts'
+import { reactive } from "vue";
+
 
 let xData: string[] = reactive([])
 let yDataa: number[] = reactive([])
 let yDatab: number[] = reactive([])
-const chartData:EChartOption = {
+const chartData: EChartOption = {
   xAxis: [{
     type: 'category',
     data: xData
@@ -59,7 +59,7 @@ const chartData:EChartOption = {
   }],
 }
 
-network.get("dean/statistical").then(({data}) => {
+network.get("dean/statistical").then(({ data }) => {
   console.log(data.data)
   for (let i = 0; i < data.data.length; i++) {
     xData.push(data.data[i].name)
@@ -72,6 +72,6 @@ network.get("dean/statistical").then(({data}) => {
 </script>
 <style lang="less" scoped>
 #chart {
-  height: 500px
+  height: 500px;
 }
 </style>
