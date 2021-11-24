@@ -7,7 +7,7 @@
         api-path="response.data.data.workerTask"
       ></show-table>
     </a-card>
-    <a-card title="日志">
+    <a-card title="通知">
       <notice></notice>
     </a-card>
   </div>

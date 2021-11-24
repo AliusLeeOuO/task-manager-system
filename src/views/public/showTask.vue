@@ -2,12 +2,12 @@
   <a-card title="查看任务">
     <div id="form">
       <div v-if="isLoading">
-        <a-skeleton :paragraph="{ rows: 6 }" active />
+        <a-skeleton :paragraph="{ rows: 6 }" active/>
       </div>
       <div v-else>
         <h2>{{ taskTitle }}</h2>
-        <p>任务描述： {{ taskSubTitle }}</p>
-        <p>创建人：{{ creator }}</p>
+        <p>任务描述： {{ taskSubTitle ? taskSubTitle : "暂无" }}</p>
+<!--        <p>创建人：{{ creator }}</p>-->
         <p>
           负责人：
           <span v-for="(item, index) in worker" :key="item._id" id="worker">{{ item.name }}</span>
@@ -23,9 +23,9 @@
   </a-card>
 </template>
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
-import { UploadOutlined } from '@ant-design/icons-vue';
-import { useRoute, useRouter } from "vue-router";
+import {reactive, ref} from "vue";
+import {UploadOutlined} from '@ant-design/icons-vue';
+import {useRoute, useRouter} from "vue-router";
 import xhr from "../../xhr"
 import FileCpn from "../../components/public/fileData.vue"
 
@@ -76,27 +76,10 @@ xhr.get(`dean/getTask/${taskid}`)
     for (let i = 0; i < config.data.data[0].fileAddress.length; i++) {
       fileList.push(config.data.data[0].fileAddress[i])
     }
-
-
-    // creator.value = config.data.data[0].creator ? config.data.data[0].creator.name : "无"
-    // if (config.data.data[0].fileAddress.length !== 0) {
-    //   for (let i = 0; i < config.data.data[0].fileAddress.length; i++) {
-    //     fileList.push({
-    //       title: config.data.data[0].fileAddress[i].name,
-    //       link: config.data.data[0].fileAddress[i].url
-    //     })
-    //   }
-    // } else {
-    //   fileList.push({
-    //     title: "此处暂无文件",
-    //     link: "javascript:void(0);"
-    //   })
-    // }
-
     isLoading.value = false
   }).catch(error => {
-    console.log(error)
-  })
+  console.log(error)
+})
 
 function back() {
   router.go(-1)

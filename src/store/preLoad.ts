@@ -38,6 +38,7 @@ const preLoad = {
     refreshExamine (force?: boolean) {
       if (preLoad.state.examineList.length === 0 || force) {
         xhr.get(`examine/taskAudit/${Cookies.get("id")}`).then(({data}) => {
+          console.log(data)
           preLoad.state.examineList.splice(0,preLoad.state.examineList.length)
           for (let i in data.data) {
             preLoad.state.examineList.push({

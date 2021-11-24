@@ -21,8 +21,8 @@
 import NoticeBlock from "../../components/public/noticeBlock.vue"
 import xhr from "../../xhr"
 import Cookies from "js-cookie"
-import { message, Empty } from "ant-design-vue"
-import { reactive } from "vue";
+import {message, Empty} from "ant-design-vue"
+import {reactive} from "vue";
 import moment from "moment"
 
 let page = 0
@@ -33,20 +33,22 @@ function delHtmlTag(str: string) {
 }
 
 xhr.get(`notice/pageNoticeList/${Cookies.get("id")}`, {
-  data: {
+  params: {
     pagenum: page,
     pagesize: 4
   }
 })
-  .then(({ data }) => {
-    if (data.status === 200) {
-      for (let i in data.data.notices) {
-        list.push(data.data.notices[i])
+  .then((d) => {
+    const lists = d.data.data
+    if (d.data.status === 200) {
+      for (let i in lists.notices) {
+        list.push(lists.notices[i])
       }
       page++
     }
   })
   .catch(error => {
+    console.warn(error)
     if (error.response) {
       // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
       message.error("响应错误")
@@ -68,5 +70,7 @@ const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 #box {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
 }
 </style>

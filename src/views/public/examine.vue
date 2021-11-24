@@ -59,7 +59,7 @@ let dataSource = preLoad.state.examineList
 
 
 preLoad.mutation.refreshExamine()
-
+console.log(dataSource)
 const router = useRouter()
 const operation = (key: string) => {
   router.push(`/examineOnce/${key}`)
