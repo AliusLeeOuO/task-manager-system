@@ -16,7 +16,7 @@
 import { useRouter } from "vue-router";
 import Cookies from "js-cookie";
 import ShowTable from "../../components/public/showTable.vue"
-import Notice from "../public/notice.vue"
+import Notice from "../public/notice/notice.vue"
 
 const router = useRouter()
 </script>

@@ -7,7 +7,7 @@ import layout from "../store/layout";
 
 const xhr = axios.create({
   baseURL: "https://quanquan.asia/web/api/",
-  timeout: 3000
+  timeout: 10000
 })
 // axiosRetry(xhr, {
 //   retries: 3,

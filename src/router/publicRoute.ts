@@ -46,14 +46,6 @@ const publicRoute: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/examineList",
-    name: "examine",
-    component: () => import("../views/public/examine.vue"),
-    meta: {
-      name: "审核列表",
-    },
-  },
-  {
     path: "/examineOnce/:taskid",
     name: "examineOnce",
     component: () => import("../views/public/examineOnce.vue"),
@@ -70,6 +62,38 @@ const publicRoute: Array<RouteRecordRaw> = [
       name: "提交进度",
       hide: true,
     },
+  },{
+    path: "/notice",
+    name: "notice",
+    component: () => import("../views/public/notice/notice.vue"),
+    meta: {
+      name: "通知",
+      hide: true
+    },
+    children: [
+      {
+        path: "/notice",
+        redirect: '/notice/myNotice'
+      },
+      {
+        path: '/notice/myNotice',
+        name: "myNotice",
+        component: () => import("../views/public/notice/noticeList.vue"),
+        meta: {
+          name: "我的通知",
+          hide: true
+        },
+      },
+      {
+        path: '/notice/sendNotice',
+        name: "sendNotice",
+        component: () => import("../views/public/notice/sendNotice.vue"),
+        meta: {
+          name: "发送通知",
+          hide: true
+        },
+      }
+    ]
   },
 ];
 export default publicRoute;

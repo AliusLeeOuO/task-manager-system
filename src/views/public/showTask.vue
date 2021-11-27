@@ -1,3 +1,5 @@
+<!-- TODO: 文件：查看? 下载  总导出按钮-->
+<!-- 完成： 时间 进度 描述 -->
 <template>
   <a-card title="查看任务">
     <div id="form">
@@ -5,14 +7,18 @@
         <a-skeleton :paragraph="{ rows: 6 }" active/>
       </div>
       <div v-else>
-        <h2>{{ taskTitle }}</h2>
-        <p>任务描述： {{ taskSubTitle ? taskSubTitle : "暂无" }}</p>
-<!--        <p>创建人：{{ creator }}</p>-->
-        <p>
-          负责人：
-          <span v-for="(item, index) in worker" :key="item._id" id="worker">{{ item.name }}</span>
-        </p>
-        <h3>该任务的子任务</h3>
+        <a-descriptions bordered layout="vertical" :title="`任务名称：${all.title}`" size="default">
+          <a-descriptions-item label="任务描述" :span="3">{{ all.subtitle ? all.subtitle : "暂无" }}</a-descriptions-item>
+          <a-descriptions-item label="创建时间">{{ all.createdAt }}</a-descriptions-item>
+          <a-descriptions-item label="更新时间">{{ all.updatedAt }}</a-descriptions-item>
+          <a-descriptions-item label="当前进度">{{ all.process }}%</a-descriptions-item>
+          <a-descriptions-item label="状态">
+            <a-badge status="processing" text="进行中"/>
+          </a-descriptions-item>
+          <a-descriptions-item label="负责人" :span="2"><span v-for="(item, index) in worker" :key="item._id" id="worker">{{
+              item.name
+            }}</span></a-descriptions-item>
+        </a-descriptions>
         <h2>提交的文件（点击下载）</h2>
         <div>
           <File-cpn :file="fileList"></File-cpn>
@@ -27,17 +33,12 @@ import {reactive, ref} from "vue";
 import {UploadOutlined} from '@ant-design/icons-vue';
 import {useRoute, useRouter} from "vue-router";
 import xhr from "../../xhr"
-import FileCpn from "../../components/public/fileData.vue"
+import FileCpn, {fileLists} from "../../components/public/fileData.vue"
+import moment from "moment";
 
 const route = useRoute()
 const router = useRouter()
 
-interface fileList {
-  describe: string
-  userId: string
-  _id: string
-  files: file[]
-}
 
 interface file {
   encoding: string
@@ -53,22 +54,43 @@ interface workerList {
   _id: string
 }
 
-let taskTitle = ref<string>("")
 let taskSubTitle = ref<string>("")
-let creator = ref<string>("")
 let worker = reactive<workerList[]>([])
-let fileList = reactive<fileList[]>([])
+let fileList = reactive<fileLists[]>([])
 const taskid = route.params.taskid
+
+interface all {
+  title: string
+  createdAt: string
+  updatedAt: string
+  subtitle: string | null
+  process: number
+}
+
+const all = reactive<all>({
+  title: "",
+  createdAt: "",
+  updatedAt: "",
+  subtitle: null,
+  process: 0
+})
 
 let isLoading = ref<boolean>(true)
 
 xhr.get(`dean/getTask/${taskid}`)
   .then(config => {
-    taskTitle.value = config.data.data[0].taskname
-    taskSubTitle.value = config.data.data[0].describe
+    const task = config.data.data[0]
+    console.log(task)
+    all.title = task.taskname
+    all.createdAt = moment(task.createdAt).format("YYYY年MM月DD日 HH:mm:ss")
+    all.updatedAt = moment(task.updatedAt).format("YYYY年MM月DD日 HH:mm:ss")
+    all.process = task.process
+
+
+    all.subtitle = config.data.data[0].describe
     // console.log(config.data.data[0].fileAddress)
-    for (let i = 0; i < config.data.data[0].worker.length; i++) {
-      worker.push(config.data.data[0].worker[i])
+    for (let i = 0; i < task.worker.length; i++) {
+      worker.push(task.worker[i])
     }
 
 
@@ -84,9 +106,6 @@ xhr.get(`dean/getTask/${taskid}`)
 function back() {
   router.go(-1)
 }
-
-
-const activeKey = ref([]);
 </script>
 <style lang="less" scoped>
 #form {

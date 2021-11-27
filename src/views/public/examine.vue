@@ -11,7 +11,7 @@
         <a
           href="javascript:void(0);"
           @click="operation(record.key)"
-          v-if="record.status === 0"
+
         >查看并审核</a>
       </template>
     </a-table>
@@ -58,7 +58,6 @@ interface dataSource {
 let dataSource = preLoad.state.examineList
 
 
-preLoad.mutation.refreshExamine()
 console.log(dataSource)
 const router = useRouter()
 const operation = (key: string) => {

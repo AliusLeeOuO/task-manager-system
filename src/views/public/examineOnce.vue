@@ -29,6 +29,7 @@ import FileData from "../../components/public/fileData.vue"
 import { message, Modal } from "ant-design-vue";
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import preLoad from "../../store/preLoad";
+import Cookies from "js-cookie";
 
 const route = useRoute()
 const router = useRouter()
@@ -56,6 +57,7 @@ const taskInfo = reactive<taskInfo>({
 // 获取任务信息
 xhr.get(`examine/taskAuditOne/${taskid}`)
   .then(({ data }) => {
+    console.log(data,1)
     taskInfo.taskname = data.data.taskname
     for (let i in data.data.taskId.fileAddress) {
       taskInfo.files.push(data.data.taskId.fileAddress[i])
@@ -91,11 +93,13 @@ const rtn = () => {
     icon: () => createVNode(QuestionCircleOutlined),
     content: () => createVNode('div', { style: '' }, '确定要打回此审核吗？'),
     onOk() {
-      xhr.put(`examine/returnAudit/${taskid}`)
+      xhr.put(`examine/returnAudit/${taskid}`,{
+        userId: Cookies.get("id")
+      })
         .then(({ data }) => {
           if ((data.status) === 200) {
             message.success("操作成功，正在返回")
-            preLoad.mutation.refreshExamine(true)
+            // preLoad.mutation.refreshExamine(true)
             setTimeout(() => {
               router.go(-1)
             }, 300)
@@ -113,11 +117,13 @@ const pass = () => {
     icon: () => createVNode(QuestionCircleOutlined),
     content: () => createVNode('div', { style: '' }, '确定要通过此审核吗？'),
     onOk() {
-      xhr.put(`examine/adoptAudit/${taskid}`)
+      xhr.put(`examine/adoptAudit/${taskid}`,{
+        userId: Cookies.get("id")
+      })
         .then(({ data }) => {
           if ((data.status) === 200) {
             message.success("操作成功，正在返回")
-            preLoad.mutation.refreshExamine(true)
+            // preLoad.mutation.refreshExamine(true)
             setTimeout(() => {
               router.go(-1)
             }, 300)

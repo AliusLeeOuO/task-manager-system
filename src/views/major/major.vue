@@ -7,16 +7,12 @@
         api-path="response.data.data.workerTask"
       ></show-table>
     </a-card>
-    <a-card title="通知">
-      <notice></notice>
-    </a-card>
   </div>
 </template>
 <script lang="ts" setup>
 import { useRouter } from "vue-router";
 import Cookies from "js-cookie";
 import ShowTable from "../../components/public/showTable.vue"
-import Notice from "../public/notice.vue"
 
 const router = useRouter()
 </script>

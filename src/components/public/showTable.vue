@@ -69,6 +69,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { computed, createVNode, ref } from "vue";
 import preLoad from "../../store/preLoad";
 import { message, Modal } from "ant-design-vue";
+import Cookies from "js-cookie";
 
 const props = defineProps<{
   newTaskBtn: boolean,
@@ -156,7 +157,12 @@ const manager = () => {
 
 function refreshTask(force?: boolean) {
   if (container.length === 0 || force) {
-    xhr.get(props.api).then(response => {
+    xhr.get(props.api,{
+      params: {
+        skipNumber: 0,
+        limitNumber: 99999999
+      }
+    }).then(response => {
       container.splice(0, container.length)
       let task
       switch (props.apiPath) {
@@ -250,7 +256,11 @@ const confirmRemove = (key: string): void => {
     icon: () => createVNode(ExclamationCircleOutlined),
     content: () => createVNode('div', { style: 'color:red;' }, '此操作非常危险，请再次确认是否执行该操作。'),
     onOk() {
-      xhr.delete(`dean/deleteTask/${key}`).then(config => {
+      xhr.delete(`dean/deleteTask/${key}`,{
+        data: {
+          userId: Cookies.get("id")
+        }
+      }).then(config => {
         const status = config.data
         if (status.status === 200) {
           refreshTask(true)

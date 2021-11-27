@@ -6,15 +6,16 @@
         <nav-block
           :to="item.path"
           :nav-title="item.meta.name"
-          v-for="(item, index) in filter"
+          v-for="item in filter"
           :key="item.path"
           :alert-count="item.meta.count ? item.meta.count : undefined"
+          :extend="false"
         ></nav-block>
       </nav>
     </div>
     <div id="header-right">
+      <nav-block to="/notice" nav-title="通知" extend></nav-block>
       <span>{{ userInfo }}</span>
-      &nbsp;&nbsp;
       <a href="javascript:void(0);" @click="exitAccount">退出</a>
     </div>
   </header>
@@ -22,10 +23,10 @@
 <script lang="ts" setup>
 import NavBlock from "../../components/header/nav-block.vue"
 import Cookies from 'js-cookie'
-import { per0, per1, per2 } from "../../router/personConfig";
+import {per0, per1, per2} from "../../router/personConfig";
 import publicRoute from "../../router/publicRoute";
-import { useRouter, RouteRecordRaw } from "vue-router";
-import { computed } from "vue";
+import {useRouter, RouteRecordRaw} from "vue-router";
+import {computed} from "vue";
 import layout from "../../store/layout";
 import preLoad from "../../store/preLoad";
 
@@ -59,20 +60,20 @@ for (let i in publicRoute) {
 const filter = computed((): any => {
   return preLoad.state.navList.filter((item: RouteRecordRaw) => {
     if (item.meta) {
-      if (item.name === "examine") {
-        item.meta.count = preLoad.state.examineList.filter(i => i.status === 0).length
-      }
       return !item.meta.hide
     }
   })
 })
-preLoad.mutation.refreshExamine()
+
+
+// 通知小红点
+
+
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;
 @main-color: #2286f7;
 header {
-  overflow: hidden;
   background-color: #fff;
   height: @nav-height;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
@@ -108,6 +109,10 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    & > * {
+      margin: 0 5px;
+    }
   }
 }
 </style>
