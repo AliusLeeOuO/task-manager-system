@@ -48,7 +48,6 @@ declare module 'vue' {
     BarCharts: typeof import('./src/components/public/barCharts.vue')['default']
     Echarts: typeof import('./src/components/public/echarts.vue')['default']
     FileBlock: typeof import('./src/components/public/fileComponents/fileBlock.vue')['default']
-    FileData: typeof import('./src/components/public/fileData.vue')['default']
     FileList: typeof import('./src/components/public/fileComponents/fileList.vue')['default']
     NavBlock: typeof import('./src/components/header/nav-block.vue')['default']
     NoticeBlock: typeof import('./src/components/public/noticeBlock.vue')['default']
