@@ -23,7 +23,7 @@
           >
           </NoticeBlock>
           <div v-else id="none-notice">
-            暂无通知...
+            <a-empty :image="simpleImage"/>
           </div>
         </div>
         <div id="more">
@@ -35,7 +35,7 @@
 </template>
 <script lang="ts" setup>
 import {reactive} from "vue";
-import {message} from "ant-design-vue";
+import {message, Empty} from "ant-design-vue";
 import xhr from "../../xhr"
 import Cookies from "js-cookie";
 import NoticeBlock from "../public/noticeBlock.vue"
@@ -81,6 +81,9 @@ xhr.get(`notice/pageNoticeList/${Cookies.get("id")}`, {
 // import { ClockCircleOutlined } from '@ant-design/icons-vue';
 
 let list = reactive<any>([])
+
+
+const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;
@@ -116,10 +119,10 @@ let list = reactive<any>([])
 }
 
 .router-link-active {
-  color: @main-color;
+  color: @main-color !important;
 
   &::before {
-    background-color: @main-color;
+    background-color: @main-color !important;
   }
 }
 
@@ -183,13 +186,6 @@ let list = reactive<any>([])
   #layout-lists {
     max-height: 300px;
     overflow-y: auto;
-
-    #none-notice {
-      color: #bbb;
-      line-height: 50px;
-      height: 50px;
-      text-align: center;
-    }
   }
 
   #more {

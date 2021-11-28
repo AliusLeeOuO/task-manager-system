@@ -25,7 +25,7 @@
 import xhr from "../../xhr"
 import { useRoute, useRouter } from "vue-router";
 import { createVNode, reactive } from "vue";
-import FileData from "../../components/public/fileData.vue"
+import FileData from "../../components/public/fileComponents/fileList.vue"
 import { message, Modal } from "ant-design-vue";
 import { QuestionCircleOutlined } from '@ant-design/icons-vue'
 import preLoad from "../../store/preLoad";

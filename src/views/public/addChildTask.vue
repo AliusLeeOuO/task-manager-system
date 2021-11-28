@@ -19,7 +19,7 @@
           <a-date-picker
             valueFormat="x"
             show-time
-            placeholder="结束时间，不设置即不限"
+            placeholder="结束时间"
             v-model:value="formItem.endtime"
           />
         </a-form-item>
@@ -49,7 +49,6 @@ import xhr from "../../xhr";
 import { message } from "ant-design-vue";
 import { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
 import Cookies from "js-cookie";
-import moment, { Moment } from "moment";
 
 const route = useRoute()
 const router = useRouter()
@@ -65,7 +64,7 @@ const labelCol = {
 interface formItems {
   taskname: string,
   describe: string,
-  endtime: Moment | null,
+  endtime: number | null,
   taskUser: string[]
 }
 
@@ -86,6 +85,7 @@ const validatorTaskUser = async function () {
 const rules = {
   taskname: [{ required: true, message: "请输入任务名称", trigger: "blur" }],
   describe: [{ required: true, message: "请输入任务描述", trigger: "blur" }],
+  endtime: [{ required: true, message: "请选择结束时间", trigger: "blur" }],
   taskUser: [{ required: true, validator: validatorTaskUser, trigger: "change" }]
 }
 
@@ -118,7 +118,7 @@ const handleFinish = (values: formItems) => {
     creator: Cookies.get("id"),
     worker: values.taskUser,
     describe: values.describe,
-    endtime: values.endtime ? values.endtime.toDate() : null
+    endtime: values.endtime
   })
     .then(({ data }) => {
       if (data.status === 200) {
@@ -127,7 +127,7 @@ const handleFinish = (values: formItems) => {
           query: {
             type: "新建子任务",
             title: "新建子任务成功！",
-            subtitle: `子任务名称：${values.taskname}，结束时间：${values.endtime ? values.endtime.toDate() : "未设置"}。`
+            subtitle: `子任务名称：${values.taskname}，结束时间：${values.endtime ? values.endtime : "未设置"}。`
           }
         })
       }

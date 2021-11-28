@@ -4,10 +4,11 @@
       <a-button type="primary" @click="newTask" v-if="props.newTaskBtn">新建任务</a-button>
       <span>任务分类（状态）</span>
       <a-radio-group v-model:value="showTable">
-        <a-radio-button value="3">全部</a-radio-button>
-        <a-radio-button value="0">未开始</a-radio-button>
-        <a-radio-button value="1">未完成</a-radio-button>
-        <a-radio-button value="2">已完成</a-radio-button>
+        <a-radio-button value="4">全部</a-radio-button>
+        <a-radio-button value="0">进行中</a-radio-button>
+        <a-radio-button value="1">审核中</a-radio-button>
+        <a-radio-button value="2">被打回</a-radio-button>
+        <a-radio-button value="3">已完成</a-radio-button>
       </a-radio-group>
     </div>
     <div id="search">
@@ -21,13 +22,20 @@
   </div>
   <a-table :columns="columns" :data-source="filterTable" :loading="isLoading">
     <template #status="{ text: status }">
-      <a-tag color="blue" v-if="status === 0">未开始</a-tag>
-      <a-tag color="orange" v-else-if="status === 1">未完成</a-tag>
+      <a-tag color="blue" v-if="status === 0">进行中</a-tag>
+      <a-tag v-else-if="status === 1">审核中</a-tag>
+      <a-tag color="orange" v-else-if="status === 2">被打回</a-tag>
       <a-tag color="green" v-else-if="status === 2">已完成</a-tag>
+      <!--
+                  0: 进行中
+                  1: 审核中
+                  2: 被打回
+                  3: 已完成
+       -->
       <a-tag v-else>未知</a-tag>
     </template>
     <template #schedule="{ text: schedule }">
-      <a-progress :percent="schedule" />
+      <a-progress :percent="schedule"/>
     </template>
     <template #action="{ record }">
       <div id="operation-button">
@@ -62,13 +70,13 @@
   </a-table>
 </template>
 <script lang="ts" setup>
-import { onBeforeRouteLeave, useRouter } from "vue-router";
+import {onBeforeRouteLeave, useRouter} from "vue-router";
 import xhr from "../../xhr/index"
 import moment from "moment";
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
-import { computed, createVNode, ref } from "vue";
+import {ExclamationCircleOutlined} from '@ant-design/icons-vue';
+import {computed, createVNode, ref} from "vue";
 import preLoad from "../../store/preLoad";
-import { message, Modal } from "ant-design-vue";
+import {message, Modal} from "ant-design-vue";
 import Cookies from "js-cookie";
 
 const props = defineProps<{
@@ -98,7 +106,7 @@ const columns = [
   }, {
     title: '状态'
     , dataIndex: 'status'
-    , slots: { customRender: 'status' }
+    , slots: {customRender: 'status'}
     , key: 'status'
   }, {
     title: '结束时间'
@@ -108,28 +116,34 @@ const columns = [
     title: '进度'
     , dataIndex: 'schedule'
     , key: 'schedule'
-    , slots: { customRender: 'schedule' }
+    , slots: {customRender: 'schedule'}
     , width: '15%'
   }, {
     title: '操作'
     , dataIndex: 'action'
     , key: 'action'
-    , slots: { customRender: 'action' }
+    , slots: {customRender: 'action'}
   }
 ]
 refreshTask()
 
 // 过滤器
-let showTable = ref<string>("3")
+let showTable = ref<string>("4")
 let searchString = ref<string>('')
 const onSearch = (searchValue: string) => {
   console.log(`search ${searchValue}`)
 }
 const filterTable = computed(function () {
   return container.filter((item: any) => {
+    /*
+                  0: 进行中
+                  1: 审核中
+                  2: 被打回
+                  3: 已完成
+      */
     switch (showTable.value) {
-      case "2":
-        if (item.status === 2 && item.task.indexOf(searchString.value) !== -1) {
+      case "0":
+        if (item.status === 0 && item.task.indexOf(searchString.value) !== -1) {
           return true
         }
         break
@@ -138,12 +152,17 @@ const filterTable = computed(function () {
           return true
         }
         break
-      case "0":
-        if (item.status === 0 && item.task.indexOf(searchString.value) !== -1) {
+      case "2":
+        if (item.status === 2 && item.task.indexOf(searchString.value) !== -1) {
           return true
         }
         break
       case "3":
+        if (item.status === 3 && item.task.indexOf(searchString.value) !== -1) {
+          return true
+        }
+        break
+      case "4":
         if (item.task.indexOf(searchString.value) !== -1)
           return true
     }
@@ -157,7 +176,7 @@ const manager = () => {
 
 function refreshTask(force?: boolean) {
   if (container.length === 0 || force) {
-    xhr.get(props.api,{
+    xhr.get(props.api, {
       params: {
         skipNumber: 0,
         limitNumber: 99999999
@@ -254,9 +273,9 @@ const confirmRemove = (key: string): void => {
   Modal.confirm({
     title: () => '您确定真的要删除吗？',
     icon: () => createVNode(ExclamationCircleOutlined),
-    content: () => createVNode('div', { style: 'color:red;' }, '此操作非常危险，请再次确认是否执行该操作。'),
+    content: () => createVNode('div', {style: 'color:red;'}, '此操作非常危险，请再次确认是否执行该操作。'),
     onOk() {
-      xhr.delete(`dean/deleteTask/${key}`,{
+      xhr.delete(`dean/deleteTask/${key}`, {
         data: {
           userId: Cookies.get("id")
         }

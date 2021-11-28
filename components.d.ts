@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     AAlert: typeof import('ant-design-vue/es')['Alert']
+    ABackTop: typeof import('ant-design-vue/es')['BackTop']
     ABadge: typeof import('ant-design-vue/es')['Badge']
     AButton: typeof import('ant-design-vue/es')['Button']
     ACard: typeof import('ant-design-vue/es')['Card']
@@ -43,9 +44,10 @@ declare module 'vue' {
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     AUpload: typeof import('ant-design-vue/es')['Upload']
     BarCharts: typeof import('./src/components/public/barCharts.vue')['default']
-    Card: typeof import('./src/components/public/card.vue')['default']
     Echarts: typeof import('./src/components/public/echarts.vue')['default']
+    FileBlock: typeof import('./src/components/public/fileComponents/fileBlock.vue')['default']
     FileData: typeof import('./src/components/public/fileData.vue')['default']
+    FileList: typeof import('./src/components/public/fileComponents/fileList.vue')['default']
     NavBlock: typeof import('./src/components/header/nav-block.vue')['default']
     NoticeBlock: typeof import('./src/components/public/noticeBlock.vue')['default']
     ShowTable: typeof import('./src/components/public/showTable.vue')['default']
