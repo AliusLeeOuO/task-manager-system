@@ -42,6 +42,11 @@
         <div v-if="manager()">
           <a href="javascript:void(0);" @click="showTask(record.id)">查看</a>
           <a href="javascript:void(0);" @click="modifyTask(record.id)" v-if="!record.isChildren">修改</a>
+          <a
+            href="javascript:void(0);"
+            @click="addChildTask(record.id, record.task)"
+            v-if="!record.isChildren && Cookies.get('parentId') === '0'"
+          >新建子任务</a>
           <a-popconfirm
             title="确定要删除这项任务吗？该操作无法撤回"
             ok-text="好"

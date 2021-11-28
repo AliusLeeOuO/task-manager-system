@@ -65,7 +65,7 @@ const route = useRoute()
   }
 
   #notice-list {
-    min-height: 90vh;
+    height: 90vh;
     overflow-y: auto;
     background-color: #fff;
   }

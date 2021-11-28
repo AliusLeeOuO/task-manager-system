@@ -46,15 +46,6 @@ const publicRoute: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/examineOnce/:taskid",
-    name: "examineOnce",
-    component: () => import("../views/public/examineOnce.vue"),
-    meta: {
-      name: "审核任务",
-      hide: true,
-    },
-  },
-  {
     path: "/submit/:taskid",
     name: "submit",
     component: () => import("../views/public/submit.vue"),
@@ -94,6 +85,15 @@ const publicRoute: Array<RouteRecordRaw> = [
         },
       }
     ]
+  },
+  {
+    path: "/showOnlineFile",
+    name: "showOnlineFile",
+    component: () => import("../views/public/showOnlineFile.vue"),
+    meta: {
+      name: "查看在线文件",
+      hide: true,
+    },
   },
 ];
 export default publicRoute;

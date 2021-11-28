@@ -28,6 +28,7 @@ const layout = {
       preLoad.state.myTasks.splice(0, preLoad.state.myTasks.length)
       preLoad.state.examineList.splice(0,preLoad.state.examineList.length)
       preLoad.state.navList.splice(0, preLoad.state.navList.length)
+      preLoad.state.notice.splice(0, preLoad.state.notice.length)
     }
   })
 }

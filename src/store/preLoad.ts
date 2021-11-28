@@ -48,8 +48,9 @@ const preLoad = {
     notice: []
   }),
   mutation: {
-    refreshNotice(force?: boolean) {
+    refreshNotice: function (force?: boolean) {
       if (preLoad.state.notice.length === 0 || force) {
+        preLoad.state.notice.splice(0, preLoad.state.notice.length)
         xhr.get(`notice/pageNoticeList/${Cookies.get("id")}`, {
           params: {
             pagenum: 0,
@@ -57,27 +58,39 @@ const preLoad = {
           }
         }).then(({data}) => {
           if (data.status === 200) {
-            console.log(data)
             for (let i in data.data.notices) {
               let notifier = []
-              for (let index in data.data.notices[i].notifier) {
+              for (let index = 0; index < data.data.notices[i].notifier.length; index++) {
                 notifier.push({
                   id: data.data.notices[i].notifier[index]._id,
                   name: data.data.notices[i].notifier[index].name
                 })
               }
-              preLoad.state.notice.push({
-                id: data.data.notices[i]._id,
-                content: data.data.notices[i].tips,
-                time: data.data.notices[i].updatedAt,
-                notifier: notifier,
-                sender: {
-                  id: data.data.notices[i].userId._id,
-                  name: data.data.notices[i].userId.name
-                }
-              })
+              if (data.data.notices[i].userId) {
+                preLoad.state.notice.push({
+                  id: data.data.notices[i]._id,
+                  content: data.data.notices[i].tips,
+                  time: data.data.notices[i].updatedAt,
+                  notifier: notifier,
+                  sender: {
+                    id: data.data.notices[i].userId._id,
+                    name: data.data.notices[i].userId.name
+                  }
+                })
+              } else {
+                preLoad.state.notice.push({
+                  id: data.data.notices[i]._id,
+                  content: data.data.notices[i].tips,
+                  time: data.data.notices[i].updatedAt,
+                  notifier: notifier,
+                  sender: {
+                    id: "00",
+                    name: "暂无"
+                  }
+                })
+              }
             }
-            console.log(preLoad.state.notice)
+            // console.log(preLoad.state.notice)
           }
         }).catch(error => {
           console.warn(error)

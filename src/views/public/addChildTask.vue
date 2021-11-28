@@ -10,10 +10,10 @@
         @finishFailed="handleFinishFailed"
       >
         <a-form-item ref="taskname" name="taskname" label="任务名称">
-          <a-input placeholder="请输入任务名称" v-model:value="formItem.taskname" />
+          <a-input placeholder="请输入任务名称" v-model:value="formItem.taskname"/>
         </a-form-item>
         <a-form-item ref="describe" name="describe" label="任务描述">
-          <a-input placeholder="请输入任务描述" v-model:value="formItem.describe" />
+          <a-input placeholder="请输入任务描述" v-model:value="formItem.describe"/>
         </a-form-item>
         <a-form-item ref="endtime" name="endtime" label="结束时间">
           <a-date-picker
@@ -25,11 +25,14 @@
         </a-form-item>
         <a-form-item ref="taskUser" name="taskUser" label="负责人">
           <a-checkbox-group v-model:value="formItem.taskUser">
-            <a-checkbox
-              :value="item.value"
-              v-for="(item, index) in personList"
-              :key="item.value"
-            >{{ item.label }}</a-checkbox>
+            <a-row>
+              <a-col v-for="(item, index) in personList" :key="item.value">
+                <a-checkbox
+                  :value="item.value"
+                >{{ item.label }}
+                </a-checkbox>
+              </a-col>
+            </a-row>
           </a-checkbox-group>
         </a-form-item>
         <a-form-item :wrapper-col="{ span: 14, offset: 4 }">
@@ -43,17 +46,17 @@
 </template>
 
 <script lang="ts" setup>
-import { useRoute, useRouter } from "vue-router";
-import { reactive, UnwrapRef } from "vue";
+import {useRoute, useRouter} from "vue-router";
+import {reactive, UnwrapRef} from "vue";
 import xhr from "../../xhr";
-import { message } from "ant-design-vue";
-import { ValidateErrorEntity } from "ant-design-vue/es/form/interface";
+import {message} from "ant-design-vue";
+import {ValidateErrorEntity} from "ant-design-vue/es/form/interface";
 import Cookies from "js-cookie";
 
 const route = useRoute()
 const router = useRouter()
 const taskid = route.params.taskid
-
+const loginType = Cookies.get('parentId')
 
 const labelCol = {
   style: {
@@ -83,10 +86,10 @@ const validatorTaskUser = async function () {
 }
 
 const rules = {
-  taskname: [{ required: true, message: "请输入任务名称", trigger: "blur" }],
-  describe: [{ required: true, message: "请输入任务描述", trigger: "blur" }],
-  endtime: [{ required: true, message: "请选择结束时间", trigger: "blur" }],
-  taskUser: [{ required: true, validator: validatorTaskUser, trigger: "change" }]
+  taskname: [{required: true, message: "请输入任务名称", trigger: "blur"}],
+  describe: [{required: true, message: "请输入任务描述", trigger: "blur"}],
+  endtime: [{required: true, message: "请选择结束时间", trigger: "blur"}],
+  taskUser: [{required: true, validator: validatorTaskUser, trigger: "change"}]
 }
 
 interface personList {
@@ -94,8 +97,15 @@ interface personList {
   label: string
 }
 
+let api = ""
+if (loginType === "0") {
+  api = "dean/position"
+} else if (loginType === "1" || loginType === "2") {
+  api = "major/position"
+}
+
 let personList = reactive<personList[]>([])
-xhr.post("dean/position").then(config => {
+xhr.post(api).then(config => {
   let list = config.data.data
   for (let i = 0; i < list.length; i++) {
     personList.push({
@@ -120,7 +130,7 @@ const handleFinish = (values: formItems) => {
     describe: values.describe,
     endtime: values.endtime
   })
-    .then(({ data }) => {
+    .then(({data}) => {
       if (data.status === 200) {
         router.push({
           path: "/success",

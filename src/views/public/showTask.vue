@@ -10,15 +10,17 @@
         <div class="title">
           <span>{{ all.title }}</span>
           <div class="buttons">
-            <a-button type="primary" ghost>督办</a-button>
-            <a-button type="primary" ghost>返回</a-button>
+            <a-button type="primary" ghost @click="remindTask" :disabled="!canRemind">督办</a-button>
+            <a-button type="primary" ghost @click="back">返回</a-button>
           </div>
         </div>
         <a-descriptions bordered layout="vertical" size="default">
           <a-descriptions-item label="任务描述" :span="3">{{ all.subtitle ? all.subtitle : "暂无" }}</a-descriptions-item>
           <a-descriptions-item label="创建时间">{{ all.createdAt }}</a-descriptions-item>
           <a-descriptions-item label="更新时间">{{ all.updatedAt }}</a-descriptions-item>
-          <a-descriptions-item label="当前进度"><a-progress :percent="all.process"/></a-descriptions-item>
+          <a-descriptions-item label="当前进度">
+            <a-progress :percent="all.process"/>
+          </a-descriptions-item>
           <a-descriptions-item label="状态">
             <a-badge status="processing" text="进行中" v-if="all.status === 0"/>
             <a-badge status="default" text="审核中" v-else-if="all.status === 1"/>
@@ -36,17 +38,12 @@
             }}</span></a-descriptions-item>
         </a-descriptions>
         <div>
-          <div style="display: flex;justify-content: space-between; align-items: center;margin: 10px auto">
-            <span style="font-size: 18px;">提交记录</span>
-            <a-button type="primary">下载全部文件</a-button>
-          </div>
-
           <File-cpn :file="fileList"></File-cpn>
         </div>
       </div>
     </div>
   </a-card>
-  <a-back-top />
+  <a-back-top/>
 </template>
 <script lang="ts" setup>
 import {reactive, ref} from "vue";
@@ -55,6 +52,8 @@ import {useRoute, useRouter} from "vue-router";
 import xhr from "../../xhr"
 import FileCpn, {fileLists} from "../../components/public/fileComponents/fileList.vue"
 import moment from "moment";
+import {message} from "ant-design-vue";
+import Cookies from "js-cookie";
 
 const route = useRoute()
 const router = useRouter()
@@ -91,7 +90,6 @@ let isLoading = ref<boolean>(true)
 xhr.get(`dean/getTask/${taskid}`)
   .then(config => {
     const task = config.data.data[0]
-    console.log(task)
     all.title = task.taskname
     all.createdAt = moment(task.createdAt).format("YYYY年MM月DD日 HH:mm:ss")
     all.updatedAt = moment(task.updatedAt).format("YYYY年MM月DD日 HH:mm:ss")
@@ -99,7 +97,6 @@ xhr.get(`dean/getTask/${taskid}`)
     all.status = task.status
 
     all.subtitle = config.data.data[0].describe
-    // console.log(config.data.data[0].fileAddress)
     for (let i = 0; i < task.worker.length; i++) {
       worker.push(task.worker[i])
     }
@@ -113,6 +110,31 @@ xhr.get(`dean/getTask/${taskid}`)
   }).catch(error => {
   console.log(error)
 })
+
+
+let canRemind = ref<boolean>(true)
+
+function remindTask() {
+  if (canRemind.value) {
+    xhr.post(`notice/remindTask/${taskid}`,{
+      userId: Cookies.get("id")
+    })
+      .then(({data}) => {
+        if (data.status === 200) {
+          message.success("督办成功！")
+          canRemind.value = !canRemind
+          setTimeout(() => {
+            canRemind.value = true
+          },300000)
+        }
+      })
+      .catch(error => {
+        throw error
+      })
+  } else {
+    message.info("点太多次了！")
+  }
+}
 
 function back() {
   router.go(-1)

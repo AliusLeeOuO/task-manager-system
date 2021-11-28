@@ -5,8 +5,8 @@
       <span id="notice-title">{{ props.title }}</span>
     </div>
     <div style="color: #aaa">发送人：{{ props.sender }}
-                             接收时间：{{ moment(props.time).format("YYYY年MM月DD日 HH:mm:ss") }}
-                             接收人：<span v-for="item in props.users" :key="item.id">{{ item.name }}</span>
+      接收时间：{{ moment(props.time).format("YYYY年MM月DD日 HH:mm:ss") }}
+      接收人：<span v-for="item in props.users" :key="item.id" style="margin: 0 2px">{{ item.name }}</span>
     </div>
     <div class="content">
       <span>
@@ -19,17 +19,24 @@
 import {MessageOutlined} from '@ant-design/icons-vue'
 import moment from "moment"
 
+
+interface usrs {
+  id: string
+  name: string
+}
+
 const props = defineProps<{
   title: string
   time: string
   content: string
   sender: string
-  users: any[]
+  users: usrs[]
 }>()
 
 function delHtmlTag(str: string) {
   return str.replace(/<[^>]+>/g, "");
 }
+
 const content = delHtmlTag(props.content)
 </script>
 <style lang="less" scoped>
