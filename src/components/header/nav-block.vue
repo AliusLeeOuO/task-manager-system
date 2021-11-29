@@ -138,6 +138,7 @@ const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
   width: @width;
 
   transition: 0.3s ease-in-out;
+  transform: translateY(-15px);
   z-index: -999999999;
   opacity: 0;
   pointer-events: none;
@@ -163,6 +164,7 @@ const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
   opacity: 1;
   pointer-events: inherit;
   z-index: 2;
+  transform: translateY(0);
 }
 
 #link:hover #follow,

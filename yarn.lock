@@ -117,13 +117,6 @@
     core-js "^3.15.1"
     nanopop "^2.1.0"
 
-"@types/echarts@^4.9.12":
-  version "4.9.12"
-  resolved "https://registry.npmmirror.com/@types/echarts/download/@types/echarts-4.9.12.tgz?cache=0&sync_timestamp=1636196772481&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fecharts%2Fdownload%2F%40types%2Fecharts-4.9.12.tgz#c9b39f0ba2e8be99a6063a613683161e7f47a2cc"
-  integrity sha1-ybOfC6LovpmmBjphNoMWHn9Hosw=
-  dependencies:
-    "@types/zrender" "*"
-
 "@types/js-cookie@^3.0.1":
   version "3.0.1"
   resolved "https://registry.npmmirror.com/@types/js-cookie/download/@types/js-cookie-3.0.1.tgz?cache=0&sync_timestamp=1636998131153&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fjs-cookie%2Fdownload%2F%40types%2Fjs-cookie-3.0.1.tgz#04aa743e2e0a85a22ee9aa61f6591a8bc19b5d68"
@@ -138,11 +131,6 @@
   version "2.1.0"
   resolved "https://registry.nlark.com/@types/throttle-debounce/download/@types/throttle-debounce-2.1.0.tgz#1c3df624bfc4b62f992d3012b84c56d41eab3776"
   integrity sha1-HD32JL/Eti+ZLTASuExW1B6rN3Y=
-
-"@types/zrender@*":
-  version "4.0.1"
-  resolved "https://registry.nlark.com/@types/zrender/download/@types/zrender-4.0.1.tgz?cache=0&sync_timestamp=1629609034659&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Fzrender%2Fdownload%2F%40types%2Fzrender-4.0.1.tgz#6280c40207927ce086be24b4391d668cd330e956"
-  integrity sha1-YoDEAgeSfOCGviS0OR1mjNMw6VY=
 
 "@vitejs/plugin-vue@^1.10.1":
   version "1.10.1"
@@ -636,12 +624,13 @@ dot-case@^3.0.4:
     no-case "^3.0.4"
     tslib "^2.0.3"
 
-echarts@^4.9.0:
-  version "4.9.0"
-  resolved "https://registry.npmmirror.com/echarts/download/echarts-4.9.0.tgz#a9b9baa03f03a2a731e6340c55befb57a9e1347d"
-  integrity sha1-qbm6oD8Doqcx5jQMVb77V6nhNH0=
+echarts@^5.2.2:
+  version "5.2.2"
+  resolved "https://registry.npmmirror.com/echarts/download/echarts-5.2.2.tgz?cache=0&sync_timestamp=1635741929711&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fecharts%2Fdownload%2Fecharts-5.2.2.tgz#ec3c8b2a151cbba71ba3c2c7cf9b2f2047ce4370"
+  integrity sha1-7DyLKhUcu6cbo8LHz5svIEfOQ3A=
   dependencies:
-    zrender "4.3.2"
+    tslib "2.3.0"
+    zrender "5.2.1"
 
 emmet@^2.3.0:
   version "2.3.4"
@@ -1511,6 +1500,11 @@ token-stream@1.0.0:
   resolved "https://registry.npm.taobao.org/token-stream/download/token-stream-1.0.0.tgz#cc200eab2613f4166d27ff9afc7ca56d49df6eb4"
   integrity sha1-zCAOqyYT9BZtJ/+a/HylbUnfbrQ=
 
+tslib@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.nlark.com/tslib/download/tslib-2.3.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftslib%2Fdownload%2Ftslib-2.3.0.tgz#803b8cdab3e12ba581a4ca41c8839bbb0dacb09e"
+  integrity sha1-gDuM2rPhK6WBpMpByIObuw2ssJ4=
+
 tslib@^2.0.3, tslib@^2.3.0:
   version "2.3.1"
   resolved "https://registry.nlark.com/tslib/download/tslib-2.3.1.tgz?cache=0&sync_timestamp=1628722556410&other_urls=https%3A%2F%2Fregistry.nlark.com%2Ftslib%2Fdownload%2Ftslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
@@ -1791,7 +1785,9 @@ yarn@^1.22.17:
   resolved "https://registry.npmmirror.com/yarn/download/yarn-1.22.17.tgz#bf910747d22497b573131f7341c0e1d15c74036c"
   integrity sha1-v5EHR9Ikl7VzEx9zQcDh0Vx0A2w=
 
-zrender@4.3.2:
-  version "4.3.2"
-  resolved "https://registry.nlark.com/zrender/download/zrender-4.3.2.tgz#ec7432f9415c82c73584b6b7b8c47e1b016209c6"
-  integrity sha1-7HQy+UFcgsc1hLa3uMR+GwFiCcY=
+zrender@5.2.1:
+  version "5.2.1"
+  resolved "https://registry.nlark.com/zrender/download/zrender-5.2.1.tgz#5f4bbda915ba6d412b0b19dc2431beaad05417bb"
+  integrity sha1-X0u9qRW6bUErCxncJDG+qtBUF7s=
+  dependencies:
+    tslib "2.3.0"
