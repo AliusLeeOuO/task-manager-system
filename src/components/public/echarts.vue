@@ -7,11 +7,11 @@
 </template>
 <script lang="ts" setup>
 import * as echarts from 'echarts/core';
-import {GridComponent, GridComponentOption, TooltipComponent} from 'echarts/components';
-import {LineChart, LineSeriesOption} from 'echarts/charts';
-import {UniversalTransition} from 'echarts/features';
-import {CanvasRenderer} from 'echarts/renderers';
-import {onMounted, reactive} from "vue";
+import { GridComponent, GridComponentOption, TooltipComponent } from 'echarts/components';
+import { LineChart, LineSeriesOption } from 'echarts/charts';
+import { UniversalTransition } from 'echarts/features';
+import { CanvasRenderer } from 'echarts/renderers';
+import { onMounted, reactive } from "vue";
 
 const props = defineProps<{
   id: string
@@ -125,5 +125,4 @@ onMounted(() => {
     }
   }
 }
-
 </style>

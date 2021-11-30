@@ -10,20 +10,18 @@
     <div id="follow" v-if="props.extend">
       <div id="top"></div>
       <div id="layout">
-        <div id="layout-title">
-          通知
-        </div>
+        <div id="layout-title">通知</div>
         <div id="layout-lists">
-          <NoticeBlock v-for="i in list"
-                       :key="i._id"
-                       title="通知"
-                       :content="i.tips"
-                       :time="moment(i.createdAt).format('YYYY/MM/DD HH:mm:ss')"
-                       v-if="list.length !== 0"
-          >
-          </NoticeBlock>
+          <NoticeBlock
+            v-for="i in list"
+            :key="i._id"
+            title="通知"
+            :content="i.tips"
+            :time="moment(i.createdAt).format('YYYY/MM/DD HH:mm:ss')"
+            v-if="list.length !== 0"
+          ></NoticeBlock>
           <div v-else id="none-notice">
-            <a-empty :image="simpleImage"/>
+            <a-empty :image="simpleImage" />
           </div>
         </div>
         <div id="more">
@@ -34,8 +32,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {reactive} from "vue";
-import {message, Empty} from "ant-design-vue";
+import { reactive } from "vue";
+import { message, Empty } from "ant-design-vue";
 import xhr from "../../xhr"
 import Cookies from "js-cookie";
 import NoticeBlock from "../public/noticeBlock.vue"
@@ -134,7 +132,7 @@ const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
   @width: 350px;
   height: 200px;
   position: absolute;
-  left: calc(50% - @width * .5);
+  left: calc(50% - @width * 0.5);
   width: @width;
 
   transition: 0.3s ease-in-out;
@@ -169,7 +167,7 @@ const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 
 #link:hover #follow,
 #follow:hover #follow {
-  .link-enter
+  .link-enter;
 }
 
 #layout {
@@ -182,7 +180,7 @@ const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
   #layout-title {
     height: 30px;
     line-height: 30px;
-    border-bottom: 1px solid #E6ECF0;
+    border-bottom: 1px solid #e6ecf0;
   }
 
   #layout-lists {
@@ -203,7 +201,7 @@ const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
       transition: 0.3s ease-in-out;
 
       &:hover {
-        background-color: #E6F7FF;
+        background-color: #e6f7ff;
       }
     }
   }

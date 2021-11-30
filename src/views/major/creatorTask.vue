@@ -9,12 +9,7 @@
 </template>
 <script lang="ts" setup>
 import ShowTable from "../../components/public/showTable.vue"
-import { useRouter } from "vue-router";
 import Cookies from "js-cookie";
-
-const router = useRouter()
-
-
 </script>
 <style lang="less" scoped>
 </style>

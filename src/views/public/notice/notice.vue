@@ -1,24 +1,20 @@
 <template>
   <div id="layout">
     <div id="notice-class">
-      <div class="header">
-        通知中心
-      </div>
+      <div class="header">通知中心</div>
       <div id="class-list">
         <router-link to="/notice/myNotice" class="class-block">我的通知</router-link>
         <router-link to="/notice/sendNotice" class="class-block">发送通知</router-link>
       </div>
     </div>
     <div id="notice-list">
-      <div class="header">
-        {{ route.meta.name }}
-      </div>
+      <div class="header">{{ route.meta.name }}</div>
       <router-view></router-view>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import {useRoute} from "vue-router";
+import { useRoute } from "vue-router";
 
 const route = useRoute()
 
@@ -58,7 +54,7 @@ const route = useRoute()
         display: block;
 
         &:hover {
-          background-color: #E6F7FF;
+          background-color: #e6f7ff;
         }
       }
     }
@@ -69,9 +65,8 @@ const route = useRoute()
     overflow-y: auto;
     background-color: #fff;
   }
-
 }
 .router-link-active {
-  background-color: #E6F7FF;
+  background-color: #e6f7ff;
 }
 </style>

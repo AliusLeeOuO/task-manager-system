@@ -31,11 +31,11 @@
                   1: 审核中
                   2: 被打回
                   3: 已完成
-       -->
+      -->
       <a-tag v-else>未知</a-tag>
     </template>
     <template #schedule="{ text: schedule }">
-      <a-progress :percent="schedule"/>
+      <a-progress :percent="schedule" />
     </template>
     <template #action="{ record }">
       <div id="operation-button">
@@ -66,7 +66,7 @@
           >新建子任务</a>
           <a
             href="javascript:void(0);"
-            @click="submitTask(record.id,record.lastTask)"
+            @click="submitTask(record.id, record.lastTask)"
             v-if="!record.isChildren"
           >提交材料</a>
         </div>
@@ -75,13 +75,13 @@
   </a-table>
 </template>
 <script lang="ts" setup>
-import {onBeforeRouteLeave, useRouter} from "vue-router";
+import { onBeforeRouteLeave, useRouter } from "vue-router";
 import xhr from "../../xhr/index"
 import moment from "moment";
-import {ExclamationCircleOutlined} from '@ant-design/icons-vue';
-import {computed, createVNode, ref} from "vue";
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { computed, createVNode, ref } from "vue";
 import preLoad from "../../store/preLoad";
-import {message, Modal} from "ant-design-vue";
+import { message, Modal } from "ant-design-vue";
 import Cookies from "js-cookie";
 
 const props = defineProps<{
@@ -111,7 +111,7 @@ const columns = [
   }, {
     title: '状态'
     , dataIndex: 'status'
-    , slots: {customRender: 'status'}
+    , slots: { customRender: 'status' }
     , key: 'status'
   }, {
     title: '结束时间'
@@ -121,13 +121,13 @@ const columns = [
     title: '进度'
     , dataIndex: 'schedule'
     , key: 'schedule'
-    , slots: {customRender: 'schedule'}
+    , slots: { customRender: 'schedule' }
     , width: '15%'
   }, {
     title: '操作'
     , dataIndex: 'action'
     , key: 'action'
-    , slots: {customRender: 'action'}
+    , slots: { customRender: 'action' }
   }
 ]
 refreshTask()
@@ -270,7 +270,7 @@ const addChildTask = (key: string, taskName: string) => {
   })
 }
 // 提交任务
-const submitTask = (key: string,last: boolean = false) => {
+const submitTask = (key: string, last: boolean = false) => {
   router.push({
     path: `/submit/${key}`,
     query: {
@@ -283,7 +283,7 @@ const confirmRemove = (key: string): void => {
   Modal.confirm({
     title: () => '您确定真的要删除吗？',
     icon: () => createVNode(ExclamationCircleOutlined),
-    content: () => createVNode('div', {style: 'color:red;'}, '此操作非常危险，请再次确认是否执行该操作。'),
+    content: () => createVNode('div', { style: 'color:red;' }, '此操作非常危险，请再次确认是否执行该操作。'),
     onOk() {
       xhr.delete(`dean/deleteTask/${key}`, {
         data: {

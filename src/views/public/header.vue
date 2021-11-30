@@ -23,10 +23,10 @@
 <script lang="ts" setup>
 import NavBlock from "../../components/header/nav-block.vue"
 import Cookies from 'js-cookie'
-import {per0, per1, per2} from "../../router/personConfig";
+import { per0, per1, per2 } from "../../router/personConfig";
 import publicRoute from "../../router/publicRoute";
-import {useRouter, RouteRecordRaw} from "vue-router";
-import {computed} from "vue";
+import { useRouter, RouteRecordRaw } from "vue-router";
+import { computed } from "vue";
 import layout from "../../store/layout";
 import preLoad from "../../store/preLoad";
 

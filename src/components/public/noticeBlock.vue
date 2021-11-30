@@ -2,21 +2,19 @@
   <div id="box">
     <div id="flex-one">
       <div id="header-block">
-        <MessageOutlined/>
+        <MessageOutlined />
         <span id="notice-title">{{ props.title }}</span>
       </div>
       <div style="color: #aaa">{{ props.time }}</div>
     </div>
 
     <div class="content">
-      <span>
-        {{ content }}
-      </span>
+      <span>{{ content }}</span>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import {MessageOutlined} from '@ant-design/icons-vue'
+import { MessageOutlined } from '@ant-design/icons-vue'
 
 const props = defineProps<{
   title: string
@@ -28,7 +26,7 @@ function delHtmlTag(str: string) {
   return str.replace(/<[^>]+>/g, "");
 }
 
-let content =  delHtmlTag(props.content)
+let content = delHtmlTag(props.content)
 </script>
 <style lang="less" scoped>
 #box {
@@ -39,14 +37,13 @@ let content =  delHtmlTag(props.content)
   transition: 0.3s ease-in-out;
 
   &:hover {
-    background-color: #E6F7FF;
+    background-color: #e6f7ff;
   }
 
   #flex-one {
     display: flex;
     justify-content: space-between;
     align-items: center;
-
 
     #header-block {
       display: flex;
@@ -77,6 +74,4 @@ let content =  delHtmlTag(props.content)
     }
   }
 }
-
-
 </style>

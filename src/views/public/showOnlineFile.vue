@@ -10,12 +10,12 @@
       <iframe :src="officeUrl" frameborder="0" allowfullscreen></iframe>
     </div>
     <div class="showLayout" v-else-if="type === 'photo'">
-      <img :src="link" alt="">
+      <img :src="link" />
     </div>
   </a-card>
 </template>
 <script lang="ts" setup>
-import {useRoute, useRouter} from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 
 const route = useRoute()
 const router = useRouter()

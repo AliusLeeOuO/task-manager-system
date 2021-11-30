@@ -1,10 +1,12 @@
 <template>
   <div class="file-block">
     <div class="file-content">
-      <p class="file-title">提交描述：{{ props.describe }} 提交时间：{{
+      <p class="file-title">
+        提交描述：{{ props.describe }} 提交时间：{{
           moment(props.createdAt).format("YYYY年MM月DD日 HH:mm:ss")
-        }}</p>
-      <a-progress :percent="props.process" v-if="props.process"/>
+        }}
+      </p>
+      <a-progress :percent="props.process" v-if="props.process" />
       <span v-else>本次提交未提交任务进度</span>
       <a-button danger block v-if="props.void || returned" @click="returnAudit">打回</a-button>
       <a-button danger block disabled v-else>已被打回</a-button>
@@ -13,20 +15,23 @@
       <template #action="{ record }">
         <div class="actions">
           <a :href="record.link" :download="record.link">下载</a>
-          <a href="javascript:void(0);" v-if="checkSupportOnline(record.name)"
-             @click="toOnline(record.link,checkSupportOnline(record.name))">在线查看</a>
+          <a
+            href="javascript:void(0);"
+            v-if="checkSupportOnline(record.name)"
+            @click="toOnline(record.link, checkSupportOnline(record.name))"
+          >在线查看</a>
         </div>
       </template>
     </a-table>
   </div>
 </template>
 <script lang="ts" setup>
-import {reactive, ref} from "vue";
-import {useRouter} from "vue-router";
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
 import moment from "moment";
 import xhr from "../../../xhr"
 import Cookies from "js-cookie";
-import {message} from "ant-design-vue";
+import { message } from "ant-design-vue";
 
 const props = defineProps<{
   // id
@@ -65,7 +70,7 @@ const columns = reactive([
     dataIndex: 'action',
     key: 'action',
     width: "15%",
-    slots: {customRender: 'action'}
+    slots: { customRender: 'action' }
   }
 
 ])
@@ -142,7 +147,7 @@ function returnAudit() {
   xhr.put(`examine/returnAudit/${props.id}`, {
     userId: Cookies.get("id")
   })
-    .then(({data}) => {
+    .then(({ data }) => {
       if (data.status === 200) {
         returned.value = true
         message.success("打回成功！")
@@ -173,7 +178,7 @@ function returnAudit() {
   display: grid;
   grid-template-columns: 20fr 4fr 2fr;
   align-items: center;
-  grid-gap: 10px
+  grid-gap: 10px;
 }
 
 .file-title {

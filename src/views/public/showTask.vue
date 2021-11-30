@@ -2,7 +2,7 @@
   <a-card title="查看任务">
     <div id="form">
       <div v-if="isLoading">
-        <a-skeleton :paragraph="{ rows: 6 }" active/>
+        <a-skeleton :paragraph="{ rows: 6 }" active />
       </div>
       <div v-else>
         <div class="title">
@@ -17,13 +17,13 @@
           <a-descriptions-item label="创建时间">{{ all.createdAt }}</a-descriptions-item>
           <a-descriptions-item label="更新时间">{{ all.updatedAt }}</a-descriptions-item>
           <a-descriptions-item label="当前进度">
-            <a-progress :percent="all.process"/>
+            <a-progress :percent="all.process" />
           </a-descriptions-item>
           <a-descriptions-item label="状态">
-            <a-badge status="processing" text="进行中" v-if="all.status === 0"/>
-            <a-badge status="default" text="审核中" v-else-if="all.status === 1"/>
-            <a-badge status="warning" text="被打回" v-else-if="all.status === 2"/>
-            <a-badge status="success" text="已完成" v-else-if="all.status === 3"/>
+            <a-badge status="processing" text="进行中" v-if="all.status === 0" />
+            <a-badge status="default" text="审核中" v-else-if="all.status === 1" />
+            <a-badge status="warning" text="被打回" v-else-if="all.status === 2" />
+            <a-badge status="success" text="已完成" v-else-if="all.status === 3" />
             <!--
                   0: 进行中
                   1: 审核中
@@ -31,9 +31,13 @@
                   3: 已完成
             -->
           </a-descriptions-item>
-          <a-descriptions-item label="负责人" :span="2"><span v-for="(item, index) in worker" :key="item._id" id="worker">{{
-              item.name
-            }}</span></a-descriptions-item>
+          <a-descriptions-item label="负责人" :span="2">
+            <span v-for="(item, index) in worker" :key="item._id" id="worker">
+              {{
+                item.name
+              }}
+            </span>
+          </a-descriptions-item>
         </a-descriptions>
         <div>
           <File-cpn :file="fileList" :id="taskid" :title="all.title"></File-cpn>
@@ -41,16 +45,16 @@
       </div>
     </div>
   </a-card>
-  <a-back-top/>
+  <a-back-top />
 </template>
 <script lang="ts" setup>
-import {reactive, ref} from "vue";
-import {UploadOutlined} from '@ant-design/icons-vue';
-import {useRoute, useRouter} from "vue-router";
+import { reactive, ref } from "vue";
+import { UploadOutlined } from '@ant-design/icons-vue';
+import { useRoute, useRouter } from "vue-router";
 import xhr from "../../xhr"
-import FileCpn, {fileLists} from "../../components/public/fileComponents/fileList.vue"
+import FileCpn, { fileLists } from "../../components/public/fileComponents/fileList.vue"
 import moment from "moment";
-import {message} from "ant-design-vue";
+import { message } from "ant-design-vue";
 import Cookies from "js-cookie";
 
 const route = useRoute()
@@ -106,8 +110,8 @@ xhr.get(`dean/getTask/${taskid}`)
     }
     isLoading.value = false
   }).catch(error => {
-  console.log(error)
-})
+    console.log(error)
+  })
 
 
 let canRemind = ref<boolean>(true)
@@ -117,7 +121,7 @@ function remindTask() {
     xhr.post(`notice/remindTask/${taskid}`, {
       userId: Cookies.get("id")
     })
-      .then(({data}) => {
+      .then(({ data }) => {
         if (data.status === 200) {
           message.success("督办成功！")
           canRemind.value = !canRemind

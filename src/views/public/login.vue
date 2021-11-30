@@ -1,51 +1,67 @@
 <template>
   <div id="login-layout">
-    <div id="login-block">
-      <div id="login-title">
-        <h3>登录到 双高任务管理系统</h3>
-      </div>
-      <div id="login-form">
-        <p id="login-type">使用 教职工号 登录</p>
-        <div v-if="layout.state.loginError">
-          <a-alert :message="layout.state.loginError" type="error" show-icon style="height: 30px" />
+    <div id="layout-left"></div>
+    <div id="layout-right">
+      <div id="login-block">
+        <div id="login-title">
+          <h3>登录 双高任务管理系统</h3>
         </div>
-        <a-form @submit="submit">
-          <div class="input-block">
-            <a-input placeholder="用户名、教职工号" v-model:value="formItems.username" style="height: 35px">
-              <template #prefix>
-                <user-outlined type="user" />
-              </template>
-            </a-input>
-          </div>
-          <div class="input-block">
-            <a-input-password
-              placeholder="密码"
-              v-model:value="formItems.password"
+        <div id="login-form">
+          <p id="login-type">使用 教职工号 登录</p>
+          <div v-if="layout.state.loginError">
+            <a-alert
+              :message="layout.state.loginError"
+              type="error"
+              show-icon
               style="height: 35px"
-            >
-              <template #prefix>
-                <IdcardOutlined />
-              </template>
-            </a-input-password>
+            />
           </div>
-          <div class="input-block">
-            <a-checkbox v-model:checked="formItems.remember">记住我的登录状态</a-checkbox>
-          </div>
-          <div class="input-block">
-            <a-button type="primary" html-type="submit" style="width: 100%">登录</a-button>
-          </div>
-        </a-form>
+          <a-form @submit="submit">
+            <div class="input-block">
+              <a-input
+                placeholder="用户名、教职工号"
+                v-model:value="formItems.username"
+                style="height: 44px"
+              >
+                <template #prefix>
+                  <user-outlined type="user" />
+                </template>
+              </a-input>
+            </div>
+            <div class="input-block">
+              <a-input-password
+                placeholder="密码"
+                v-model:value="formItems.password"
+                style="height: 44px"
+              >
+                <template #prefix>
+                  <IdcardOutlined />
+                </template>
+              </a-input-password>
+            </div>
+            <div class="input-block">
+              <a-checkbox v-model:checked="formItems.remember">记住我的登录状态</a-checkbox>
+            </div>
+            <div class="input-block">
+              <a-button
+                type="primary"
+                html-type="submit"
+                style="width: 100%;height: 47px;border-radius: 5px"
+              >登录</a-button>
+            </div>
+          </a-form>
+        </div>
       </div>
-    </div>
-    <div id="cookie-alert" :class="{ hiddenAlert: acceptAlert }">
-      <div>
-        <span>
-          <WarningOutlined></WarningOutlined>请注意
-        </span>
-        <br />
-        <span>本网站使用cookie，用于在您的设备中储存信息。这些cookie可以使网站正常运行。使用本网站，即表示您接受放置这些cookie。</span>
-        <br />
-        <button @click="accept">同意并关闭提示</button>
+      <div id="cookie-alert" :class="{ hiddenAlert: acceptAlert }">
+        <div>
+          <span>
+            <WarningOutlined></WarningOutlined>请注意
+          </span>
+          <br />
+          <span>本网站使用cookie，用于在您的设备中储存信息。这些cookie可以使网站正常运行。使用本网站，即表示您接受放置这些cookie。</span>
+          <br />
+          <button @click="accept">同意并关闭提示</button>
+        </div>
       </div>
     </div>
   </div>
@@ -101,7 +117,6 @@ function submit(event: FormDataEvent) {
     workerNumber: formItems.username,
     password: formItems.password
   }).then(data => {
-    console.log(data)
     const status = data.data
     if (status.status === 200) {
       if (formItems.remember) {
@@ -183,33 +198,45 @@ function accept() {
 </script>
 <style lang="less" scoped>
 #login-layout {
+  overflow: hidden;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
-  background-color: #f1f2f6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   position: relative;
+  & > * {
+    height: 100vh;
+    overflow: hidden;
+  }
+  #layout-left {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../../../public/login_bg.jpg");
+    background-size: cover;
+    background-position: left;
+  }
+  #layout-right {
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 3px 3px 6px 3px rgba(0, 0, 0, 0.3);
+    display: grid;
+    place-items: center;
+    width: calc(100vw - 450px);
+    position: fixed;
+    right: 0;
+    #login-block {
+      min-width: 480px;
+      //background-color: #fff;
+      padding: 20px 40px;
+      #login-title {
+        padding: 10px 0;
+        text-align: center;
+        font-size: 23px;
 
-  #login-block {
-    width: 500px;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 0 3px 3px #ccc;
-    padding: 20px 40px;
-
-    #login-title {
-      padding: 10px 0;
-      text-align: center;
-      font-size: 23px;
-
-      h3 {
-        margin: 0;
+        h3 {
+          margin: 0;
+        }
       }
     }
   }
-
   .input-block {
     margin: 15px auto;
   }
@@ -217,12 +244,14 @@ function accept() {
   #cookie-alert {
     position: absolute;
     bottom: 0;
-    width: 100vw;
-    background-color: #dddde0;
+    width: 100%;
+    //background-color: #F4F4F4;
+    background-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 3px 3px 6px 3px rgba(0, 0, 0, 0.3);
     text-align: center;
     transition: 1s ease-in-out;
     animation: 1s showAlert;
-
+    border-radius: 10px 10px 0 0;
     div {
       padding: 0 20px;
       display: inline-block;
@@ -232,22 +261,23 @@ function accept() {
         &:first-child {
           font-size: 20px;
           font-weight: bold;
-          margin-bottom: 5px;
+          margin: 15px 0 5px;
         }
 
         &:nth-child(3) {
-          line-height: 25px;
+          height: 35px;
+          line-height: 35px;
         }
       }
 
       button {
+        margin-bottom: 10px;
         float: right;
         background-color: #1890ff;
         border: 0;
         padding: 3px 10px;
         color: #fff;
         border-radius: 3px;
-        margin-bottom: 5px;
         z-index: 9999;
         cursor: pointer;
       }
@@ -256,6 +286,7 @@ function accept() {
 }
 
 .hiddenAlert {
+  pointer-events: none;
   bottom: -150px !important;
   opacity: 0;
 }
@@ -279,6 +310,14 @@ function accept() {
   }
   100% {
     display: none;
+  }
+}
+
+@media only screen and (max-width: 1120px) {
+  #login-layout {
+    #layout-right {
+      width: 100vw;
+    }
   }
 }
 </style>

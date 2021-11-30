@@ -10,11 +10,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { useRouter } from "vue-router";
 import Cookies from "js-cookie";
 import ShowTable from "../../components/public/showTable.vue"
-
-const router = useRouter()
 </script>
 <style lang="less" scoped>
 #out {

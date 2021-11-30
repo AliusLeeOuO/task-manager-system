@@ -8,19 +8,19 @@
       <echarts :id="i._id" :chart-data="i" v-for="i in statistical" :key="i._id"></echarts>
     </div>
   </div>
-  <a-back-top/>
+  <a-back-top />
 </template>
 <script lang="ts" setup>
-import Echarts, {chartData} from "./echarts.vue"
+import Echarts, { chartData } from "./echarts.vue"
 import xhr from "../../xhr"
-import {reactive} from "vue";
+import { reactive } from "vue";
 import moment from "moment";
 import html2canvas from "html2canvas";
-import {message} from "ant-design-vue";
+import { message } from "ant-design-vue";
 
 const statistical = reactive<chartData[]>([])
 xhr.get("dean/statistical")
-  .then(({data}) => {
+  .then(({ data }) => {
     for (let i in data.data) {
       statistical.push(data.data[i])
     }
@@ -57,11 +57,11 @@ const createImg = async function () {
       creatDom.href = dataURL;
       creatDom.download = `双高方向任务进度${moment().format("YYYY年MM月DD日")}`;
       creatDom.click();
-      msg.then(() => message.success("导出成功！"),() => {})
+      msg.then(() => message.success("导出成功！"), () => { })
     }).catch(() => {
-      msg.then(() => message.error("导出失败！"),() => {})
+      msg.then(() => message.error("导出失败！"), () => { })
     });
-  },2000)
+  }, 2000)
 }
 </script>
 <style lang="less" scoped>

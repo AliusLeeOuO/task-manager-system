@@ -16,13 +16,13 @@
         :key="i._id"
         v-if="props.file.length !== 0"
       ></file-block>
-      <a-empty :image="simpleImage" v-else/>
+      <a-empty :image="simpleImage" v-else />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import {Empty, message} from 'ant-design-vue';
-import FileBlock, {fls} from "./fileBlock.vue"
+import { Empty, message } from 'ant-design-vue';
+import FileBlock, { fls } from "./fileBlock.vue"
 import xhr from "../../../xhr"
 import moment from "moment";
 const props = defineProps<{
@@ -44,11 +44,11 @@ export interface fileLists {
 const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 
 
-function downloadFile () {
-  xhr.get(`https://quanquan.asia/admin/api/export/download/${props.id}`,{
+function downloadFile() {
+  xhr.get(`https://quanquan.asia/admin/api/export/download/${props.id}`, {
     responseType: "blob"
   })
-    .then((res)=>{
+    .then((res) => {
       let blob = new Blob([res.data])
       let downloadElement = document.createElement('a')
       let href = window.URL.createObjectURL(blob)
@@ -92,5 +92,4 @@ function downloadFile () {
 #box {
   margin-bottom: 10px;
 }
-
 </style>

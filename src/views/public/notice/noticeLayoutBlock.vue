@@ -1,22 +1,22 @@
 <template>
   <div id="box">
     <div id="header-block">
-      <MessageOutlined/>
+      <MessageOutlined />
       <span id="notice-title">{{ props.title }}</span>
     </div>
-    <div style="color: #aaa">发送人：{{ props.sender }}
+    <div style="color: #aaa">
+      发送人：{{ props.sender }}
       接收时间：{{ moment(props.time).format("YYYY年MM月DD日 HH:mm:ss") }}
-      接收人：<span v-for="item in props.users" :key="item.id" style="margin: 0 2px">{{ item.name }}</span>
+      接收人：
+      <span v-for="item in props.users" :key="item.id" style="margin: 0 2px">{{ item.name }}</span>
     </div>
     <div class="content">
-      <span>
-        {{ content }}
-      </span>
+      <span>{{ content }}</span>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import {MessageOutlined} from '@ant-design/icons-vue'
+import { MessageOutlined } from '@ant-design/icons-vue'
 import moment from "moment"
 
 
@@ -48,9 +48,8 @@ const content = delHtmlTag(props.content)
   transition: 0.3s ease-in-out;
 
   &:hover {
-    background-color: #E6F7FF;
+    background-color: #e6f7ff;
   }
-
 
   #header-block {
     font-size: 20px;
@@ -72,6 +71,4 @@ const content = delHtmlTag(props.content)
     width: 100%;
   }
 }
-
-
 </style>
