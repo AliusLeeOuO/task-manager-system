@@ -9,6 +9,7 @@
 </template>
 <script lang="ts" setup>
 import { useRoute, useRouter } from "vue-router"
+import preLoad from "../../store/preLoad";
 
 const route = useRoute()
 const router = useRouter()
@@ -18,6 +19,8 @@ const query = route.query
 
 const backToIndex = () => {
   router.push("/")
+  preLoad.state.manageTasks.splice(0, preLoad.state.manageTasks.length)
+  preLoad.state.myTasks.splice(0, preLoad.state.myTasks.length)
 }
 
 </script>

@@ -109,27 +109,6 @@ const preLoad = {
         })
       }
     }
-    /*
-    refreshExamine (force?: boolean) {
-      if (preLoad.state.examineList.length === 0 || force) {
-        xhr.get(`examine/taskAudit/${Cookies.get("id")}`).then(({data}) => {
-          console.log(data)
-          preLoad.state.examineList.splice(0,preLoad.state.examineList.length)
-          for (let i in data.data) {
-            preLoad.state.examineList.push({
-              key: data.data[i]._id,
-              status: data.data[i].status,
-              taskName: data.data[i].taskname,
-              createdAt: moment(data.data[i].createdAt).format("YYYY年MM月DD日 HH:mm:ss"),
-              updatedAt: moment(data.data[i].updatedAt).format("YYYY年MM月DD日 HH:mm:ss")
-            })
-          }
-        }).catch(err => {
-          throw err
-        })
-      }
-    }
-    */
   }
 }
 export default preLoad

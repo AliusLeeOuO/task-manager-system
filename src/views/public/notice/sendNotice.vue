@@ -62,7 +62,19 @@ xhr.post(`dean/position`)
     }
   })
   .catch(error => {
-    throw error
+    console.warn(error)
+    if (error.response) {
+      // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
+      message.error("响应错误")
+    } else if (error.request) {
+      // 请求已经成功发起，但没有收到响应
+      message.error("服务端数据请求失败")
+      console.log(error.request);
+    } else {
+      // 发送请求时出了点问题
+      message.error("请求失败，致命错误")
+      console.log('Error', error.message);
+    }
   })
 xhr.post(`major/position`)
   .then(({data}) => {
@@ -74,7 +86,19 @@ xhr.post(`major/position`)
     }
   })
   .catch(error => {
-    throw error
+    console.warn(error)
+    if (error.response) {
+      // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
+      message.error("响应错误")
+    } else if (error.request) {
+      // 请求已经成功发起，但没有收到响应
+      message.error("服务端数据请求失败")
+      console.log(error.request);
+    } else {
+      // 发送请求时出了点问题
+      message.error("请求失败，致命错误")
+      console.log('Error', error.message);
+    }
   })
 
 

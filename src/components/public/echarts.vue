@@ -19,7 +19,7 @@ const props = defineProps<{
 }>()
 
 interface axis {
-  month: number
+  month: string
   process: number
   _id: string
 }
@@ -30,12 +30,30 @@ export interface chartData {
   journal: axis[]
 }
 
-console.log(props.chartData)
 const xAxis = reactive<string[]>([])
-const yAxis = reactive<number[]>([])
+const yAxis = reactive<(string | number)[]>([])
+console.log()
+for (let i = 12 - props.chartData.journal.length; i > 0; i--) {
+  function goBackDate(dateStr: string, gobackMonth: number) {
+    let year = +dateStr.slice(0, 4)
+    let month = +dateStr.slice(5)
+    for (let i = 0; i < gobackMonth; i++) {
+      if (month === 1) {
+        month = 12
+        year--
+      } else {
+        month--
+      }
+    }
+    return `${year}年${month}月`
+  }
 
+  xAxis.push(goBackDate(props.chartData.journal[props.chartData.journal.length - 1].month, i))
+  yAxis.push("")
+}
 for (let i = props.chartData.journal.length - 1; i >= 0; i--) {
-  xAxis.push(`${props.chartData.journal[i].month}月`)
+  let xString = props.chartData.journal[i].month.replace(/\//, "年")
+  xAxis.push(`${xString}月`)
   yAxis.push(props.chartData.journal[i].process)
 }
 echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent])
@@ -45,7 +63,13 @@ let option: EChartsOption = reactive({
   xAxis: {
     name: "月份",
     type: 'category',
-    data: xAxis
+    data: xAxis,
+    min: 0,
+    max: 11,
+    axisLabel: {
+      interval: 0,
+      rotate: 40
+    }
   },
   yAxis: {
     name: "进度",
@@ -66,6 +90,7 @@ let option: EChartsOption = reactive({
         position: 'top',
         formatter: '{c}%'
       },
+      // animation: false
     }
   ],
   tooltip: {
@@ -73,7 +98,8 @@ let option: EChartsOption = reactive({
     axisPointer: {
       type: 'cross',
       label: {
-        backgroundColor: '#6a7985'
+        backgroundColor: '#6a7985',
+        // formatter: '{c}%'
       }
     }
   }

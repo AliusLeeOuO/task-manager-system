@@ -1,5 +1,3 @@
-<!-- 未来的功能: 文件：查看?  -->
-<!-- 完成： 时间 进度 描述 总导出按钮 下载 -->
 <template>
   <a-card title="查看任务">
     <div id="form">
@@ -31,14 +29,14 @@
                   1: 审核中
                   2: 被打回
                   3: 已完成
-             -->
+            -->
           </a-descriptions-item>
           <a-descriptions-item label="负责人" :span="2"><span v-for="(item, index) in worker" :key="item._id" id="worker">{{
               item.name
             }}</span></a-descriptions-item>
         </a-descriptions>
         <div>
-          <File-cpn :file="fileList"></File-cpn>
+          <File-cpn :file="fileList" :id="taskid" :title="all.title"></File-cpn>
         </div>
       </div>
     </div>
@@ -65,7 +63,7 @@ interface workerList {
 
 let worker = reactive<workerList[]>([])
 let fileList = reactive<fileLists[]>([])
-const taskid = route.params.taskid
+const taskid = route.params.taskid as string
 
 interface all {
   title: string
@@ -116,7 +114,7 @@ let canRemind = ref<boolean>(true)
 
 function remindTask() {
   if (canRemind.value) {
-    xhr.post(`notice/remindTask/${taskid}`,{
+    xhr.post(`notice/remindTask/${taskid}`, {
       userId: Cookies.get("id")
     })
       .then(({data}) => {
@@ -125,11 +123,23 @@ function remindTask() {
           canRemind.value = !canRemind
           setTimeout(() => {
             canRemind.value = true
-          },300000)
+          }, 300000)
         }
       })
       .catch(error => {
-        throw error
+        console.warn(error)
+        if (error.response) {
+          // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
+          message.error("响应错误")
+        } else if (error.request) {
+          // 请求已经成功发起，但没有收到响应
+          message.error("服务端数据请求失败")
+          console.log(error.request);
+        } else {
+          // 发送请求时出了点问题
+          message.error("请求失败，致命错误")
+          console.log('Error', error.message);
+        }
       })
   } else {
     message.info("点太多次了！")

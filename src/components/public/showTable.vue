@@ -66,7 +66,7 @@
           >新建子任务</a>
           <a
             href="javascript:void(0);"
-            @click="submitTask(record.id)"
+            @click="submitTask(record.id,record.lastTask)"
             v-if="!record.isChildren"
           >提交材料</a>
         </div>
@@ -270,8 +270,13 @@ const addChildTask = (key: string, taskName: string) => {
   })
 }
 // 提交任务
-const submitTask = (key: string) => {
-  router.push(`/submit/${key}`)
+const submitTask = (key: string,last: boolean = false) => {
+  router.push({
+    path: `/submit/${key}`,
+    query: {
+      last: (`${last}` as string)
+    }
+  })
 }
 // 删除
 const confirmRemove = (key: string): void => {

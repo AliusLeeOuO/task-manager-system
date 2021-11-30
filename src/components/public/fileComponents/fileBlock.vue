@@ -4,8 +4,10 @@
       <p class="file-title">提交描述：{{ props.describe }} 提交时间：{{
           moment(props.createdAt).format("YYYY年MM月DD日 HH:mm:ss")
         }}</p>
-      <a-progress :percent="props.process"/>
-      <a-button danger block :disabled="!props.void">打回</a-button>
+      <a-progress :percent="props.process" v-if="props.process"/>
+      <span v-else>本次提交未提交任务进度</span>
+      <a-button danger block v-if="props.void || returned" @click="returnAudit">打回</a-button>
+      <a-button danger block disabled v-else>已被打回</a-button>
     </div>
     <a-table :dataSource="dataSource" :columns="columns">
       <template #action="{ record }">
@@ -19,16 +21,20 @@
   </div>
 </template>
 <script lang="ts" setup>
-import {reactive} from "vue";
+import {reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import moment from "moment";
-import layout from "../../../store/layout";
+import xhr from "../../../xhr"
+import Cookies from "js-cookie";
+import {message} from "ant-design-vue";
 
 const props = defineProps<{
+  // id
+  id: string
   // 描述
   describe: string
   // 进度
-  process: number
+  process?: number
   // 是否作废
   void: boolean
   // 提交时间
@@ -99,6 +105,7 @@ const supportOnline = {
 }
 
 function checkSupportOnline(filename: string) {
+  filename = filename.toLowerCase()
   // office
   for (let i in supportOnline.office) {
     if (filename.indexOf(supportOnline.office[i]) !== -1) {
@@ -125,12 +132,46 @@ function toOnline(url: string, type: string | boolean) {
     }
   })
 }
+
+
+// 打回
+const returned = ref<boolean>(false)
+
+function returnAudit() {
+  message.loading("正在请求打回...")
+  xhr.put(`examine/returnAudit/${props.id}`, {
+    userId: Cookies.get("id")
+  })
+    .then(({data}) => {
+      if (data.status === 200) {
+        returned.value = true
+        message.success("打回成功！")
+      } else {
+        message.info(data.msg)
+      }
+    })
+    .catch(error => {
+      message.error("打回失败！")
+      if (error.response) {
+        // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
+        message.error("响应错误")
+      } else if (error.request) {
+        // 请求已经成功发起，但没有收到响应
+        message.error("服务端数据请求失败")
+        console.log(error.request);
+      } else {
+        // 发送请求时出了点问题
+        message.error("请求失败，致命错误")
+        console.log('Error', error.message);
+      }
+    })
+}
 </script>
 <style lang="less" scoped>
 .file-content {
   margin: 10px 0;
   display: grid;
-  grid-template-columns: 10fr 2fr auto;
+  grid-template-columns: 20fr 4fr 2fr;
   align-items: center;
   grid-gap: 10px
 }
