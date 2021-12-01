@@ -51,6 +51,7 @@ redirect()
 main {
   max-width: @max-width;
   margin: 80px auto 0;
+  overflow: hidden;
 }
 
 @media only screen and (max-width: (@max-width+(-@gutter))) {

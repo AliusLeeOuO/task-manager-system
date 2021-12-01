@@ -10,7 +10,7 @@ import * as echarts from 'echarts/core';
 import { GridComponent, GridComponentOption, TooltipComponent } from 'echarts/components';
 import { LineChart, LineSeriesOption } from 'echarts/charts';
 import { UniversalTransition } from 'echarts/features';
-import { CanvasRenderer } from 'echarts/renderers';
+import { SVGRenderer } from 'echarts/renderers';
 import { onMounted, reactive } from "vue";
 
 const props = defineProps<{
@@ -56,7 +56,7 @@ for (let i = 0; i < props.chartData.journal.length; i++) {
   xAxis.push(`${xString}月`)
   yAxis.push(props.chartData.journal[i].process)
 }
-echarts.use([GridComponent, LineChart, CanvasRenderer, UniversalTransition, TooltipComponent])
+echarts.use([GridComponent, LineChart, SVGRenderer, UniversalTransition, TooltipComponent])
 
 type EChartsOption = echarts.ComposeOption<GridComponentOption | LineSeriesOption>;
 let option: EChartsOption = reactive({
@@ -113,9 +113,10 @@ onMounted(() => {
 </script>
 <style lang="less" scoped>
 .chart {
+  width: 100%;
   .layout {
     height: 500px;
-
+    width: 100%;
     .container {
       width: 100%;
       height: 100%;

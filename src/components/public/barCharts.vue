@@ -16,12 +16,12 @@
   <a-back-top/>
 </template>
 <script lang="ts" setup>
-import Echarts, { chartData } from "./echarts.vue"
+import Echarts, {chartData} from "./echarts.vue"
 import xhr from "../../xhr"
-import { reactive, ref } from "vue";
+import {reactive, ref} from "vue";
 import moment from "moment";
 import html2canvas from "html2canvas";
-import { message } from "ant-design-vue";
+import {message} from "ant-design-vue";
 
 const statistical = reactive<chartData[]>([])
 const lastMonth = ref<string>("")
@@ -78,6 +78,7 @@ const createImg = async function () {
       creatDom.click();
       msg.then(() => message.success("导出成功！"), () => {
       })
+      document.body.removeChild(creatDom)
     }).catch(() => {
       msg.then(() => message.error("导出失败！"), () => {
       })
@@ -95,19 +96,34 @@ const createImg = async function () {
   justify-content: space-between;
   align-items: center;
   font-size: 18px;
+
   #title-block {
     & > * {
       margin: 0 5px;
     }
   }
+
   #export-all {
     font-size: 15px;
   }
 }
 
 .charts {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  & > * {
+    flex-basis: 49.5%;
+    margin-bottom: 15px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .charts {
+    & > * {
+      flex-basis: 100%;
+      margin-bottom: 15px;
+    }
+  }
 }
 </style>

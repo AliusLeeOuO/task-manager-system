@@ -31,7 +31,6 @@ const props = defineProps<{
   file: fileLists[]
 }>()
 const reverseList = props.file.reverse()
-// TODO: 后端疑似改动 没有void报错 等待处理
 export interface fileLists {
   describe: string
   createdAt: string
