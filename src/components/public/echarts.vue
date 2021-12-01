@@ -32,7 +32,7 @@ export interface chartData {
 
 const xAxis = reactive<string[]>([])
 const yAxis = reactive<(string | number)[]>([])
-console.log()
+
 for (let i = 12 - props.chartData.journal.length; i > 0; i--) {
   function goBackDate(dateStr: string, gobackMonth: number) {
     let year = +dateStr.slice(0, 4)
@@ -47,11 +47,11 @@ for (let i = 12 - props.chartData.journal.length; i > 0; i--) {
     }
     return `${year}年${month}月`
   }
-
-  xAxis.push(goBackDate(props.chartData.journal[props.chartData.journal.length - 1].month, i))
+  xAxis.push(goBackDate(props.chartData.journal[0].month, i))
   yAxis.push("")
 }
-for (let i = props.chartData.journal.length - 1; i >= 0; i--) {
+
+for (let i = 0; i < props.chartData.journal.length; i++) {
   let xString = props.chartData.journal[i].month.replace(/\//, "年")
   xAxis.push(`${xString}月`)
   yAxis.push(props.chartData.journal[i].process)
