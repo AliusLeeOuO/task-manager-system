@@ -68,7 +68,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, reactive } from "vue";
-import network from "../../xhr"
+import xhr from "../../xhr"
 import { IdcardOutlined, UserOutlined, WarningOutlined } from '@ant-design/icons-vue'
 import { useRouter } from "vue-router"
 import layout from "../../store/layout";
@@ -113,7 +113,7 @@ function submit(event: FormDataEvent) {
   }
 
   //通过后发送网络请求
-  network.post("login", {
+  xhr.post("login", {
     workerNumber: formItems.username,
     password: formItems.password
   }).then(data => {
@@ -224,7 +224,6 @@ function accept() {
     right: 0;
     #login-block {
       min-width: 480px;
-      //background-color: #fff;
       padding: 20px 40px;
       #login-title {
         padding: 10px 0;

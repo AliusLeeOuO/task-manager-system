@@ -2,7 +2,6 @@
   <a-card title="我创建的任务">
     <show-table
       :api="`major/getTasks/${Cookies.get('id')}`"
-      :new-task-btn="false"
       api-path="response.data.data.creatorTask"
     ></show-table>
   </a-card>

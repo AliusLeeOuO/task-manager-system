@@ -1,7 +1,6 @@
 <template>
   <div id="top-buttons">
     <div id="buttons">
-      <a-button type="primary" @click="newTask" v-if="props.newTaskBtn">新建任务</a-button>
       <span>任务分类（状态）</span>
       <a-radio-group v-model:value="showTable">
         <a-radio-button value="4">全部</a-radio-button>
@@ -85,7 +84,6 @@ import { message, Modal } from "ant-design-vue";
 import Cookies from "js-cookie";
 
 const props = defineProps<{
-  newTaskBtn: boolean,
   api: string,
   apiPath: string
 }>()
@@ -93,10 +91,6 @@ const props = defineProps<{
 const container = props.apiPath === "response.data.data.task" || props.apiPath === "response.data.data.creatorTask" ?
   preLoad.state.manageTasks : preLoad.state.myTasks
 
-
-const newTask = () => {
-  router.push("/newTask")
-}
 let isLoading = ref<boolean>(true)
 onBeforeRouteLeave((to, form) => {
   isLoading.value = true

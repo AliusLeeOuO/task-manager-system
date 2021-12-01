@@ -11,16 +11,6 @@ const per0: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/newTask",
-    name: "newTask",
-    component: () => import("../views/dean/newTask.vue"),
-    meta: {
-      name: "新建任务",
-      rol: "0",
-      hide: true,
-    },
-  },
-  {
     path: "/charts",
     name: "charts",
     component: () => import("../components/public/barCharts.vue"),

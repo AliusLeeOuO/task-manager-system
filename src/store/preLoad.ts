@@ -1,7 +1,6 @@
 import { reactive } from "vue";
 import xhr from "../xhr";
 import Cookies from "js-cookie";
-import moment from "moment";
 import { RouteRecordRaw } from "vue-router";
 import { message } from "ant-design-vue";
 

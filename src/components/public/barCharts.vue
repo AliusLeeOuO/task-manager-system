@@ -1,29 +1,48 @@
 <template>
   <div id="chart-layout">
     <div id="chart-title">
-      <span>各方向任务完成进度 {{ moment().format("YYYY年MM月DD日") }}</span>
-      <a href="javascript:void(0);" id="export-all" @click="createImg">导出全部图表到图片</a>
+      <div id="title-block">
+        <span>各方向任务完成进度 {{ moment().format("YYYY年MM月DD日") }}</span>
+        <span style="color: #aaa">截止{{ lastMonth }}综合进度 {{ average }} %</span>
+      </div>
+      <div>
+        <a href="javascript:void(0);" id="export-all" @click="createImg">导出全部图表到图片</a>
+      </div>
     </div>
     <div class="charts">
       <echarts :id="i._id" :chart-data="i" v-for="i in statistical" :key="i._id"></echarts>
     </div>
   </div>
-  <a-back-top />
+  <a-back-top/>
 </template>
 <script lang="ts" setup>
 import Echarts, { chartData } from "./echarts.vue"
 import xhr from "../../xhr"
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import moment from "moment";
 import html2canvas from "html2canvas";
 import { message } from "ant-design-vue";
 
 const statistical = reactive<chartData[]>([])
+const lastMonth = ref<string>("")
+const average = ref<number>(0)
 xhr.get("dean/statistical")
-  .then(({ data }) => {
+  .then(({data}) => {
     for (let i in data.data) {
       statistical.push(data.data[i])
     }
+    lastMonth.value = statistical[0].journal[statistical[0].journal.length - 1].month
+    lastMonth.value = lastMonth.value.replace(/\//, "年")
+    lastMonth.value += "月 "
+    const process = reactive<number[]>([])
+    for (let i in statistical) {
+      process.push(statistical[i].journal[statistical[i].journal.length - 1].process)
+    }
+    let sum = 0
+    for (let i in process) {
+      sum += process[i]
+    }
+    average.value = sum / process.length - 1
   })
   .catch(error => {
     console.warn(error)
@@ -57,9 +76,11 @@ const createImg = async function () {
       creatDom.href = dataURL;
       creatDom.download = `双高方向任务进度${moment().format("YYYY年MM月DD日")}`;
       creatDom.click();
-      msg.then(() => message.success("导出成功！"), () => { })
+      msg.then(() => message.success("导出成功！"), () => {
+      })
     }).catch(() => {
-      msg.then(() => message.error("导出失败！"), () => { })
+      msg.then(() => message.error("导出失败！"), () => {
+      })
     });
   }, 2000)
 }
@@ -70,11 +91,15 @@ const createImg = async function () {
   border-radius: 5px;
   padding: 15px;
   margin-bottom: 10px;
-  font-size: 18px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  font-size: 18px;
+  #title-block {
+    & > * {
+      margin: 0 5px;
+    }
+  }
   #export-all {
     font-size: 15px;
   }

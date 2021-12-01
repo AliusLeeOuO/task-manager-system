@@ -3,7 +3,6 @@
     <a-card title="我的任务">
       <show-table
         :api="`teacher/getTasks/${Cookies.get('id')}`"
-        :new-task-btn="false"
         api-path="response.data.data.workerTask"
       ></show-table>
     </a-card>

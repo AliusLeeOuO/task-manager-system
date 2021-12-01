@@ -17,7 +17,7 @@ const layout = {
   }),
   mutation: reactive({
     logout() {
-      Router.replace("/login").then((config) => {
+      Router.replace("/login").then(() => {
         message.info("注销成功");
       });
       Cookies.remove("token");

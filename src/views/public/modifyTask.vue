@@ -26,7 +26,7 @@
           <a-checkbox-group v-model:value="formItem.taskUser">
             <a-checkbox
               :value="item.value"
-              v-for="(item, index) in personList"
+              v-for="item in personList"
               :key="item.value"
             >{{ item.label }}</a-checkbox>
           </a-checkbox-group>

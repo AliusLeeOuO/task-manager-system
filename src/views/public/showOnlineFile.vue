@@ -7,7 +7,7 @@
       </div>
     </template>
     <div class="showLayout" v-if="type === 'office'">
-      <iframe :src="officeUrl" frameborder="0" allowfullscreen></iframe>
+      <iframe :src="officeUrl" allowfullscreen></iframe>
     </div>
     <div class="showLayout" v-else-if="type === 'photo'">
       <img :src="link" />

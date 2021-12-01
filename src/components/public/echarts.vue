@@ -84,13 +84,11 @@ let option: EChartsOption = reactive({
     {
       data: yAxis,
       type: 'line',
-      smooth: true,
       label: {
         show: true,
         position: 'top',
         formatter: '{c}%'
-      },
-      // animation: false
+      }
     }
   ],
   tooltip: {
@@ -98,8 +96,7 @@ let option: EChartsOption = reactive({
     axisPointer: {
       type: 'cross',
       label: {
-        backgroundColor: '#6a7985',
-        // formatter: '{c}%'
+        backgroundColor: '#6a7985'
       }
     }
   }
