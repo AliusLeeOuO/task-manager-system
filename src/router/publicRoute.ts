@@ -1,4 +1,5 @@
-import { RouteRecordRaw } from "vue-router";
+import {RouteRecordRaw} from "vue-router";
+
 const publicRoute: Array<RouteRecordRaw> = [
   {
     path: "/403",
@@ -95,6 +96,42 @@ const publicRoute: Array<RouteRecordRaw> = [
       name: "查看在线文件",
       hide: true,
     },
+  }, {
+    path: "/myProfile",
+    name: "myProfile",
+    component: () => import("../views/public/myProfile.vue"),
+    meta: {
+      name: "我的资料",
+      hide: true,
+    },
+    children: [
+      {
+        path: "/myProfile",
+        redirect: "/myProfile/view"
+      },
+      {
+        path: "/myProfile/view",
+        name: "viewProfile",
+        component: () => import("../components/profile/viewProfile.vue")
+      }, {
+        path: "/myProfile/change",
+        name: "changeProfile",
+        component: () => import("../components/profile/changeProfile.vue")
+      }, {
+        path: "/myProfile/changePassword",
+        name: "changePassword",
+        component: () => import("../components/profile/changePassword.vue")
+      },
+    ]
   },
+  {
+    path: "/openSourceLicense",
+    name: "openSourceLicense",
+    component: () => import("../components/public/openSourceLicense/openSourceLicense.vue"),
+    meta: {
+      name: "开源软件使用许可",
+      hide: true,
+    },
+  }
 ];
 export default publicRoute;

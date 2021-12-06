@@ -13,7 +13,7 @@ const per0: Array<RouteRecordRaw> = [
   {
     path: "/charts",
     name: "charts",
-    component: () => import("../components/public/barCharts.vue"),
+    component: () => import("../components/public/chartsComponents/barCharts.vue"),
     meta: {
       name: "概览",
       rol: "0",

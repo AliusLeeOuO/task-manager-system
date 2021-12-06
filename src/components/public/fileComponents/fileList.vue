@@ -47,7 +47,7 @@ function downloadFile() {
   xhr.get(`https://quanquan.asia/admin/api/export/download/${props.id}`, {
     responseType: "blob"
   })
-    .then((res) => {
+    .then(res => {
       let blob = new Blob([res.data])
       let downloadElement = document.createElement('a')
       let href = window.URL.createObjectURL(blob)

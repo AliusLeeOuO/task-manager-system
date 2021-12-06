@@ -24,6 +24,11 @@ const layout = {
       Cookies.remove("user");
       Cookies.remove("parentId");
       Cookies.remove("id");
+      Cookies.remove("phone");
+      Cookies.remove("email");
+      Cookies.remove("name");
+      Cookies.remove("Avatar");
+      Cookies.remove("workerNumber");
       preLoad.state.manageTasks.splice(0, preLoad.state.manageTasks.length);
       preLoad.state.myTasks.splice(0, preLoad.state.myTasks.length);
       preLoad.state.examineList.splice(0, preLoad.state.examineList.length);

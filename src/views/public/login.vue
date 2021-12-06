@@ -158,6 +158,21 @@ function submit(event: FormDataEvent) {
     Cookies.set("parentId", data.data.parentId, {
       expires: time
     })
+    Cookies.set("workerNumber", data.data.workerNumber, {
+      expires: time
+    })
+    Cookies.set("Avatar", data.data.image, {
+      expires: time
+    })
+    Cookies.set("email", data.data.email, {
+      expires: time
+    })
+    Cookies.set("name", data.data.name, {
+      expires: time
+    })
+    Cookies.set("phone", data.data.phone, {
+      expires: time
+    })
 
     Cookies.set(
       "user",
@@ -210,7 +225,7 @@ function accept() {
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-image: url("../../../public/login_bg.jpg");
+    background-image: url("static/login_bg.jpg");
     background-size: cover;
     background-position: left;
   }

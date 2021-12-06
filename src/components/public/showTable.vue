@@ -228,7 +228,7 @@ function infinityChild(task: any, tableData: any, fatherSchedule: number = 0, is
         , id: task[i]._id
         , task: task[i].taskname
         , status: task[i].status
-        , schedule: task[i].process ? task[i].process : fatherSchedule
+        , schedule: task[i].process ? task[i].process : 0
         , endTime: task[i].endtime ? moment(task[i].endtime).format("YYYY年MM月DD日 HH:mm:ss") : "未设置"
       })
     }

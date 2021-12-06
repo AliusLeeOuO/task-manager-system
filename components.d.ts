@@ -46,13 +46,20 @@ declare module 'vue' {
     ATag: typeof import('ant-design-vue/es')['Tag']
     ATextarea: typeof import('ant-design-vue/es')['Textarea']
     AUpload: typeof import('ant-design-vue/es')['Upload']
-    BarCharts: typeof import('./src/components/public/barCharts.vue')['default']
-    Echarts: typeof import('./src/components/public/echarts.vue')['default']
+    BarCharts: typeof import('./src/components/public/chartsComponents/barCharts.vue')['default']
+    ChangePassword: typeof import('./src/components/profile/changePassword.vue')['default']
+    ChangeProfile: typeof import('./src/components/profile/changeProfile.vue')['default']
+    Echarts: typeof import('./src/components/public/chartsComponents/echarts.vue')['default']
     FileBlock: typeof import('./src/components/public/fileComponents/fileBlock.vue')['default']
     FileList: typeof import('./src/components/public/fileComponents/fileList.vue')['default']
     NavBlock: typeof import('./src/components/header/nav-block.vue')['default']
     NoticeBlock: typeof import('./src/components/public/noticeBlock.vue')['default']
+    OpenSourceBlock: typeof import('./src/components/public/openSourceLicense/openSourceBlock.vue')['default']
+    OpenSourceLicense: typeof import('./src/components/public/openSourceLicense/openSourceLicense.vue')['default']
+    ProfileFooter: typeof import('./src/components/profile/profileFooter.vue')['default']
     ShowTable: typeof import('./src/components/public/showTable.vue')['default']
+    UserContent: typeof import('./src/components/header/userContent.vue')['default']
+    ViewProfile: typeof import('./src/components/profile/viewProfile.vue')['default']
   }
 }
 

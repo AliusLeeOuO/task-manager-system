@@ -4,7 +4,7 @@
       {{ navTitle }}
       <a-badge
         :count="props.alertCount"
-        style="transform: scale(0.9);position: absolute;right: -5px;top: 6px;"
+        style="transform: scale(0.9); position: absolute; right: -5px; top: 6px"
       />
     </router-link>
     <div id="follow" v-if="props.extend">
@@ -34,54 +34,54 @@
 <script lang="ts" setup>
 import { reactive } from "vue";
 import { message, Empty } from "ant-design-vue";
-import xhr from "../../xhr"
+import xhr from "../../xhr";
 import Cookies from "js-cookie";
-import NoticeBlock from "../public/noticeBlock.vue"
+import NoticeBlock from "../public/noticeBlock.vue";
 import moment from "moment";
 
 let props = defineProps<{
-  navTitle: string
-  to: string
-  alertCount?: number
-  extend: boolean
-}>()
+  navTitle: string;
+  to: string;
+  alertCount?: number;
+  extend: boolean;
+}>();
 
-xhr.get(`notice/pageNoticeList/${Cookies.get("id")}`, {
-  params: {
-    pagenum: 0,
-    pagesize: 99999
-  }
-})
+xhr
+  .get(`notice/pageNoticeList/${Cookies.get("id")}`, {
+    params: {
+      pagenum: 0,
+      pagesize: 99999,
+    },
+  })
   .then((d) => {
-    const lists = d.data.data
+    const lists = d.data.data;
     if (d.data.status === 200) {
       for (let i in lists.notices) {
-        list.push(lists.notices[i])
+        list.push(lists.notices[i]);
       }
     }
   })
-  .catch(error => {
-    console.warn(error)
+  .catch((error) => {
+    console.warn(error);
     if (error.response) {
       // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
-      message.error("响应错误")
+      message.error("响应错误");
     } else if (error.request) {
       // 请求已经成功发起，但没有收到响应
-      message.error("服务端数据请求失败")
+      message.error("服务端数据请求失败");
       console.log(error.request);
     } else {
       // 发送请求时出了点问题
-      message.error("请求失败，致命错误")
-      console.log('Error', error.message);
+      message.error("请求失败，致命错误");
+      console.log("Error", error.message);
     }
-  })
+  });
 
 // import { ClockCircleOutlined } from '@ant-design/icons-vue';
 
-let list = reactive<any>([])
+let list = reactive<any>([]);
 
-
-const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
+const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE;
 </script>
 <style lang="less" scoped>
 @nav-height: 64px;

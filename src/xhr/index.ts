@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 import Cookies from "js-cookie";
-// import axiosRetry from "axios-retry";
 import { message } from "ant-design-vue";
 import layout from "../store/layout";
 
@@ -8,12 +7,6 @@ const xhr = axios.create({
   baseURL: "https://quanquan.asia/web/api/",
   timeout: 10000,
 });
-// axiosRetry(xhr, {
-//   retries: 3,
-//   retryDelay(retryCount) {
-//     return retryCount * 500
-//   }
-// })
 
 // 将token添加到请求头
 xhr.interceptors.request.use(

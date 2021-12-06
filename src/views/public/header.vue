@@ -15,27 +15,23 @@
     </div>
     <div id="header-right">
       <nav-block to="/notice" nav-title="通知" extend></nav-block>
-      <span>{{ userInfo }}</span>
-      <a href="javascript:void(0);" @click="exitAccount">退出</a>
+      <user-content></user-content>
     </div>
   </header>
 </template>
 <script lang="ts" setup>
 import NavBlock from "../../components/header/nav-block.vue"
 import Cookies from 'js-cookie'
-import { per0, per1, per2 } from "../../router/personConfig";
+import { per0, per1, per2 } from "@/router/personConfig";
 import publicRoute from "../../router/publicRoute";
 import { useRouter, RouteRecordRaw } from "vue-router";
 import { computed } from "vue";
-import layout from "../../store/layout";
 import preLoad from "../../store/preLoad";
+import UserContent from "@/components/header/userContent.vue"
 
 const router = useRouter()
-const exitAccount = () => {
-  layout.mutation.logout()
-}
+
 const pId = Cookies.get("parentId")
-const userInfo = Cookies.get("user")
 switch (pId) {
   case "0":
     for (let i in per0) {
@@ -109,10 +105,6 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    & > * {
-      margin: 0 5px;
-    }
   }
 }
 </style>
