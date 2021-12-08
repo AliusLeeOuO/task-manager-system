@@ -1,14 +1,14 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe D:\eeeWeb\webProj\node_modules\yarn\bin\yarn.js add @types/node --save-dev
+  C:\Program Files\nodejs\node.exe D:\eeeWeb\webProj\node_modules\yarn\bin\yarn.js
 
 PATH: 
-  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\z5950\bin;D:\eeeWeb\webProj\node_modules\.bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Program Files (x86)\VMware\VMware Workstation\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Users\z5950\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip;C:\Users\z5950\AppData\Roaming\npm;C:\Users\z5950\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\WebStorm\bin
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\z5950\bin;D:\eeeWeb\webProj\node_modules\.bin;C:\Program Files (x86)\VMware\VMware Workstation\bin;C:\Program Files (x86)\Common Files\Intel\Shared Libraries\redist\intel64\compiler;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Windows\System32\OpenSSH;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\nodejs;C:\Users\z5950\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Bandizip;C:\Users\z5950\AppData\Local\Programs\Microsoft VS Code\bin;C:\Program Files\JetBrains\WebStorm\bin;C:\Users\z5950\AppData\Roaming\npm
 
 Yarn version: 
   1.22.17
 
 Node version: 
-  16.13.0
+  16.13.1
 
 Platform: 
   win32 x64
@@ -38,11 +38,12 @@ npm manifest:
     },
     "devDependencies": {
       "@types/js-cookie": "^3.0.1",
+      "@types/node": "^16.11.11",
       "@vitejs/plugin-vue": "^1.10.1",
       "@vue/compiler-sfc": "^3.2.23",
       "less": "^4.1.2",
       "typescript": "^4.5.2",
-      "unplugin-vue-components": "^0.17.2",
+      "unplugin-vue-components": "^0.17.5",
       "vite": "^2.6.14",
       "vite-plugin-style-import": "^1.4.0",
       "vue-tsc": "^0.29.8",
@@ -182,6 +183,11 @@ Lockfile:
     version "4.14.172"
     resolved "https://registry.nlark.com/@types/lodash/download/@types/lodash-4.14.172.tgz#aad774c28e7bfd7a67de25408e03ee5a8c3d028a"
     integrity sha1-qtd0wo57/Xpn3iVAjgPuWow9Aoo=
+  
+  "@types/node@^16.11.11":
+    version "16.11.11"
+    resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.11.11.tgz#6ea7342dfb379ea1210835bada87b3c512120234"
+    integrity sha512-KB0sixD67CeecHC33MYn+eYARkqTheIRNuu97y2XMjR7Wu3XibO1vaY6VBV6O/a89SPI81cEUIYT87UqUWlZNw==
   
   "@types/throttle-debounce@^2.1.0":
     version "2.1.0"

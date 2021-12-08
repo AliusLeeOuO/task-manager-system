@@ -8,7 +8,7 @@
         <div class="title">
           <span>{{ all.title }}</span>
           <div class="buttons">
-            <a-button type="primary" ghost @click="remindTask" :disabled="!canRemind">督办</a-button>
+            <a-button type="primary" ghost @click="remindTask" :disabled="!canRemind" v-if="holder === Cookies.get('id')">督办</a-button>
             <a-button type="primary" ghost @click="back">返回</a-button>
           </div>
         </div>
@@ -40,7 +40,7 @@
           </a-descriptions-item>
         </a-descriptions>
         <div>
-          <File-cpn :file="fileList" :id="taskid" :title="all.title"></File-cpn>
+          <File-cpn :file="fileList" :id="taskid" :title="all.title" :ret="holder === Cookies.get('id')"></File-cpn>
         </div>
       </div>
     </div>
@@ -68,7 +68,7 @@ interface workerList {
 let worker = reactive<workerList[]>([])
 let fileList = reactive<fileLists[]>([])
 const taskid = route.params.taskid as string
-
+const holder = ref("")
 interface all {
   title: string
   createdAt: string
@@ -92,6 +92,7 @@ let isLoading = ref<boolean>(true)
 xhr.get(`dean/getTask/${taskid}`)
   .then(config => {
     const task = config.data.data[0]
+    holder.value = task.creator._id
     all.title = task.taskname
     all.createdAt = moment(task.createdAt).format("YYYY年MM月DD日 HH:mm:ss")
     all.updatedAt = moment(task.updatedAt).format("YYYY年MM月DD日 HH:mm:ss")

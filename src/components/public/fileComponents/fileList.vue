@@ -12,25 +12,29 @@
         :process="i.process"
         :file="i.files"
         :void="i.void"
+        :ret="props.ret"
         v-for="i in reverseList"
         :key="i._id"
         v-if="props.file.length !== 0"
       ></file-block>
-      <a-empty :image="simpleImage" v-else />
+      <a-empty :image="simpleImage" v-else/>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { Empty, message } from 'ant-design-vue';
-import FileBlock, { fls } from "./fileBlock.vue"
+import {Empty, message} from 'ant-design-vue';
+import FileBlock, {fls} from "./fileBlock.vue"
 import xhr from "../../../xhr"
 import moment from "moment";
+
 const props = defineProps<{
   id: string
   title: string
   file: fileLists[]
+  ret: boolean
 }>()
 const reverseList = props.file.reverse()
+
 export interface fileLists {
   describe: string
   createdAt: string
@@ -40,6 +44,7 @@ export interface fileLists {
   void: boolean
   files: fls[]
 }
+
 const simpleImage = Empty.PRESENTED_IMAGE_SIMPLE
 
 

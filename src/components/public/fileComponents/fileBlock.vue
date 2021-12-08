@@ -6,10 +6,12 @@
           moment(props.createdAt).format("YYYY年MM月DD日 HH:mm:ss")
         }}
       </p>
-      <a-progress :percent="props.process" v-if="props.process" />
+      <a-progress :percent="props.process" v-if="props.process"/>
       <span v-else>本次提交未提交任务进度</span>
-      <a-button danger block v-if="props.void || returned" @click="returnAudit">打回</a-button>
-      <a-button danger block disabled v-else>已被打回</a-button>
+      <span v-if="props.ret">
+        <a-button danger block v-if="ret" @click="returnAudit">打回</a-button>
+        <a-button danger block disabled v-else>已被打回</a-button>
+      </span>
     </div>
     <a-table :dataSource="dataSource" :columns="columns">
       <template #action="{ record }">
@@ -26,12 +28,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { reactive, ref } from "vue";
-import { useRouter } from "vue-router";
+import {reactive, ref, computed} from "vue";
+import {useRouter} from "vue-router";
 import moment from "moment";
 import xhr from "../../../xhr"
 import Cookies from "js-cookie";
-import { message } from "ant-design-vue";
+import {message} from "ant-design-vue";
 
 const props = defineProps<{
   // id
@@ -46,6 +48,8 @@ const props = defineProps<{
   createdAt: string
   // 文件
   file: fls[]
+  // 是否允许打回
+  ret: boolean
 }>()
 
 export interface fls {
@@ -70,7 +74,7 @@ const columns = reactive([
     dataIndex: 'action',
     key: 'action',
     width: "15%",
-    slots: { customRender: 'action' }
+    slots: {customRender: 'action'}
   }
 
 ])
@@ -141,13 +145,16 @@ function toOnline(url: string, type: string | boolean) {
 
 // 打回
 const returned = ref<boolean>(false)
+const ret = computed(() => {
+  return !!(props.void || returned);
+})
 
 function returnAudit() {
   message.loading("正在请求打回...")
   xhr.put(`examine/returnAudit/${props.id}`, {
     userId: Cookies.get("id")
   })
-    .then(({ data }) => {
+    .then(({data}) => {
       if (data.status === 200) {
         returned.value = true
         message.success("打回成功！")
@@ -176,7 +183,7 @@ function returnAudit() {
 .file-content {
   margin: 10px 0;
   display: grid;
-  grid-template-columns: 20fr 4fr 2fr;
+  grid-template-columns: 20fr 4fr auto;
   align-items: center;
   grid-gap: 10px;
 }
